@@ -5,7 +5,7 @@ import { SelectHeaderContainer } from './style';
 const SelectHeader = () => {
   return (
     <SelectHeaderContainer>
-      <Logo />
+        <Logo />
       <div className="select-text">Choose a payment a payment method </div>
     </SelectHeaderContainer>
   );
