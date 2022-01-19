@@ -12,7 +12,7 @@ export const Container: any = styled.div`
   cursor: pointer;
   height: 66px;
   background: rgba(255, 255, 255, 0.1);
-  margin: 0.5em 0;
+  margin-bottom: 1em;
   .left-item {
     display: flex;
     justify-content: left;
@@ -27,9 +27,13 @@ export const Container: any = styled.div`
       align-content: center;
       .bold {
         color: #424242;
+        font-weight: 500;
+        font-size: 17.0323px;
       }
       .light {
-        color: #000000;
+        color: rgba(0, 0, 0, 0.5);
+        font-weight: normal;
+        font-size: 9.93548px;
       }
     }
   }
