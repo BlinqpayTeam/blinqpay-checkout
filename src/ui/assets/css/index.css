@@ -1,3 +1,154 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../fonts/AvenirLTStd-Book.woff2') format('woff2');
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Avenir Black';
+    src: url('../fonts/AvenirLTStd-Black.woff2') format('woff2');
+    font-style: normal;
+    font-display: swap;
+  }
+
+*,
+ *::after, 
+ *::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root{
+    /* Colour Theme */
+    --icon-color: #7765c4;
+    --blinq-white : #fff;
+    --blinq-dark-grey: #7F7F8F;
+    --blinq-deep-grey: #212121;
+    --blinq-extra-light-bg : #FAFAFA;
+    /* Shadows */
+
+    /* Animations */
+}
+
+html, body{
+    font-family: 'Avenir';
+    height: 100vh;
+  }
+  p{
+      margin: 0;
+  }
+
+.modal-logo{
+margin-top: 3px;
+height: 13pt;
+width: auto;
+margin-left: 1vmin;
+}
+.close-button{
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    transition: background-color 300ms ease;
+    position: absolute;
+    right: -40px;
+    top: -3px;
+    cursor: pointer;
+    background-color:  var(--blinq-white);
+}
+.close-button:hover{
+    background-color: var(--icon-color);
+}
+.close-button:hover .close-icon svg .inner{
+    fill:  var(--blinq-white);
+}
+
 .display__none {
     display: none !important;
 }
+
+/* positioning */
+.x-centered{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.justify-center{
+justify-content: center;
+}
+
+.align-center{
+align-items: center;
+}
+
+.v-centered{
+flex-direction: column;
+align-items: center;
+}
+.uppercase{
+text-transform: uppercase;
+}
+
+.text-center{
+text-align: center;
+}
+
+.text-right{
+text-align: right;
+}
+
+.d-flex{
+display: flex !important;
+}
+.space-centered{
+    justify-content: space-between !important;
+    align-content: center !important;  
+}
+.centered{
+justify-content: center !important;
+align-content: center !important;
+}
+.mt-10{
+    margin-top: 10px;
+}
+.mt-20{
+    margin-top: 20px;
+}
+.mt-30{
+    margin-top: 30px;
+}
+.mt-40{
+    margin-top: 40px;
+}
+.mt-pt-70{
+    margin-top: 5.83em;
+}
+
+/* color */
+.text-white{
+color: var(--blinq-white);
+}
+.text-deep-grey{
+color: var(--blinq-deep-grey);
+}
+.text-muted{
+color: var(--blinq-dark-grey)
+}
+
+/* size */
+.full-width{
+    width: 100vw;
+}
+.full-height{
+    height: 100%;
+}
+
+/* general */
+.modal-card{
+    background-color: var(--blinq-extra-light-bg);
+    width: 100%;
+    display: block;
+    padding: 1rem 2rem;
+    box-shadow: 0px 2.83871px 2.83871px rgba(0, 0, 0, 0.15);
+    border-radius: 14.1935px;
+}
+
