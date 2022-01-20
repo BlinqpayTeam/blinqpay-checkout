@@ -145,6 +145,19 @@ color: var(--blinq-dark-grey)
 .full-height{
     height: 100%;
 }
+/* global */
+:global .ant-form-item {
+    margin-bottom: 0;
+    
+}
+:global span.ant-input-affix-wrapper {
+    width: 314.14px;
+    height: 51.39px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 0.361917px solid #424242;
+    box-sizing: border-box;
+    border-radius: 7.23834px;
+}
 
 /* general */
 .modal-card{
