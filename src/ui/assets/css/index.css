@@ -20,7 +20,7 @@
 }
 :root{
     /* Colour Theme */
-    --icon-color: #7765c4;
+    --blinq-purple: #7765c4;
     --blinq-white : #fff;
     --blinq-dark-grey: #7F7F8F;
     --blinq-deep-grey: #212121;
@@ -56,7 +56,7 @@ margin-left: 1vmin;
     background-color:  var(--blinq-white);
 }
 .close-button:hover{
-    background-color: var(--icon-color);
+    background-color: var(--blinq-purple);
 }
 .close-button:hover .close-icon svg .inner{
     fill:  var(--blinq-white);
@@ -146,18 +146,23 @@ color: var(--blinq-dark-grey)
     height: 100%;
 }
 /* global */
-:global .ant-form-item {
+/* .ant-form-item {
     margin-bottom: 0;
     
-}
-:global span.ant-input-affix-wrapper {
-    width: 314.14px;
-    height: 51.39px;
-    background: rgba(255, 255, 255, 0.8);
-    border: 0.361917px solid #424242;
+} */
+.ant-form-item-control-input-content span.ant-input-affix-wrapper {
+    height: 45px !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 0.361917px solid #424242 !important;
     box-sizing: border-box;
-    border-radius: 7.23834px;
+    border-radius: 7.23834px !important;
+    outline: 0 !important;
 }
+.ant-form-item-control-input-content span.ant-input-affix-wrapper:focus {
+    border-color: var(--blinq-purple) !important ;
+    outline: 0 !important;
+}
+
 
 /* general */
 .modal-card{
