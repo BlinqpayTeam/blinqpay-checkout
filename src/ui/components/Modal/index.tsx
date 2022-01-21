@@ -6,6 +6,7 @@ import { IModal } from './IModal';
 import SelectHeader from '../Headers/SelectHeader';
 import Overall from '../Slide/Overall';
 import CombinePayment from '../CombinePayment';
+import QRPayment from '../../containers/QRPayment';
 
 const Modal: React.FC<IModal.IProps> = ({ page, setPage }: IModal.IProps) => {
   const [activeSlide, setActiveSlide] = useState('main');
@@ -26,7 +27,7 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage }: IModal.IProps) => {
                 <PaymentSelect setActiveSlide={setActiveSlide} />
               </>
             }
-            secondSlide={<CombinePayment />}
+            secondSlide={<QRPayment />}
           />
         </div>
       </Col>

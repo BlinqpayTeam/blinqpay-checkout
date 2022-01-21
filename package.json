@@ -7,7 +7,6 @@
   "scripts": {
     "test": "mocha -r ts-node/register --recursive --timeout 30000 --exit '__tests__/**/*.spec.ts'",
     "build": "webpack",
-    "prepare": "npm run lint && npm run build",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "keywords": [
