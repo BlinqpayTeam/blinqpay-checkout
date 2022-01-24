@@ -157,10 +157,25 @@ color: var(--blinq-dark-grey)
     box-sizing: border-box;
     border-radius: 7.23834px !important;
     outline: 0 !important;
+    box-shadow: none;
 }
-.ant-form-item-control-input-content span.ant-input-affix-wrapper:focus {
-    border-color: var(--blinq-purple) !important ;
+.ant-form-item-control-input-content span.ant-input-affix-wrapper-focused {
+    border: 0.361917px solid var(--blinq-purple) !important ;
     outline: 0 !important;
+    box-shadow: none;
+}
+.ant-form-item-control-input-content input[type='date']{
+    height: 45px !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 0.361917px solid #424242 !important;
+    box-sizing: border-box;
+    border-radius: 7.23834px !important;
+    outline: 0 !important;
+}
+.ant-form-item-control-input-content input[type='date']:focus {
+    border: 0.361917px solid var(--blinq-purple) !important ;
+    outline: 0 !important;
+    box-shadow: none;
 }
 
 
