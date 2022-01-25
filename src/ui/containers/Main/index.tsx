@@ -6,11 +6,12 @@ import Powered from '../../assets/svgs/Powered';
 import Modal from '../../components/Modal';
 
 const Main = () => {
-  const [page, setPage] = useState('');
+  const [page, setPage] = useState('main');
+
   return (
     <div className="main-wrapper">
       <Modal page={page} setPage={setPage} />
-      <div className="d-flex centered mt-pt-70">
+      <div className="d-flex centered mt-40">
         <Powered />
       </div>
     </div>

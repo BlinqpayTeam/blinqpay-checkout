@@ -11,3 +11,6 @@ export const Container: any = styled.div`
   align-items: center;
   position: relative;
 `;
+export const Body: any = styled.div`
+  padding: 1rem 2rem;
+`;

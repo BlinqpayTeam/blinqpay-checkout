@@ -6,6 +6,7 @@ declare namespace ISlide {
     firstSlide: ReactNode;
     secondSlide?: ReactNode;
     thirdSlide?: ReactNode;
+    fourthSlide?: ReactNode;
   }
 }
 

@@ -6,7 +6,44 @@ export const CardFormContainer: any = styled.div`
   border-radius: 7.23834px;
   padding: 1.5rem 2.5rem;
 `;
+export const PinFormContainer: any = styled.div`
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  justify-content: center;
+  & .wrapper {
+    & p {
+      text-align: center;
+      font-size: 16px;
+      font-family: 'Avenir';
+      color: #0c0c0c;
+      padding: 5% 10%;
+    }
+    & .otp-wrapper {
+      padding: 0 25%;
+      margin: 5% 0;
+    }
+  }
+`;
 
-export const CardBody: any = styled.div`
-  padding: 1rem 2rem;
+export const OTPFormContainer: any = styled.div`
+  padding: 0.5rem 2.5rem;
+  display: flex;
+  justify-content: center;
+  & .wrapper {
+    & p {
+      text-align: center;
+      font-size: 16px;
+      font-family: 'Avenir';
+      color: #0c0c0c;
+      padding: 5% 10%;
+    }
+    & .otp-wrapper {
+      padding: 0 2.5%;
+      margin: 5% 0;
+    }
+  }
+`;
+
+export const AddressFormContainer: any = styled.div`
+  padding: 0.5rem 2.5rem;
 `;

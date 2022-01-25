@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Card } from 'antd';
 import Xicon from '../../assets/svgs/Xicon';
 import PaymentSelect from '../PaymentSelect';
@@ -6,10 +6,14 @@ import { IModal } from './IModal';
 import SelectHeader from '../Headers/SelectHeader';
 import Overall from '../Slide/Overall';
 import CombinePayment from '../CombinePayment';
-import QRPayment from '../../containers/QRPayment';
 
 const Modal: React.FC<IModal.IProps> = ({ page, setPage }: IModal.IProps) => {
-  const [activeSlide, setActiveSlide] = useState('main');
+  const [activeSlide, setActiveSlide] = useState('first');
+  useEffect(() => {
+    if (page === 'main') {
+      setActiveSlide('first');
+    }
+  }, [page]);
   return (
     <Row className="full-width " justify="center">
       <Col xs={20} sm={18} md={11} lg={9}>
@@ -24,10 +28,10 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage }: IModal.IProps) => {
             firstSlide={
               <>
                 <SelectHeader />
-                <PaymentSelect setActiveSlide={setActiveSlide} />
+                <PaymentSelect setActiveSlide={setActiveSlide} setPage={setPage} />
               </>
             }
-            secondSlide={<QRPayment />}
+            secondSlide={<CombinePayment page={page} setPage={setPage} />}
           />
         </div>
       </Col>
