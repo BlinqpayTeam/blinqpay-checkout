@@ -9,7 +9,8 @@ export const Container: any = styled.div`
   width: 100vw;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: fixed;
+  top: 0;
 `;
 export const Body: any = styled.div`
   padding: 1rem 2rem;

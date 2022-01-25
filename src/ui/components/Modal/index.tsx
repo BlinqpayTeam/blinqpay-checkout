@@ -7,8 +7,11 @@ import SelectHeader from '../Headers/SelectHeader';
 import Overall from '../Slide/Overall';
 import CombinePayment from '../CombinePayment';
 
-const Modal: React.FC<IModal.IProps> = ({ page, setPage }: IModal.IProps) => {
+const Modal: React.FC<IModal.IProps> = ({ page, setPage, destroyCheckout }: IModal.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
+  const handleClose = (): void => {
+    destroyCheckout();
+  };
   useEffect(() => {
     if (page === 'main') {
       setActiveSlide('first');
@@ -19,7 +22,7 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage }: IModal.IProps) => {
       <Col xs={20} sm={18} md={11} lg={9}>
         <div className="modal-card ">
           <div className="close-button">
-            <div className="close-icon">
+            <div className="close-icon" onClick={handleClose}>
               <Xicon />
             </div>
           </div>

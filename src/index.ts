@@ -1,25 +1,32 @@
 import ReactDOM from 'react-dom';
+import React from 'react';
 import { App } from './ui/app';
+import { ICheckoutPayload } from './types';
 import './ui/assets/css/index.css';
 
-export const init = (): void => {
+export const init = (data: ICheckoutPayload): void => {
+  destroyCheckout();
   const element = document.createElement('div');
   element.id = 'blinqpay_checkout_root';
   document.body.appendChild(element);
+  triggerCheckout(data);
 };
 
-const findCheckout = (): Element => {
+const findCheckout = (): Element | null => {
   const element = document.querySelector('#blinqpay_checkout_root');
-  if (!element) throw new Error('Checkout has not yet been initialised');
   return element;
-};
-
-export const triggerCheckout = (): void => {
-  findCheckout();
-  ReactDOM.render(App(), document.getElementById('blinqpay_checkout_root'));
 };
 
 export const destroyCheckout = (): void => {
   const checkout = findCheckout();
-  checkout.remove();
+  if (checkout) checkout.remove();
+};
+
+export const triggerCheckout = (data: ICheckoutPayload): void => {
+  const el = findCheckout();
+  if (!el) throw new Error('Checkout cannot be initialised, please try again.');
+  ReactDOM.render(
+    React.createElement(App, { ...data, destroyCheckout }),
+    document.getElementById('blinqpay_checkout_root'),
+  );
 };

@@ -1,2 +1,3 @@
-checkout.init();
-checkout.triggerCheckout();
+function init() {
+  checkout.init();
+}
