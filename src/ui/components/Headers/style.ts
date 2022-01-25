@@ -22,12 +22,41 @@ export const PaymentHeaderContainer: any = styled.div`
     justify-content: space-between;
     padding: 1.06em 1em 1.06em 2.21em;
     border-radius: 14.1935px 14.1935px 0 0;
+    .icon-and-text {
+      display: flex;
+      align-items: center;
+      .icon {
+        margin-right: 10px;
+      }
+      .text {
+        color: #212121;
+        font-weight: 500;
+        font-size: 16px;
+      }
+    }
+    .change {
+      color: #443586;
+      font-weight: 900;
+      font-size: 13.9512px;
+      cursor: pointer;
+    }
   }
   .bottom {
-    padding: 1.5rem 2rem 2rem;
-    padding: 1.06em 1em 2em 2.21em;
-    border-bottom: 0.2px solid #424242;
+    padding: 1.06em 1em 2em 1.2em;
+    border-bottom: 0.140373px solid #212121;
     display: flex;
     justify-content: space-between;
+    & .right-item {
+      .email {
+        color: #0c0c0c;
+        font-size: 13.029px;
+      }
+      .amount {
+        color: #7765c4;
+        font-weight: 800;
+        font-size: 14.4767px;
+        line-height: 22px;
+      }
+    }
   }
 `;

@@ -7,29 +7,33 @@ import PaymentTiles from '../PaymentTiles';
 import { IPaymentSelect } from './IPaymentSelect';
 import { Container } from './style';
 
-const PaymentSelect: React.FC<IPaymentSelect.IProps> = ({ setActiveSlide }: IPaymentSelect.IProps) => {
+const PaymentSelect: React.FC<IPaymentSelect.IProps> = ({ setActiveSlide, setPage }: IPaymentSelect.IProps) => {
+  const handleProgress = (page: string) => {
+    setActiveSlide('second');
+    setPage(page);
+  };
   return (
     <Container>
       <PaymentTiles
-        onClick={() => setActiveSlide('secondary')}
+        onClick={() => handleProgress('card')}
         icon={<Card />}
         payText="Pay with Card"
         description="Payment with your Debit card"
       />
       <PaymentTiles
-        onClick={() => setActiveSlide('secondary')}
+        onClick={() => handleProgress('bank')}
         icon={<Bank />}
         payText="Pay with Bank Transfer"
         description="Transfer to a Merchant Account"
       />
       <PaymentTiles
-        onClick={() => setActiveSlide('secondary')}
+        onClick={() => handleProgress('direct')}
         icon={<DirectDebit />}
         payText="Pay with Direct Debit"
         description="Transfer to from your account"
       />
       <PaymentTiles
-        onClick={() => setActiveSlide('secondary')}
+        onClick={() => handleProgress('qr')}
         icon={<QrCode />}
         payText="Pay with QR"
         description="Payment with QR scan"

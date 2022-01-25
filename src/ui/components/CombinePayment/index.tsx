@@ -1,10 +1,13 @@
 import React from 'react';
 import CardPayment from '../../containers/CardPayment';
+import QRPayment from '../../containers/QRPayment';
+import { ICombinepayment } from './ICombinePayment';
 
-const CombinePayment = () => {
+const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage }: ICombinepayment.IProps) => {
   return (
     <div>
-      <CardPayment />
+      {page === 'card' && <CardPayment page={page} setPage={setPage} />}
+      {page === 'qr' && <QRPayment page={page} setPage={setPage} />}
     </div>
   );
 };

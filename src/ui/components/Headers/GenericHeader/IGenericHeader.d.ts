@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Dispatch, SetStateAction, ReactNode } from 'react';
 
 declare namespace IGenericHeader {
   export interface IProps {
@@ -7,6 +7,7 @@ declare namespace IGenericHeader {
     paymentText: string;
     payingCustomer?: string;
     amount?: string;
+    setPage: Dispatch<SetStateAction<string>>;
   }
 }
 

@@ -7,12 +7,15 @@ import { FormInstance } from 'antd/es/form';
 import Calendar from '../../assets/svgs/Calendar';
 import { formatCreditCardNumber } from '../../utils/formMethods';
 import Cleave from 'cleave.js/react';
+import PrimaryButton from '../../components/Buttons/PrimaryButton';
+import { ICardPayment } from './ICardPayment';
 
-const CardForm = () => {
+const CardForm: React.FC<ICardPayment.ICardProps> = ({ setActiveSlide }: ICardPayment.ICardProps) => {
   const formRef = React.createRef<FormInstance>();
   const onFinish = () => {
     console.log('finished');
-    formRef.current!.resetFields();
+    // formRef.current!.resetFields();
+    setActiveSlide('second');
   };
   return (
     <CardFormContainer>
@@ -50,17 +53,13 @@ const CardForm = () => {
             <Form.Item
               label="Expiry Date"
               name="Expiry Date"
-              // rules={[{ required: true, message: 'Please input your Expiry date!' }]}
+              rules={[{ required: true, message: 'Please input Expiry date!' }]}
             >
               <Input prefix={<Calendar />} type="text" pattern="\d\d/\d\d" maxLength={7} placeholder="MM / YY" />
             </Form.Item>
           </Col>
           <Col span={10} offset={2}>
-            <Form.Item
-              label="CVV"
-              name="cvv"
-              // rules={[{ required: true, message: 'Please input your cvv!' }]}
-            >
+            <Form.Item label="CVV" name="cvv" rules={[{ required: true, message: 'Please input your cvv!' }]}>
               <Input prefix={<Lock />} type="password" placeholder="***" pattern="\d*" maxLength={4} />
             </Form.Item>
           </Col>
@@ -70,6 +69,7 @@ const CardForm = () => {
             <Checkbox>Save this card for next time </Checkbox>
           </Form.Item>
         </Row>
+        <PrimaryButton type="submit" text="Pay N1000.5" />
       </Form>
     </CardFormContainer>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import LogoSmallDark from '../../../assets/svgs/LogoSmallDark';
 import { PaymentHeaderContainer } from '../style';
 import { IGenericHeader } from './IGenericHeader';
 
@@ -12,22 +13,30 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
   paymentText,
   payingCustomer,
   amount,
+  setPage,
 }) => {
   return (
     <PaymentHeaderContainer>
       <div className="top">
-        <div>
-          <span>{paymentMethodIcon}</span>
-          <span> {paymentText}</span>
+        <div className="icon-and-text">
+          <span className="icon">{paymentMethodIcon}</span>
+          <span className="text"> {paymentText}</span>
         </div>
-        {showChangeMethod && <div> Change Method </div>}
+        {showChangeMethod && (
+          <div onClick={() => setPage('main')} className="change">
+            {' '}
+            Change Method{' '}
+          </div>
+        )}
       </div>
       {!!payingCustomer && !!amount && (
         <div className="bottom">
-          <div>Logo</div>
-          <div>
-            <div>{payingCustomer}</div>
-            <div>{amount}</div>
+          <div className="left-item">
+            <LogoSmallDark />
+          </div>
+          <div className="right-item">
+            <div className="email">{payingCustomer}</div>
+            <div className="amount">{amount}</div>
           </div>
         </div>
       )}
