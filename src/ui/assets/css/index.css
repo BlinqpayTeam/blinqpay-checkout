@@ -165,7 +165,7 @@ color: var(--blinq-dark-grey)
     outline: 0 !important;
     box-shadow: none;
 }
-.ant-form-item-control-input-content input[type='date'], .ant-input.normal-input{
+.ant-form-item-control-input-content input[type='date'], .ant-input.normal-input, .ant-select-selector{
     height: 45px !important;
     background: rgba(255, 255, 255, 0.8) !important;
     border: 0.361917px solid #424242 !important;
@@ -173,7 +173,7 @@ color: var(--blinq-dark-grey)
     border-radius: 7.23834px !important;
     outline: 0 !important;
 }
-.ant-input.normal-input:focus, .ant-form-item-control-input-content input[type='date']:focus {
+.ant-input.normal-input:focus,.ant-select-selector:focus, .ant-form-item-control-input-content input[type='date']:focus {
     border: 0.361917px solid var(--blinq-purple) !important ;
     outline: 0 !important;
     box-shadow: none;
@@ -181,6 +181,10 @@ color: var(--blinq-dark-grey)
 .ant-form-vertical .ant-form-item-label > label{
   color: var(--blinq-purple) !important ;
   font-size: 14px;
+}
+.ant-select .ant-select-selection-item, .ant-select-selection-placeholder{
+  display:flex !important;
+  align-items: center !important;
 }
 
 /* OTP */

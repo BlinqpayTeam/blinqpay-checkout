@@ -5,7 +5,7 @@ import PaymentSelect from '../PaymentSelect';
 import { IModal } from './IModal';
 import SelectHeader from '../Headers/SelectHeader';
 import Overall from '../Slide/Overall';
-import CombinePayment from '../CombinePayment';
+import CombinePayment from '../Layout/CombinePayment';
 
 const Modal: React.FC<IModal.IProps> = ({ page, setPage, destroyCheckout }: IModal.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
