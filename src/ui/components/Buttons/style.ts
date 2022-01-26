@@ -13,7 +13,7 @@ export const ButtonContainer: any = styled.div`
     color: #fff;
     cursor: pointer;
     font-size: 0.8rem;
-    width: 244.12px;
+    width: 100%;
     text-align: center;
     transition: 0.4s ease-in-out all;
     &:disabled,

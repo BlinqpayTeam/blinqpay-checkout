@@ -36,20 +36,6 @@ export const Container: any = styled.div`
   & .button-container {
     display: flex;
     justify-content: center;
-  }
-  & button {
-    margin: 1.2rem auto;
-    background: #7765c4;
-    padding: 0.5rem 1.5rem;
-    outline: none;
-    border-style: none;
-    border-radius: 6px;
-    color: #fff;
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: 0.4s ease-in-out all;
-  }
-  & button:hover {
-    background: #7765c4bd;
+    padding: 0 10%;
   }
 `;

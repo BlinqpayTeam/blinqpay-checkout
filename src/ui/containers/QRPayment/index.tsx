@@ -32,7 +32,9 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({ page, setPage }: IQRPayment.IP
         </div>
         <span>Use your Blinqchat or your bank</span>
         <span>app to scan the code</span>
-        <PrimaryButton type="submit" text="I have made this payment" />
+        <div className="button-container">
+          <PrimaryButton type="submit" text="I have made this payment" />
+        </div>
       </Container>
     </>
   );
