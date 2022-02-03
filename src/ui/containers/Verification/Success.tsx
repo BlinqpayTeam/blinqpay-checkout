@@ -13,10 +13,11 @@ const Success: React.FC<IVerification.IProps> = ({
   paymentText,
   user,
   setActiveSlide,
+  noHeader,
 }: IVerification.IProps) => {
   return (
     <>
-      <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage} />
+      {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage} />}
       <Container>
         <div className="success-container">
           <Successful />

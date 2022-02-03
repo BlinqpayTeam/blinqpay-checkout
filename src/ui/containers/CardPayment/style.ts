@@ -47,3 +47,28 @@ export const OTPFormContainer: any = styled.div`
 export const AddressFormContainer: any = styled.div`
   padding: 0.5rem 2.5rem;
 `;
+export const PhoneFormContainer: any = styled.div`
+  padding: 0.5rem 2.5rem;
+  .top-text {
+    color: #0c0c0c;
+    padding: 0 10%;
+    text-align: center;
+    font-size: 16px;
+  }
+  .phone-form {
+    margin: 5% 0;
+  }
+  .bottom-text {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+  }
+  .back {
+    margin-top: 25%;
+    text-align: center;
+    color: #7765c4;
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+`;
