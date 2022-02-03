@@ -2,11 +2,12 @@ import React from 'react';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { AddressFormContainer } from './style';
-const AddressForm = () => {
+import { ICardPayment } from './ICardPayment';
+const AddressForm: React.FC<ICardPayment.IAddressProps> = ({ setActiveSlide }: ICardPayment.IAddressProps) => {
   const onFinish = () => {
     console.log('finished');
     // formRef.current!.resetFields();
-    // setActiveSlide('second');
+    setActiveSlide('fifth');
   };
   return (
     <AddressFormContainer>

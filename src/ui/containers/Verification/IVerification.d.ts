@@ -4,10 +4,11 @@ declare namespace IVerification {
   export interface IProps {
     page?: string;
     setPage: Dispatch<SetStateAction<string>>;
-    logo: ReactNode;
+    logo?: ReactNode;
     paymentText: string;
-    user: string;
+    user?: string;
     setActiveSlide: Dispatch<SetStateAction<string>>;
+    noHeader?: boolean;
   }
 }
 

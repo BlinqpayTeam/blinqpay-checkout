@@ -139,6 +139,11 @@ color: var(--blinq-dark-grey)
 .stretch{
     width: 100%;
   }
+  .padded-x-5{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 5%;
+  }
 .full-width{
     width: 100vw;
 }
@@ -151,7 +156,7 @@ color: var(--blinq-dark-grey)
     
 } */
 .ant-form-item-control-input-content span.ant-input-affix-wrapper {
-    height: 45px !important;
+    height: 40px !important;
     background: rgba(255, 255, 255, 0.8) !important;
     border: 0.361917px solid #424242 !important;
     box-sizing: border-box;
@@ -166,7 +171,7 @@ color: var(--blinq-dark-grey)
     box-shadow: none;
 }
 .ant-form-item-control-input-content input[type='date'], .ant-input.normal-input, .ant-select-selector{
-    height: 45px !important;
+    height: 40px !important;
     background: rgba(255, 255, 255, 0.8) !important;
     border: 0.361917px solid #424242 !important;
     box-sizing: border-box;
