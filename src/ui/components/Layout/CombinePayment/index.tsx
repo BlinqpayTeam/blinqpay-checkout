@@ -1,6 +1,7 @@
 import React from 'react';
 import BankTransfer from '../../../containers/BankTransfer';
 import CardPayment from '../../../containers/CardPayment';
+import DirectDebit from '../../../containers/DirectDebit';
 import QRPayment from '../../../containers/QRPayment';
 import { ICombinepayment } from './ICombinePayment';
 
@@ -9,6 +10,7 @@ const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage }: ICo
     <div>
       {page === 'card' && <CardPayment page={page} setPage={setPage} />}
       {page === 'bank' && <BankTransfer page={page} setPage={setPage} />}
+      {page === 'direct-debit' && <DirectDebit page={page} setPage={setPage} />}
       {page === 'qr' && <QRPayment page={page} setPage={setPage} />}
     </div>
   );
