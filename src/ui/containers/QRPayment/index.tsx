@@ -5,6 +5,7 @@ import QrCode from '../../assets/svgs/QrCode';
 import Spinner from '../../assets/svgs/Spinner';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { IQRPayment } from './IQRPayment';
+import QrIcon from '../../assets/svgs/QrIcon';
 
 const QRPayment: React.FC<IQRPayment.IProps> = ({ page, setPage }: IQRPayment.IProps) => {
   const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({ page, setPage }: IQRPayment.IP
   }, []);
   return (
     <>
-      <GenericHeader paymentMethodIcon={<span>Logo</span>} paymentText="Pay with QR" setPage={setPage} />
+      <GenericHeader paymentMethodIcon={<QrIcon />} paymentText="Pay with QR" setPage={setPage} />
       <Container>
         <div className="qr-container">
           <div className="qr-block">

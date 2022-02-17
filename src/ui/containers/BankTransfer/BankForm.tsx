@@ -1,70 +1,55 @@
-import React from 'react';
-import { Form, Input, Row, Col, Select } from 'antd';
+import React, { useState } from 'react';
+import { Row, Col } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
-import { BankFormContainer } from './style';
+import { BankFormContainer, InputField, Label } from './style';
+import { CheckCircleTwoTone } from '@ant-design/icons';
 import { IBankTransfer } from './IBankTransfer';
+import { CardFormContainer } from '../CardPayment/style';
+import Copy from '../../assets/svgs/Copy';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 const BankForm: React.FC<IBankTransfer.IBankProps> = ({ setActiveSlide, setSuccess }: IBankTransfer.IBankProps) => {
-  const { Option } = Select;
   const onFinish = () => {
     console.log('finished');
     setSuccess(true);
     setActiveSlide('second');
   };
-  const onChange = (value: any) => {
-    console.log('value===', value);
-  };
+  const [copy, setCopy] = useState(false);
+
   return (
     <BankFormContainer>
-      <Form layout="vertical" colon={false} initialValues={{ remember: true }} onFinish={onFinish}>
+      <span className="transfer-text">Transfer #1000.5 to Merchant (Blinqpay)</span>
+      <CardFormContainer>
         <Row className="stretch">
           <Col span={24}>
-            <Form.Item
-              label="State"
-              name="state"
-              rules={[
-                // { transform: (value) => formatCreditCardNumber(value) },
-                { required: true, message: 'Please input your State' },
-              ]}
-            >
-              <Select placeholder="Select a bank" onChange={onChange}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="tom">Tom</Option>
-              </Select>
-            </Form.Item>
+            <div>
+              <Label>Bank</Label>
+              <InputField>Providus Bank</InputField>
+            </div>
           </Col>
         </Row>
         <Row className="stretch">
           <Col span={24}>
-            <Form.Item
-              label="Account Number"
-              name="account_number"
-              rules={[
-                // { transform: (value) => formatCreditCardNumber(value) },
-                { required: true, message: 'Please input your Account Number' },
-              ]}
-            >
-              <Input className="normal-input" type="text" placeholder="Alcon Lane" />
-            </Form.Item>
+            <div className="mt-20 mb-10">
+              <Label>Account Number</Label>
+              <InputField>
+                9978511967{' '}
+                {copy ? (
+                  <CheckCircleTwoTone twoToneColor="#7765c4" />
+                ) : (
+                  <CopyToClipboard text="9978511967" onCopy={() => setCopy(true)}>
+                    <span>
+                      <Copy />{' '}
+                    </span>
+                  </CopyToClipboard>
+                )}
+              </InputField>
+            </div>
           </Col>
         </Row>
-        <Row className="stretch">
-          <Col span={24}>
-            <Form.Item
-              label="BVN"
-              name="bvn"
-              rules={[
-                // { transform: (value) => formatCreditCardNumber(value) },
-                { required: true, message: 'Please input your BVN ' },
-              ]}
-            >
-              <Input className="normal-input" type="text" placeholder="99999999" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <PrimaryButton type="submit" text="I have made this payment" />
-      </Form>
+
+        <PrimaryButton type="button" onClick={onFinish} text="I have made this payment" />
+      </CardFormContainer>
     </BankFormContainer>
   );
 };

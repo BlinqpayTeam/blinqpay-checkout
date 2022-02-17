@@ -45,7 +45,7 @@ export const OTPFormContainer: any = styled.div`
 `;
 
 export const AddressFormContainer: any = styled.div`
-  padding: 0.5rem 2.5rem;
+  padding: 0.5rem;
 `;
 export const PhoneFormContainer: any = styled.div`
   padding: 0.5rem 2.5rem;

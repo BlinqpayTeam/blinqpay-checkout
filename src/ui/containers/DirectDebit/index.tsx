@@ -5,10 +5,10 @@ import { Body } from '../../components/Layout/style';
 import Overall from '../../components/Slide/Overall';
 import Error from '../Verification/Error';
 import Success from '../Verification/success';
-import BankForm from './BankForm';
-import { IBankTransfer } from './IBankTransfer';
+import DirectDebitForm from './DirectDebitForm';
+import { IDirectDebit } from './IDirectDebit';
 
-const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTransfer.IProps) => {
+const DirectDebit: React.FC<IDirectDebit.IProps> = ({ page, setPage }: IDirectDebit.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
   const [success, setSuccess] = useState(false);
 
@@ -20,13 +20,13 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTr
           <>
             <GenericHeader
               paymentMethodIcon={<BankTransferIcon />}
-              paymentText="Pay with Bank Transfer"
+              paymentText="Pay with Direct Debit"
               payingCustomer="John.Doe@blinqpay.io"
               amount="N1000.5"
               setPage={setPage}
             />
             <Body>
-              <BankForm setActiveSlide={setActiveSlide} setSuccess={setSuccess} />
+              <DirectDebitForm setActiveSlide={setActiveSlide} setSuccess={setSuccess} />
             </Body>
           </>
         }
@@ -55,4 +55,4 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTr
     </>
   );
 };
-export default BankTransfer;
+export default DirectDebit;

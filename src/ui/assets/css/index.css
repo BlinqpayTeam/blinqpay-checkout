@@ -110,6 +110,9 @@ align-content: center !important;
 .mt-10{
     margin-top: 10px;
 }
+.mb-10{
+  margin-bottom: 10px;
+}
 .mt-20{
     margin-top: 20px;
 }
@@ -152,7 +155,7 @@ color: var(--blinq-dark-grey)
 }
 /* global */
 /* .ant-form-item {
-    margin-bottom: 12px;
+    margin-bottom: 12px !important;
     
 } */
 .ant-form-item-control-input-content span.ant-input-affix-wrapper {
@@ -163,14 +166,29 @@ color: var(--blinq-dark-grey)
     border-radius: 7.23834px !important;
     outline: 0 !important;
     box-shadow: none;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
+}
+.ant-form-item-control-input-content .ant-select {
+  height: 40px !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 0.361917px solid #424242 !important;
+  box-sizing: border-box;
+  border-radius: 7.23834px !important;
+  outline: 0 !important;
+  box-shadow: none;
+  /* margin-bottom: 10px; */
+}
+.ant-form-item-control-input-content .ant-select-focused{
+  border: 0.361917px solid var(--blinq-purple) !important ;
+    outline: 0 !important;
+    box-shadow: none;
 }
 .ant-form-item-control-input-content span.ant-input-affix-wrapper-focused {
     border: 0.361917px solid var(--blinq-purple) !important ;
     outline: 0 !important;
     box-shadow: none;
 }
-.ant-form-item-control-input-content input[type='date'], .ant-input.normal-input, .ant-select-selector{
+.ant-form-item-control-input-content input[type='date'], .ant-input.normal-input{
     height: 40px !important;
     background: rgba(255, 255, 255, 0.8) !important;
     border: 0.361917px solid #424242 !important;
@@ -178,10 +196,17 @@ color: var(--blinq-dark-grey)
     border-radius: 7.23834px !important;
     outline: 0 !important;
 }
-.ant-input.normal-input:focus,.ant-select-selector:focus, .ant-form-item-control-input-content input[type='date']:focus {
+.ant-select-selector, .ant-select-selector:focus, .ant-select-focused .ant-select-selector{
+  border: none !important;
+  background-color: transparent !important;
+  height: 100% !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.ant-input.normal-input:focus, .ant-form-item-control-input-content input[type='date']:focus {
     border: 0.361917px solid var(--blinq-purple) !important ;
     outline: 0 !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 .ant-form-vertical .ant-form-item-label > label{
   color: var(--blinq-purple) !important ;

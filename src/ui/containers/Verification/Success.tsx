@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import GenericHeader from '../../components/Headers/GenericHeader';
 import { Container } from './style';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
-
 import Successful from '../../assets/svgs/Successful';
 import { IVerification } from './IVerification';
 

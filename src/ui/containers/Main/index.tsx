@@ -11,7 +11,7 @@ const Main: FC<{ destroyCheckout: () => void }> = ({ destroyCheckout }) => {
   return (
     <div className="main-wrapper">
       <Modal page={page} setPage={setPage} destroyCheckout={destroyCheckout} />
-      <div className="d-flex centered mt-40">
+      <div className="d-flex centered mt-20">
         <Powered />
       </div>
     </div>
