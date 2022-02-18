@@ -16,7 +16,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({ setActiveSlide }: I
   return (
     <AddressFormContainer>
       <Form layout="vertical" colon={false} initialValues={{ remember: true }} onFinish={onFinish}>
-        <Row className="stretch">
+        {/* <Row className="stretch">
           <Col span={24}>
             <Form.Item
               label="Country"
@@ -33,7 +33,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({ setActiveSlide }: I
               </Select>
             </Form.Item>
           </Col>
-        </Row>
+        </Row> */}
         <Row className="stretch">
           <Col span={24}>
             <Form.Item
