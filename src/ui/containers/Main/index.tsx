@@ -17,7 +17,7 @@ const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ 
   const fetchTxRef = async (): Promise<void> => {
     setLoading(true);
     payload.reference = payload.reference || `BPTR-${nanoid()}`;
-    const response = await initializeTransaction(payload.key, {
+    const response = await initializeTransaction(payload.publicKey, {
       amount: payload.amount,
       customerName: payload?.customer?.name || '',
       customerEmail: payload?.customer?.email || '',
@@ -28,7 +28,6 @@ const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ 
       callbackUrl: payload.redirectUrl || 'https://blinqpay.io/transaction/confirm',
     });
     setLoading(false);
-    console.log(response?.data?.data);
     if (response?.data?.error) setIsTxError(true);
     else setTxRef((response?.data?.data as Record<string, unknown>)?.transactionReference as string);
   };

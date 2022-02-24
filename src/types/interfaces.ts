@@ -8,7 +8,7 @@ export interface ICheckoutPayload {
   /**
    * Your public key from Blinqpay.
    */
-  key: string;
+  publicKey: string;
   /**
    * Unique transaction reference optionally provided by customer.
    */

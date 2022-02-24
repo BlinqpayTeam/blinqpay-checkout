@@ -1,6 +1,6 @@
 function init() {
   checkout.init({
-    key: 'BLTPUBK-f3157519b8e065fb93db098baef61ccf',
+    publicKey: 'BLTPUBK-f3157519b8e065fb93db098baef61ccf',
     //reference: 'iefiern893443n', // most be unique each time
     amount: 5000.0,
     customer: {
