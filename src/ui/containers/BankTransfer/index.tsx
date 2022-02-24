@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
+import Spinner from '../../assets/svgs/Spinner';
 import GenericHeader from '../../components/Headers/GenericHeader';
 import { Body } from '../../components/Layout/style';
 import Overall from '../../components/Slide/Overall';
@@ -11,6 +13,21 @@ import { IBankTransfer } from './IBankTransfer';
 const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTransfer.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [acc, setAcc] = useState({ bankName: '', accountNumber: '' });
+
+  const getAccDetails = async () => {
+    setLoading(true);
+    const res = await axios.post('https://api-gateway-staging.blinqpay.io/api/v1/bank-transfer/init-payment', {
+      collectionChannel: 'API_NOTIFICATION',
+      transactionReference: 'BLQTEST-202222215822231371552',
+    });
+    setAcc(res.data.data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    getAccDetails();
+  }, []);
 
   return (
     <>
@@ -26,7 +43,29 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTr
               setPage={setPage}
             />
             <Body>
-              <BankForm setActiveSlide={setActiveSlide} setSuccess={setSuccess} />
+              {loading ? (
+                <>
+                  {' '}
+                  <Spinner /> <div className="backdrop"></div>
+                  <BankForm
+                    getAccDetails={getAccDetails}
+                    setActiveSlide={setActiveSlide}
+                    setSuccess={setSuccess}
+                    loading={loading}
+                    acc={acc}
+                    setAcc={setAcc}
+                  />
+                </>
+              ) : (
+                <BankForm
+                  getAccDetails={getAccDetails}
+                  setActiveSlide={setActiveSlide}
+                  setSuccess={setSuccess}
+                  loading={loading}
+                  acc={acc}
+                  setAcc={setAcc}
+                />
+              )}
             </Body>
           </>
         }
