@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
 import Spinner from '../../assets/svgs/Spinner';
@@ -9,6 +8,7 @@ import Error from '../Verification/Error';
 import Success from '../Verification/success';
 import BankForm from './BankForm';
 import { IBankTransfer } from './IBankTransfer';
+import { getBankDetails } from '../../../api/bankTransfer';
 
 const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTransfer.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
@@ -18,11 +18,11 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTr
 
   const getAccDetails = async () => {
     setLoading(true);
-    const res = await axios.post('https://api-gateway-staging.blinqpay.io/api/v1/bank-transfer/init-payment', {
+    const res = await getBankDetails({
       collectionChannel: 'API_NOTIFICATION',
       transactionReference: 'BLQTEST-202222215822231371552',
     });
-    setAcc(res.data.data);
+    setAcc(res?.data?.data as { bankName: string; accountNumber: string });
     setLoading(false);
   };
   useEffect(() => {
