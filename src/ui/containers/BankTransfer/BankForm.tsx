@@ -7,8 +7,16 @@ import { IBankTransfer } from './IBankTransfer';
 import { CardFormContainer } from '../CardPayment/style';
 import Copy from '../../assets/svgs/Copy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Countdown from '../../components/Countdown';
 
-const BankForm: React.FC<IBankTransfer.IBankProps> = ({ setActiveSlide, setSuccess }: IBankTransfer.IBankProps) => {
+const BankForm: React.FC<IBankTransfer.IBankProps> = ({
+  setActiveSlide,
+  setSuccess,
+  getAccDetails,
+  loading,
+  acc,
+  setAcc,
+}: IBankTransfer.IBankProps) => {
   const onFinish = () => {
     console.log('finished');
     setSuccess(true);
@@ -20,11 +28,11 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({ setActiveSlide, setSucce
     <BankFormContainer>
       <span className="transfer-text">Transfer #1000.5 to Merchant (Blinqpay)</span>
       <CardFormContainer>
-        <Row className="stretch">
+        <Row style={{ zIndex: 100 }} className="stretch">
           <Col span={24}>
             <div>
               <Label>Bank</Label>
-              <InputField>Providus Bank</InputField>
+              <InputField>{acc?.bankName}</InputField>
             </div>
           </Col>
         </Row>
@@ -33,22 +41,23 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({ setActiveSlide, setSucce
             <div className="mt-20 mb-10">
               <Label>Account Number</Label>
               <InputField>
-                9978511967{' '}
-                {copy ? (
-                  <CheckCircleTwoTone twoToneColor="#7765c4" />
-                ) : (
-                  <CopyToClipboard text="9978511967" onCopy={() => setCopy(true)}>
-                    <span>
-                      <Copy />{' '}
-                    </span>
-                  </CopyToClipboard>
-                )}
+                {acc?.accountNumber}
+                {copy
+                  ? !loading && <CheckCircleTwoTone twoToneColor="#7765c4" />
+                  : !loading && (
+                      <CopyToClipboard text="9978511967" onCopy={() => setCopy(true)}>
+                        <span>
+                          <Copy />{' '}
+                        </span>
+                      </CopyToClipboard>
+                    )}
               </InputField>
             </div>
           </Col>
         </Row>
 
         <PrimaryButton type="button" onClick={onFinish} text="I have made this payment" />
+        {!loading && <Countdown minutes={1} Refresh={getAccDetails} />}
       </CardFormContainer>
     </BankFormContainer>
   );

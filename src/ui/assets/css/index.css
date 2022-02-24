@@ -136,6 +136,11 @@ color: var(--blinq-deep-grey);
 .text-muted{
 color: var(--blinq-dark-grey)
 }
+.refresh-text{
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--blinq-purple);
+}
 
 /* size */
 
