@@ -12,16 +12,17 @@ import OTPForm from './OTPForm';
 import PhoneAuthorization from './PhoneAuthorization';
 import PinForm from './PinForm';
 
-const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage }: ICardPayment.IProps) => {
+const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: ICardPayment.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
   const [isSuccess, setIsSuccess] = useState(true);
+  const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
   return (
     <>
       <GenericHeader
         paymentMethodIcon={<ColoredCard />}
         paymentText="Pay with Card"
-        payingCustomer="John.Doe@blinqpay.io"
-        amount="N1000.5"
+        payingCustomer={payload?.customer?.name || 'John.Doe@blinqpay.io'}
+        amount={amount}
         setPage={setPage}
       />
       <Body>
@@ -29,7 +30,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage }: ICardPaym
           activeSlide={activeSlide}
           firstSlide={
             <>
-              <CardForm setActiveSlide={setActiveSlide} />
+              <CardForm setActiveSlide={setActiveSlide} amount={amount} />
             </>
           }
           secondSlide={

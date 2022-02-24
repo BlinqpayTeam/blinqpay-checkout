@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.ts',
+  plugins: [new Dotenv({ path: './.env' })],
   devtool: 'inline-source-map',
   module: {
     rules: [

@@ -12,3 +12,10 @@ export type Customer = {
    */
   name: string;
 };
+
+export type ResponseType = {
+  data?: Record<string, unknown>;
+  error: boolean;
+  message?: string;
+  statusCode: number;
+};

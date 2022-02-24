@@ -10,11 +10,12 @@ import Cleave from 'cleave.js/react';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
 
-const CardForm: React.FC<ICardPayment.ICardProps> = ({ setActiveSlide }: ICardPayment.ICardProps) => {
+const CardForm: React.FC<ICardPayment.ICardProps> = ({ setActiveSlide, amount }: ICardPayment.ICardProps) => {
   const formRef = React.createRef<FormInstance>();
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
     console.log('finished', values);
+    const payload = {};
     // formRef.current!.resetFields();
     setActiveSlide('second');
   };
@@ -100,7 +101,7 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({ setActiveSlide }: ICardPa
             <Checkbox>Save this card for next time </Checkbox>
           </Form.Item>
         </Row>
-        <PrimaryButton type="submit" text="Pay N1000.5" />
+        <PrimaryButton type="submit" text={amount} />
       </Form>
     </CardFormContainer>
   );

@@ -276,6 +276,7 @@ input.otp-field {
   color: '*';
 }
 
+
 .spinner {
     -webkit-animation: rotate 2s linear infinite;
             animation: rotate 2s linear infinite;
@@ -293,6 +294,7 @@ input.otp-field {
     -webkit-animation: dash 1.5s ease-in-out infinite;
             animation: dash 1.5s ease-in-out infinite;
   }
+
   
   @-webkit-keyframes rotate {
     100% {
@@ -332,4 +334,17 @@ input.otp-field {
       stroke-dasharray: 90, 150;
       stroke-dashoffset: -124;
     }
+  }
+
+  .empty-container {
+    padding: 12px;
+    position: relative;
+    min-height: 100px;
+  }
+
+  .empty-container span {
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
   }
