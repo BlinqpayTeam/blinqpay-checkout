@@ -4,6 +4,8 @@ declare namespace IBankTransfer {
   export interface IProps {
     page: string;
     setPage: Dispatch<SetStateAction<string>>;
+    txRef: string;
+    publicKey: string;
   }
   export interface IBankProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -12,6 +14,8 @@ declare namespace IBankTransfer {
     loading?: boolean;
     acc: Record<string, unknown>;
     setAcc: Dispatch<SetStateAction<Record<string, unknown>>>;
+    txRef?: string;
+    publicKey?: string;
   }
 }
 
