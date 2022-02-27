@@ -68,7 +68,7 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage, payload, destroyCheckou
           <Overall
             activeSlide={activeSlide}
             firstSlide={displayFirstSlide}
-            secondSlide={<CombinePayment page={page} setPage={setPage} payload={rest} />}
+            secondSlide={<CombinePayment page={page} setPage={setPage} payload={{ ...rest, destroyCheckout }} />}
           />
         </div>
       </Col>

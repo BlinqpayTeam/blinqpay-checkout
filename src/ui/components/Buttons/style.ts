@@ -15,6 +15,9 @@ export const ButtonContainer: any = styled.div`
     font-size: 0.8rem;
     width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: 0.4s ease-in-out all;
     &:disabled,
     &:disabled:active,

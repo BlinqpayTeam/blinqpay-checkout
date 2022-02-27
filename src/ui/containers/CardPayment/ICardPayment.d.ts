@@ -7,24 +7,46 @@ declare namespace ICardPayment {
     setPage: Dispatch<SetStateAction<string>>;
     payload: ICheckoutPayload & {
       transactionReference?: string;
+      destroyCheckout: () => void;
     };
   }
   export interface ICardProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
     amount: string;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    txRef: string;
+    setIsCloseModal: Dispatch<SetStateAction<boolean>>;
+    setErrorText: Dispatch<SetStateAction<string>>;
+    setPrevSlide: Dispatch<SetStateAction<string>>;
   }
   export interface IPinProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
+    txRef: string;
+    setErrorText: Dispatch<SetStateAction<string>>;
+    setIsCloseModal: Dispatch<SetStateAction<boolean>>;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
   }
   export interface IOTPProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
+    txRef: string;
+    setErrorText: Dispatch<SetStateAction<string>>;
+    setIsCloseModal: Dispatch<SetStateAction<boolean>>;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    publicKey: string;
   }
   export interface IAddressProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
+    txRef: string;
+    setErrorText: Dispatch<SetStateAction<string>>;
+    setIsCloseModal: Dispatch<SetStateAction<boolean>>;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
   }
   export interface IPhoneProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
     isSuccess: boolean;
+    txRef: string;
+    setErrorText: Dispatch<SetStateAction<string>>;
+    setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
   }
 }

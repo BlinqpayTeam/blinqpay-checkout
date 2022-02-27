@@ -1,4 +1,5 @@
 import { create } from 'apisauce';
+import { ResponseType } from '../types';
 
 export const Http = create({
   baseURL: process.env.BASE_URL,
@@ -52,3 +53,11 @@ Http.addResponseTransform((res) => {
     }
   }
 });
+
+export const genericPost = async (
+  url: string,
+  payload: Record<string, unknown>,
+  headers?: Record<string, unknown>,
+): Promise<ResponseType> => {
+  return Http.post(url, payload, headers) as unknown as ResponseType;
+};

@@ -4,6 +4,7 @@ import { Container } from './style';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { IVerification } from './IVerification';
 import ErrorIcon from '../../assets/svgs/ErrorIcon';
+import Spinner from '../../assets/svgs/Spinner';
 
 const Error: React.FC<IVerification.IProps> = ({
   page,
@@ -13,7 +14,24 @@ const Error: React.FC<IVerification.IProps> = ({
   user,
   setActiveSlide,
   noHeader,
+  error,
+  isClose,
+  pageLabel,
+  destroyCheckout,
 }: IVerification.IProps) => {
+  useEffect(() => {
+    if (isClose) {
+      if (destroyCheckout) {
+        setTimeout(destroyCheckout, 4000);
+      }
+    }
+  }, [isClose, destroyCheckout]);
+  const handleTryAgainClick = () => {
+    console.log('Retry clicked for page:', pageLabel);
+    if (pageLabel && !isClose) {
+      setActiveSlide(pageLabel);
+    }
+  };
   return (
     <>
       {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage} />}
@@ -22,9 +40,13 @@ const Error: React.FC<IVerification.IProps> = ({
           <ErrorIcon />
         </div>
         <span className="transfer-successful"> </span>
-        <span className="check-error">Payment cannot not be confirmed at this moment</span>
+        <span className="check-error"> {error || 'Payment cannot not be confirmed at this moment'}</span>
 
-        <PrimaryButton type="submit" text="Try Again" />
+        {isClose ? (
+          <Spinner xClasses={['close-spinner']} />
+        ) : (
+          <PrimaryButton type="submit" text="Try Again" onClick={handleTryAgainClick} />
+        )}
       </Container>
     </>
   );

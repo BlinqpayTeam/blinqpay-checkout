@@ -15,6 +15,9 @@ import PinForm from './PinForm';
 const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: ICardPayment.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
   const [isSuccess, setIsSuccess] = useState(true);
+  const [isCloseModal, setIsCloseModal] = useState(false);
+  const [errorText, setErrorText] = useState('');
+  const [prevSlide, setPrevSlide] = useState<string | undefined>(undefined);
   const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
   return (
     <>
@@ -30,34 +33,83 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
           activeSlide={activeSlide}
           firstSlide={
             <>
-              <CardForm setActiveSlide={setActiveSlide} amount={amount} />
+              <CardForm
+                txRef={payload.transactionReference as string}
+                setIsSuccess={setIsSuccess}
+                setActiveSlide={setActiveSlide}
+                setIsCloseModal={setIsCloseModal}
+                setErrorText={setErrorText}
+                amount={amount}
+                setPrevSlide={setPrevSlide}
+              />
             </>
           }
           secondSlide={
             <>
-              <PinForm setActiveSlide={setActiveSlide} />{' '}
+              <PinForm
+                setIsCloseModal={setIsCloseModal}
+                setErrorText={setErrorText}
+                txRef={payload.transactionReference as string}
+                setIsSuccess={setIsSuccess}
+                setActiveSlide={setActiveSlide}
+              />{' '}
             </>
           }
           thirdSlide={
             <>
-              <OTPForm setActiveSlide={setActiveSlide} />{' '}
+              <OTPForm
+                txRef={payload.transactionReference as string}
+                setActiveSlide={setActiveSlide}
+                setIsSuccess={setIsSuccess}
+                setIsCloseModal={setIsCloseModal}
+                setErrorText={setErrorText}
+                publicKey={payload.publicKey}
+              />{' '}
             </>
           }
           fourthSlide={
             <>
-              <AddressForm setActiveSlide={setActiveSlide} />
+              <AddressForm
+                txRef={payload.transactionReference as string}
+                setIsSuccess={setIsSuccess}
+                setIsCloseModal={setIsCloseModal}
+                setErrorText={setErrorText}
+                setActiveSlide={setActiveSlide}
+              />
             </>
           }
           fifthSlide={
             <>
-              <PhoneAuthorization isSuccess={isSuccess} setIsSuccess={setIsSuccess} setActiveSlide={setActiveSlide} />
+              <PhoneAuthorization
+                isSuccess={isSuccess}
+                txRef={payload.transactionReference as string}
+                setIsSuccess={setIsSuccess}
+                setIsCloseModal={setIsCloseModal}
+                setErrorText={setErrorText}
+                setActiveSlide={setActiveSlide}
+              />
             </>
           }
           sixthSlide={
             isSuccess ? (
-              <Success noHeader paymentText="" setPage={setPage} setActiveSlide={setActiveSlide} />
+              <Success
+                noHeader
+                paymentText=""
+                setPage={setPage}
+                setActiveSlide={setActiveSlide}
+                isClose={isCloseModal}
+              />
             ) : (
-              <Error noHeader paymentText="" setPage={setPage} setActiveSlide={setActiveSlide} />
+              <Error
+                noHeader
+                paymentText=""
+                error={errorText}
+                isClose={isCloseModal}
+                setPage={setPage}
+                pageLabel={prevSlide || activeSlide}
+                setActiveSlide={setActiveSlide}
+                destroyCheckout={payload.destroyCheckout}
+              />
             )
           }
         />

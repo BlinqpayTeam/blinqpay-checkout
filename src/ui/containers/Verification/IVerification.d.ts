@@ -9,6 +9,10 @@ declare namespace IVerification {
     user?: string;
     setActiveSlide: Dispatch<SetStateAction<string>>;
     noHeader?: boolean;
+    error?: string;
+    isClose?: boolean;
+    pageLabel?: string;
+    destroyCheckout?: () => void | undefined;
   }
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import CryptoJS from 'crypto-js';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import CardSmall from '../../assets/svgs/CardSmall';
 import { CardFormContainer } from './style';
@@ -9,15 +10,78 @@ import { formatCreditCardNumber, formatDate } from '../../utils/formMethods';
 import Cleave from 'cleave.js/react';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
+import { aesCardCipher } from '../../../lib/encryption';
+import { chargeCard } from '../../../api/card';
 
-const CardForm: React.FC<ICardPayment.ICardProps> = ({ setActiveSlide, amount }: ICardPayment.ICardProps) => {
+const CardForm: React.FC<ICardPayment.ICardProps> = ({
+  setActiveSlide,
+  amount,
+  setIsSuccess,
+  setErrorText,
+  txRef,
+  setIsCloseModal,
+  setPrevSlide,
+}: ICardPayment.ICardProps) => {
   const formRef = React.createRef<FormInstance>();
   const [form] = Form.useForm();
-  const onFinish = (values: any) => {
-    console.log('finished', values);
-    const payload = {};
+  const [loading, setLoading] = useState(false);
+  const failedMsg = 'We are unable to charge your card at the moment, ensure the details are correct and try again.';
+  const onFinish = async (values: any) => {
+    const card = {
+      number: values.card_number.replace(/ +/g, ''),
+      expiryMonth: values.expiry_date.slice(0, 2),
+      expiryYear: values.expiry_date.slice(3),
+      cvv: values.cvv,
+    };
+    const cardCipher = aesCardCipher(card);
+    console.log('finished', cardCipher);
+    setLoading(true);
+    const { data } = await chargeCard({
+      transactionReference: txRef,
+      card: cardCipher,
+    });
+    console.log(data);
+    setLoading(false);
+    if (data?.error) {
+      if (data?.statusCode === 409) {
+        // Todo: Fetch the a new transaction reference at this point
+        setIsCloseModal(true);
+        setErrorText(data?.message as string);
+      } else {
+        setPrevSlide('first');
+        setErrorText(failedMsg);
+      }
+      setIsSuccess(false);
+      setActiveSlide('sixth');
+    } else {
+      const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
+      if (res?.status === 'FAILED') {
+        console.log(res?.status);
+        setErrorText(failedMsg);
+        setIsSuccess(false);
+        setPrevSlide('first');
+        setActiveSlide('sixth');
+      } else if (res?.status === 'SUCCESS' && res?.responseMessage === 'Card charged successfully') {
+        setIsSuccess(true);
+        setActiveSlide('sixth');
+      } else {
+        // check type of AUTHMODEL
+        switch (res?.authModel) {
+          case 'PIN':
+            setActiveSlide('second');
+            break;
+          case 'CARD_ENROLL':
+            setActiveSlide('fifth');
+            break;
+          case 'AVS':
+            setActiveSlide('fourth');
+            break;
+          default:
+            break;
+        }
+      }
+    }
     // formRef.current!.resetFields();
-    setActiveSlide('second');
   };
   const [cardInput, setCardInput] = useState('');
   const [cardImage, setCardImage] = useState('');
@@ -101,7 +165,7 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({ setActiveSlide, amount }:
             <Checkbox>Save this card for next time </Checkbox>
           </Form.Item>
         </Row>
-        <PrimaryButton type="submit" text={amount} />
+        <PrimaryButton type="submit" text={amount} disabled={loading} loading={loading} />
       </Form>
     </CardFormContainer>
   );

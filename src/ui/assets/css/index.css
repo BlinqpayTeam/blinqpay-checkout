@@ -300,7 +300,21 @@ input.otp-field {
             animation: dash 1.5s ease-in-out infinite;
   }
 
-  
+.button-spinner {
+  position: initial !important;
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0 !important;
+}
+
+.close-spinner {
+  position: initial !important;
+  width: 40px !important;
+  height: 40px !important;
+  margin: 0 auto !important;
+  display: block;
+}
+
   @-webkit-keyframes rotate {
     100% {
       transform: rotate(360deg);

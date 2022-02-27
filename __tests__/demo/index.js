@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 function init() {
   checkout.init({
     publicKey: 'BLTPUBK-f3157519b8e065fb93db098baef61ccf',

@@ -11,7 +11,15 @@ const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage, paylo
       {page === 'card' && <CardPayment page={page} setPage={setPage} payload={payload} />}
       {page === 'bank' && <BankTransfer page={page} setPage={setPage} />}
       {page === 'direct-debit' && <DirectDebit page={page} setPage={setPage} />}
-      {page === 'qr' && <QRPayment page={page} setPage={setPage} />}
+      {page === 'qr' && (
+        <QRPayment
+          page={page}
+          setPage={setPage}
+          publicKey={payload.publicKey}
+          txRef={payload.transactionReference as string}
+          destroyCheckout={payload.destroyCheckout}
+        />
+      )}
     </div>
   );
 };

@@ -1,14 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Row, Col, Select } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { AddressFormContainer } from './style';
 import { ICardPayment } from './ICardPayment';
-const AddressForm: React.FC<ICardPayment.IAddressProps> = ({ setActiveSlide }: ICardPayment.IAddressProps) => {
+import { authorizeAVS } from '../../../api/card';
+const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
+  setActiveSlide,
+  setErrorText,
+  setIsCloseModal,
+  setIsSuccess,
+  txRef,
+}: ICardPayment.IAddressProps) => {
   const { Option } = Select;
-  const onFinish = () => {
-    console.log('finished');
+  const [loading, setLoading] = useState(false);
+  const failedMsg = 'Unable to successfully verify the address.';
+  const closeModal = (data: Record<string, unknown>, payload?: unknown): void => {
+    setLoading(false);
+    setErrorText((data?.message as string) || failedMsg);
+    setIsSuccess(false);
+    setIsCloseModal(true);
+    setActiveSlide('sixth');
+  };
+  const onFinish = async (value: Record<string, unknown>): Promise<void> => {
+    console.log('finished', value);
+    const payload = {
+      city: value.city,
+      state: value.state,
+      address: value.address,
+      country: value.country,
+      zipCode: value.zip,
+      transactionReference: txRef,
+    };
+    setLoading(true);
+    const { data } = await authorizeAVS(payload);
+    setLoading(false);
+    const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
+    if (data?.error || res?.status === 'FAILED') closeModal(res as Record<string, string>);
+    else if (res?.authModel === 'OTP') {
+      setActiveSlide('third');
+    } else if (res?.authModel === 'CARD_ENROLL') {
+      setActiveSlide('fifth');
+    } else {
+      setIsSuccess(true);
+      setIsCloseModal(true);
+      setActiveSlide('sixth');
+    }
     // formRef.current!.resetFields();
-    setActiveSlide('fifth');
   };
   const onChange = (value: any) => {
     console.log('value===', value);
@@ -34,6 +71,20 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({ setActiveSlide }: I
             </Form.Item>
           </Col>
         </Row> */}
+        <Row className="stretch">
+          <Col span={24}>
+            <Form.Item
+              label="Country"
+              name="country"
+              rules={[
+                // { transform: (value) => formatCreditCardNumber(value) },
+                { required: true, message: 'Please input your Country' },
+              ]}
+            >
+              <Input className="normal-input" type="text" placeholder="Nigeria" />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row className="stretch">
           <Col span={24}>
             <Form.Item
@@ -90,7 +141,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({ setActiveSlide }: I
             </Form.Item>
           </Col>
         </Row>
-        <PrimaryButton type="submit" text="Authorize" />
+        <PrimaryButton type="submit" text="Authorize" disabled={loading} loading={loading} />
       </Form>
     </AddressFormContainer>
   );

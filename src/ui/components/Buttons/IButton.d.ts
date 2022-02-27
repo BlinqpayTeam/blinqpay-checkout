@@ -6,6 +6,7 @@ declare namespace IButton {
     type: any;
     onClick?: () => void;
     disabled?: boolean;
+    loading?: boolean;
   }
 }
 
