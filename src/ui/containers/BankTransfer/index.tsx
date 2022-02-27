@@ -10,7 +10,7 @@ import BankForm from './BankForm';
 import { IBankTransfer } from './IBankTransfer';
 import { getBankDetails } from '../../../api/bankTransfer';
 
-const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTransfer.IProps) => {
+const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage, txRef, publicKey }: IBankTransfer.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTr
     setLoading(true);
     const res = await getBankDetails({
       collectionChannel: 'API_NOTIFICATION',
-      transactionReference: 'BLQTEST-202222215822231371552',
+      transactionReference: txRef,
     });
     setAcc(res?.data?.data as { bankName: string; accountNumber: string });
     setLoading(false);
@@ -64,6 +64,8 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage }: IBankTr
                   loading={loading}
                   acc={acc}
                   setAcc={setAcc}
+                  txRef={txRef}
+                  publicKey={publicKey}
                 />
               )}
             </Body>

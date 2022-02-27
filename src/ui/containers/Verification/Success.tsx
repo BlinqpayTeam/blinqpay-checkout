@@ -24,7 +24,7 @@ const Success: React.FC<IVerification.IProps> = ({
         <span className="transfer-successful">Transaction Successful!</span>
         <span className="check">Please check your mail. We sent your receipt to {user}</span>
 
-        <PrimaryButton type="submit" text="Make another Payment" />
+        <PrimaryButton onClick={() => setPage('main')} type="submit" text="Make another Payment" />
       </Container>
     </>
   );
