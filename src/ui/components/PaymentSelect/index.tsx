@@ -27,16 +27,16 @@ const PaymentSelect: React.FC<IPaymentSelect.IProps> = ({ setActiveSlide, setPag
         description="Transfer to a Merchant Account"
       />
       <PaymentTiles
-        onClick={() => handleProgress('direct-debit')}
-        icon={<DirectDebit />}
-        payText="Pay with Direct Debit"
-        description="Transfer to from your account"
-      />
-      <PaymentTiles
         onClick={() => handleProgress('qr')}
         icon={<QrCode />}
         payText="Pay with QR"
         description="Payment with QR scan"
+      />
+      <PaymentTiles
+        onClick={() => handleProgress('direct-debit')}
+        icon={<DirectDebit />}
+        payText="Pay with Direct Debit"
+        description="Transfer to from your account"
       />
     </Container>
   );
