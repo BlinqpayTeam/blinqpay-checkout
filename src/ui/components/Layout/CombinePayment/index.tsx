@@ -9,7 +9,15 @@ const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage, paylo
   return (
     <div>
       {page === 'card' && <CardPayment page={page} setPage={setPage} payload={payload} />}
-      {page === 'bank' && <BankTransfer page={page} setPage={setPage}  publicKey={payload.publicKey} txRef={payload.transactionReference as string} />}
+      {page === 'bank' && (
+        <BankTransfer
+          page={page}
+          setPage={setPage}
+          payload={payload}
+          publicKey={payload.publicKey}
+          txRef={payload.transactionReference as string}
+        />
+      )}
       {page === 'direct-debit' && <DirectDebit page={page} setPage={setPage} />}
       {page === 'qr' && (
         <QRPayment

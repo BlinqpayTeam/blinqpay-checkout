@@ -158,6 +158,12 @@ color: var(--blinq-dark-grey)
 .full-height{
     height: 100%;
 }
+.verification-text{
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: -30px;
+  margin-bottom: 30px;
+}
 /* global */
 /* .ant-form-item {
     margin-bottom: 12px !important;

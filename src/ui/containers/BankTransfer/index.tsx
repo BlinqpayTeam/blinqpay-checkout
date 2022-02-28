@@ -10,11 +10,20 @@ import BankForm from './BankForm';
 import { IBankTransfer } from './IBankTransfer';
 import { getBankDetails } from '../../../api/bankTransfer';
 
-const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage, txRef, publicKey }: IBankTransfer.IProps) => {
+const BankTransfer: React.FC<IBankTransfer.IProps> = ({
+  page,
+  setPage,
+  txRef,
+  publicKey,
+  payload,
+}: IBankTransfer.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const [acc, setAcc] = useState({ bankName: '', accountNumber: '' });
+  const [verifying, setVerifying] = useState(false);
+
+  const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
 
   const getAccDetails = async () => {
     setLoading(true);
@@ -38,22 +47,27 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage, txRef, pu
             <GenericHeader
               paymentMethodIcon={<BankTransferIcon />}
               paymentText="Pay with Bank Transfer"
-              payingCustomer="John.Doe@blinqpay.io"
-              amount="N1000.5"
+              payingCustomer={payload?.customer?.name || 'John.Doe@blinqpay.io'}
+              amount={amount}
               setPage={setPage}
             />
             <Body>
-              {loading ? (
+              {loading || verifying ? (
                 <>
                   {' '}
                   <Spinner /> <div className="backdrop"></div>
                   <BankForm
                     getAccDetails={getAccDetails}
-                    setActiveSlide={setActiveSlide}
-                    setSuccess={setSuccess}
-                    loading={loading}
-                    acc={acc}
-                    setAcc={setAcc}
+                  setActiveSlide={setActiveSlide}
+                  setSuccess={setSuccess}
+                  loading={loading}
+                  acc={acc}
+                  setAcc={setAcc}
+                  txRef={txRef}
+                  publicKey={publicKey}
+                  verifying={verifying}
+                  setVerifying={setVerifying}
+                  setLoading={setLoading}
                   />
                 </>
               ) : (
@@ -66,6 +80,9 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({ page, setPage, txRef, pu
                   setAcc={setAcc}
                   txRef={txRef}
                   publicKey={publicKey}
+                  verifying={verifying}
+                  setVerifying={setVerifying}
+                  setLoading={setLoading}
                 />
               )}
             </Body>
