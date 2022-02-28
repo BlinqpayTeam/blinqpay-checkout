@@ -35,6 +35,11 @@ export const Container: any = styled.div`
         font-weight: normal;
         font-size: 9.93548px;
       }
+      .coming-soon-text {
+        color: red;
+        font-weight: bold;
+        font-size: 10px;
+      }
     }
   }
   .right-item{

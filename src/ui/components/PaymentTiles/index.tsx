@@ -10,15 +10,19 @@ const PaymentTiles: React.FC<IPaymentTiles.IProps> = ({
   onClick,
 }: IPaymentTiles.IProps) => {
   return (
-    <Container onClick={onClick}>
+    <Container onClick={  payText ==="Pay with Direct Debit"? "" :onClick}>
       <div className="left-item">
         <div className="payment-icon">{icon}</div>
         <div className="text">
-          <p className="bold">{payText}</p> <p className="light">{description}</p>
+          <p className="bold">{payText}</p> {
+            payText ==="Pay with Direct Debit"?
+            <p className="coming-soon-text">coming soon</p> :
+            <p className="light">{description}</p>
+            }
         </div>
       </div>
       <div className="right-item">
-        <ArrowLeft />
+       {payText ==="Pay with Direct Debit"? " " :<ArrowLeft />}
       </div>
     </Container>
   );
