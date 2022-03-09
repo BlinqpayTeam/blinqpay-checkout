@@ -24,6 +24,8 @@ declare namespace IBankTransfer {
     setAcc: Dispatch<SetStateAction<Record<string, unknown>>>;
     txRef?: string;
     publicKey?: string;
+    setTransferStatus: Dispatch<SetStateAction<string>>;
+    amount: string;
   }
 }
 

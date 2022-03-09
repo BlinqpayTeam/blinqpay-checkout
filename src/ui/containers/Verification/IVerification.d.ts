@@ -13,6 +13,7 @@ declare namespace IVerification {
     isClose?: boolean;
     pageLabel?: string;
     destroyCheckout?: () => void | undefined;
+    setIsError?: Dispatch<SetStateAction<boolean>>;
   }
 }
 

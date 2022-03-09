@@ -11,31 +11,30 @@ import Countdown from '../../components/Countdown';
 import { verifyTransaction } from '../../../api/transaction';
 
 const BankForm: React.FC<IBankTransfer.IBankProps> = ({
-  setActiveSlide,
-  setSuccess,
   getAccDetails,
   loading,
   setLoading,
   verifying,
   setVerifying,
   acc,
-  setAcc,
+  setTransferStatus,
   txRef = '',
   publicKey = '',
+  amount
 }: IBankTransfer.IBankProps) => {
   const handleVerification = async () => {
     const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-
-    if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
-      setVerifying(false);
-      setSuccess(false);
-      setActiveSlide('second');
-    } else if ((verifyRes?.data as Record<string, string>)?.paymentStatus === 'PENDING') {
-      setVerifying(true);
-    } else {
-      setSuccess(true);
-      setActiveSlide('second');
-    }
+    setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
+    // if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
+    //   setVerifying(false);
+    //   setSuccess(false);
+    //   setActiveSlide('second');
+    // } else if ((verifyRes?.data as Record<string, string>)?.paymentStatus === 'PENDING') {
+    //   setVerifying(true);
+    // } else {
+    //   setSuccess(true);
+    //   setActiveSlide('second');
+    // }
   };
   const onFinish = () => {
     setVerifying(true);
@@ -44,25 +43,37 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   const MINUTE_MS = 60000;
 
   useEffect(() => {
-    if(verifying){const interval = setInterval(() => {
-      handleVerification();
-    }, MINUTE_MS);
+    if (verifying) {
+      const interval = setInterval(() => {
+        handleVerification();
+      }, MINUTE_MS);
 
-    return () => clearInterval(interval);} // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+      return () => clearInterval(interval);
+    } // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
   }, [verifying]);
 
-
+  useEffect(() => {
+    if (!acc?.bankName && !acc?.accountNumber) {
+      getAccDetails();
+    }
+  }, []);
 
   return (
     <BankFormContainer>
-      <span className="transfer-text">Transfer #1000.5 to Merchant (Blinqpay)</span>
+      <span className="transfer-text">Transfer N{amount} to Merchant (Blinqpay)</span>
       <CardFormContainer>
-        {!loading && (
-          verifying ? <Row style={{ zIndex: 100 }} className="stretch"><Col span={24}><div className="verification-text">Please wait while we verify your transaction</div> </Col></Row>
-               : 
+        {!loading &&
+          (verifying ? (
+            <Row style={{ zIndex: 100 }} className="stretch">
+              <Col span={24}>
+                <div className="verification-text">Please wait while we verify your transaction</div>
+                <Countdown minutes={10} Refresh={getAccDetails} />
+              </Col>
+            </Row>
+          ) : (
             <>
-             <Row style={{ zIndex: 100 }} className="stretch">
-               <Col span={24}>
+              <Row style={{ zIndex: 100 }} className="stretch">
+                <Col span={24}>
                   <div>
                     <Label>Bank</Label>
                     <InputField>{acc?.bankName}</InputField>
@@ -89,9 +100,13 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
                 </Col>
               </Row>
             </>
-          )}
+          ))}
 
-        <PrimaryButton type="button" onClick={onFinish} text={ verifying? "Verifying..." : "I have made this payment"} />
+        <PrimaryButton
+          type="button"
+          onClick={onFinish}
+          text={verifying ? 'Verifying...' : 'I have made this payment'}
+        />
         {!loading && !verifying && <Countdown minutes={1} Refresh={getAccDetails} />}
       </CardFormContainer>
     </BankFormContainer>
