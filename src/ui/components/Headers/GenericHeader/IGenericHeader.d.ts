@@ -7,6 +7,7 @@ declare namespace IGenericHeader {
     paymentText: string;
     payingCustomer?: string;
     amount?: string;
+    pendingText?: string;
     setPage: Dispatch<SetStateAction<string>>;
   }
 }
