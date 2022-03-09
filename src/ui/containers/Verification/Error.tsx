@@ -18,6 +18,7 @@ const Error: React.FC<IVerification.IProps> = ({
   isClose,
   pageLabel,
   destroyCheckout,
+  setIsError,
 }: IVerification.IProps) => {
   useEffect(() => {
     if (isClose) {
@@ -29,6 +30,9 @@ const Error: React.FC<IVerification.IProps> = ({
   const handleTryAgainClick = () => {
     console.log('Retry clicked for page:', pageLabel);
     if (pageLabel && !isClose) {
+      if (error && setIsError) {
+        setIsError(false);
+      }
       setActiveSlide(pageLabel);
     }
   };

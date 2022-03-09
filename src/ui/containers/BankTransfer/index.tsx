@@ -9,6 +9,7 @@ import Success from '../Verification/success';
 import BankForm from './BankForm';
 import { IBankTransfer } from './IBankTransfer';
 import { getBankDetails } from '../../../api/bankTransfer';
+import Pending from '../Verification/Pending';
 
 const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   page,
@@ -22,6 +23,8 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   const [loading, setLoading] = useState(true);
   const [acc, setAcc] = useState({ bankName: '', accountNumber: '' });
   const [verifying, setVerifying] = useState(false);
+  const [transferStatus, setTransferStatus] = useState('');
+  const [isError, setIsError] = useState(false);
 
   const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
 
@@ -31,84 +34,131 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
       collectionChannel: 'API_NOTIFICATION',
       transactionReference: txRef,
     });
-    setAcc(res?.data?.data as { bankName: string; accountNumber: string });
+    if (res?.data?.data) {
+      setAcc(res?.data?.data as { bankName: string; accountNumber: string });
+    } else {
+      setIsError(true);
+    }
+
     setLoading(false);
   };
   useEffect(() => {
     getAccDetails();
   }, []);
 
+  const renderByResponse = () => {
+    switch (transferStatus) {
+      case 'PENDING':
+        return (
+          <Pending
+            setPage={setPage}
+            paymentText="Pay with Bank Transfer"
+            user={payload?.customer?.name}
+            setActiveSlide={setActiveSlide}
+            logo={<BankTransferIcon />}
+          />
+        );
+      case 'PAID':
+        return (
+          <Success
+            setPage={setPage}
+            paymentText="Pay with Bank Transfer"
+            user={payload?.customer?.name}
+            setActiveSlide={setActiveSlide}
+            logo={<BankTransferIcon />}
+          />
+        );
+      case 'PARTIALLY_PAID':
+        return (
+          <Error
+            setPage={setPage}
+            paymentText="Pay with Bank Transfer"
+            user={payload?.customer?.name}
+            setActiveSlide={setActiveSlide}
+            logo={<BankTransferIcon />}
+          />
+        );
+      case 'OVERPAID':
+        return (
+          <Error
+            setPage={setPage}
+            paymentText="Pay with Bank Transfer"
+            user={payload?.customer?.name}
+            setActiveSlide={setActiveSlide}
+            logo={<BankTransferIcon />}
+          />
+        );
+    }
+  };
+
   return (
     <>
       <Overall
         activeSlide={activeSlide}
         firstSlide={
-          <>
-            <GenericHeader
-              paymentMethodIcon={<BankTransferIcon />}
-              paymentText="Pay with Bank Transfer"
-              payingCustomer={payload?.customer?.name || 'John.Doe@blinqpay.io'}
-              amount={amount}
+          isError ? (
+            <Error
               setPage={setPage}
+              paymentText="Pay with Bank Transfer"
+              user={payload?.customer?.name}
+              setActiveSlide={setActiveSlide}
+              logo={<BankTransferIcon />}
+              error={'An error occured while loading bank details'}
+              pageLabel={'first'}
+              setIsError={setIsError}
             />
-            <Body>
-              {loading || verifying ? (
-                <>
-                  {' '}
-                  <Spinner /> <div className="backdrop"></div>
+          ) : (
+            <>
+              <GenericHeader
+                paymentMethodIcon={<BankTransferIcon />}
+                paymentText="Pay with Bank Transfer"
+                payingCustomer={payload?.customer?.name}
+                amount={amount}
+                setPage={setPage}
+              />
+              <Body>
+                {loading || verifying ? (
+                  <>
+                    {' '}
+                    <Spinner /> <div className="backdrop"></div>
+                    <BankForm
+                      getAccDetails={getAccDetails}
+                      setActiveSlide={setActiveSlide}
+                      setSuccess={setSuccess}
+                      loading={loading}
+                      acc={acc}
+                      setAcc={setAcc}
+                      txRef={txRef}
+                      publicKey={publicKey}
+                      verifying={verifying}
+                      setVerifying={setVerifying}
+                      setLoading={setLoading}
+                      setTransferStatus={setTransferStatus}
+                      amount={amount}
+                    />
+                  </>
+                ) : (
                   <BankForm
                     getAccDetails={getAccDetails}
-                  setActiveSlide={setActiveSlide}
-                  setSuccess={setSuccess}
-                  loading={loading}
-                  acc={acc}
-                  setAcc={setAcc}
-                  txRef={txRef}
-                  publicKey={publicKey}
-                  verifying={verifying}
-                  setVerifying={setVerifying}
-                  setLoading={setLoading}
+                    setActiveSlide={setActiveSlide}
+                    setSuccess={setSuccess}
+                    loading={loading}
+                    acc={acc}
+                    setAcc={setAcc}
+                    txRef={txRef}
+                    publicKey={publicKey}
+                    verifying={verifying}
+                    setVerifying={setVerifying}
+                    setLoading={setLoading}
+                    setTransferStatus={setTransferStatus}
+                    amount={amount}
                   />
-                </>
-              ) : (
-                <BankForm
-                  getAccDetails={getAccDetails}
-                  setActiveSlide={setActiveSlide}
-                  setSuccess={setSuccess}
-                  loading={loading}
-                  acc={acc}
-                  setAcc={setAcc}
-                  txRef={txRef}
-                  publicKey={publicKey}
-                  verifying={verifying}
-                  setVerifying={setVerifying}
-                  setLoading={setLoading}
-                />
-              )}
-            </Body>
-          </>
+                )}
+              </Body>
+            </>
+          )
         }
-        secondSlide={
-          <>
-            {success ? (
-              <Success
-                setPage={setPage}
-                paymentText="Pay with Bank Transfer"
-                user="John.Doe@blinkpay.io"
-                setActiveSlide={setActiveSlide}
-                logo={<BankTransferIcon />}
-              />
-            ) : (
-              <Error
-                setPage={setPage}
-                paymentText="Pay with Bank Transfer"
-                user="John.Doe@blinkpay.io"
-                setActiveSlide={setActiveSlide}
-                logo={<BankTransferIcon />}
-              />
-            )}
-          </>
-        }
+        secondSlide={<>{renderByResponse()}</>}
       />
     </>
   );
