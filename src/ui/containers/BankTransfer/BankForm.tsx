@@ -20,21 +20,18 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   setTransferStatus,
   txRef = '',
   publicKey = '',
-  amount
+  amount,
+  setActiveSlide,
 }: IBankTransfer.IBankProps) => {
   const handleVerification = async () => {
     const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
     setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
-    // if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
-    //   setVerifying(false);
-    //   setSuccess(false);
-    //   setActiveSlide('second');
-    // } else if ((verifyRes?.data as Record<string, string>)?.paymentStatus === 'PENDING') {
-    //   setVerifying(true);
-    // } else {
-    //   setSuccess(true);
-    //   setActiveSlide('second');
-    // }
+  };
+  const stopVerification = async () => {
+    const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
+    setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
+    setVerifying(false);
+    setActiveSlide('second');
   };
   const onFinish = () => {
     setVerifying(true);
@@ -67,7 +64,7 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
             <Row style={{ zIndex: 100 }} className="stretch">
               <Col span={24}>
                 <div className="verification-text">Please wait while we verify your transaction</div>
-                <Countdown minutes={10} Refresh={getAccDetails} />
+                <Countdown seconds={5} callback={stopVerification} />
               </Col>
             </Row>
           ) : (

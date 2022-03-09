@@ -7,6 +7,7 @@ const Countdown: React.FC<ICountdown.IProps> = ({
   minutes = 0,
   seconds = 0,
   Refresh,
+  callback,
 }: ICountdown.IProps) => {
   const [[h, m, s], setTime] = useState([hours, minutes, seconds]);
   const [over, setOver] = useState(false);
@@ -29,6 +30,11 @@ const Countdown: React.FC<ICountdown.IProps> = ({
     const timerID = setInterval(() => tick(), 1000);
     return () => clearInterval(timerID);
   });
+  useEffect(() => {
+    if (over && callback) {
+      callback();
+    }
+  }, [over]);
 
   return (
     <div>
@@ -38,9 +44,11 @@ const Countdown: React.FC<ICountdown.IProps> = ({
           {`${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`}
         </p>
       )}
-      <div className="refresh-text" onClick={Refresh}>
-        {over ? 'Refresh!' : ''}
-      </div>
+      {Refresh && (
+        <div className="refresh-text" onClick={Refresh}>
+          {over ? 'Refresh!' : ''}
+        </div>
+      )}
     </div>
   );
 };

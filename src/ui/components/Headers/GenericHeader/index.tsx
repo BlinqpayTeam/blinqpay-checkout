@@ -14,6 +14,7 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
   payingCustomer,
   amount,
   setPage,
+  pendingText,
 }) => {
   return (
     <PaymentHeaderContainer>
@@ -40,6 +41,7 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
           </div>
         </div>
       )}
+      {pendingText && <div className="pending-section">{pendingText}</div>}
     </PaymentHeaderContainer>
   );
 };

@@ -59,4 +59,10 @@ export const PaymentHeaderContainer: any = styled.div`
       }
     }
   }
+  .pending-section {
+    padding: 1.06em 1em 2em 1.2em;
+    background: #443586;
+    color: #ffffff;
+    text-align: center;
+  }
 `;
