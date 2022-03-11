@@ -14,6 +14,7 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
   payingCustomer,
   amount,
   setPage,
+  pendingText,
 }) => {
   return (
     <PaymentHeaderContainer>
@@ -23,7 +24,7 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
           <span className="text"> {paymentText}</span>
         </div>
         {showChangeMethod && (
-          <div onClick={() => setPage('main')} className="change">
+          <div onClick={() => (setPage ? setPage('main') : null)} className="change">
             {' '}
             Change Method{' '}
           </div>
@@ -40,6 +41,7 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
           </div>
         </div>
       )}
+      {pendingText && <div className="pending-section">{pendingText}</div>}
     </PaymentHeaderContainer>
   );
 };

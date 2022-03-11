@@ -9,6 +9,7 @@ import Copy from '../../assets/svgs/Copy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Countdown from '../../components/Countdown';
 import { verifyTransaction } from '../../../api/transaction';
+import BankExpired from '../Verification/BankExpired';
 
 const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   getAccDetails,
@@ -20,21 +21,19 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   setTransferStatus,
   txRef = '',
   publicKey = '',
-  amount
+  amount,
+  setActiveSlide,
 }: IBankTransfer.IBankProps) => {
+  const [expireCount, setExpireCount] = useState(false);
   const handleVerification = async () => {
     const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
     setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
-    // if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
-    //   setVerifying(false);
-    //   setSuccess(false);
-    //   setActiveSlide('second');
-    // } else if ((verifyRes?.data as Record<string, string>)?.paymentStatus === 'PENDING') {
-    //   setVerifying(true);
-    // } else {
-    //   setSuccess(true);
-    //   setActiveSlide('second');
-    // }
+  };
+  const stopVerification = async () => {
+    const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
+    setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
+    setVerifying(false);
+    setActiveSlide('second');
   };
   const onFinish = () => {
     setVerifying(true);
@@ -57,59 +56,76 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
       getAccDetails();
     }
   }, []);
+  const handleBankExpired = () => {
+    setExpireCount(false);
+    getAccDetails();
+  };
 
   return (
-    <BankFormContainer>
-      <span className="transfer-text">Transfer N{amount} to Merchant (Blinqpay)</span>
-      <CardFormContainer>
-        {!loading &&
-          (verifying ? (
-            <Row style={{ zIndex: 100 }} className="stretch">
-              <Col span={24}>
-                <div className="verification-text">Please wait while we verify your transaction</div>
-                <Countdown minutes={10} Refresh={getAccDetails} />
-              </Col>
-            </Row>
-          ) : (
-            <>
-              <Row style={{ zIndex: 100 }} className="stretch">
-                <Col span={24}>
-                  <div>
-                    <Label>Bank</Label>
-                    <InputField>{acc?.bankName}</InputField>
-                  </div>
-                </Col>
-              </Row>
-              <Row className="stretch">
-                <Col span={24}>
-                  <div className="mt-20 mb-10">
-                    <Label>Account Number</Label>
-                    <InputField>
-                      {acc?.accountNumber}
-                      {copy
-                        ? !loading && <CheckCircleTwoTone twoToneColor="#7765c4" />
-                        : !loading && (
-                            <CopyToClipboard text="9978511967" onCopy={() => setCopy(true)}>
-                              <span>
-                                <Copy />{' '}
-                              </span>
-                            </CopyToClipboard>
-                          )}
-                    </InputField>
-                  </div>
-                </Col>
-              </Row>
-            </>
-          ))}
+    <>
+      {expireCount ? (
+        <BankExpired callback={handleBankExpired} />
+      ) : (
+        <BankFormContainer>
+          <span className="transfer-text">Transfer N{amount} to Merchant (Blinqpay)</span>
+          <CardFormContainer>
+            {!loading &&
+              (verifying ? (
+                <Row style={{ zIndex: 100 }} className="stretch">
+                  <Col span={24}>
+                    <div className="verification-text">Please wait while we verify your transaction</div>
+                    <Countdown seconds={5} callback={stopVerification} />
+                  </Col>
+                </Row>
+              ) : (
+                <>
+                  <Row style={{ zIndex: 100 }} className="stretch">
+                    <Col span={24}>
+                      <div>
+                        <Label>Bank</Label>
+                        <InputField>{acc?.bankName}</InputField>
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row className="stretch">
+                    <Col span={24}>
+                      <div className="mt-20 mb-10">
+                        <Label>Account Number</Label>
+                        <InputField>
+                          {acc?.accountNumber}
+                          {copy
+                            ? !loading && <CheckCircleTwoTone twoToneColor="#7765c4" />
+                            : !loading && (
+                                <CopyToClipboard text="9978511967" onCopy={() => setCopy(true)}>
+                                  <span>
+                                    <Copy />{' '}
+                                  </span>
+                                </CopyToClipboard>
+                              )}
+                        </InputField>
+                      </div>
+                    </Col>
+                  </Row>
+                </>
+              ))}
 
-        <PrimaryButton
-          type="button"
-          onClick={onFinish}
-          text={verifying ? 'Verifying...' : 'I have made this payment'}
-        />
-        {!loading && !verifying && <Countdown minutes={1} Refresh={getAccDetails} />}
-      </CardFormContainer>
-    </BankFormContainer>
+            <PrimaryButton
+              type="button"
+              onClick={onFinish}
+              text={verifying ? 'Verifying...' : 'I have made this payment'}
+            />
+            {!loading && !verifying && (
+              <Countdown
+                expireCount={expireCount}
+                setExpireCount={setExpireCount}
+                minutes={1}
+                Refresh={getAccDetails}
+              />
+            )}
+          </CardFormContainer>
+        </BankFormContainer>
+      )}
+    </>
   );
 };
 

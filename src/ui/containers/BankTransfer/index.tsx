@@ -56,6 +56,9 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
             user={payload?.customer?.name}
             setActiveSlide={setActiveSlide}
             logo={<BankTransferIcon />}
+            pendingText={
+              'Your bank currently receives slow payments. Slow payments are usually confirmed within 30 minutes. You will receive a receipt once your payment is confirmed by your bank'
+            }
           />
         );
       case 'PAID':
