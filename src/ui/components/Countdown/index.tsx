@@ -8,6 +8,8 @@ const Countdown: React.FC<ICountdown.IProps> = ({
   seconds = 0,
   Refresh,
   callback,
+  expireCount,
+  setExpireCount,
 }: ICountdown.IProps) => {
   const [[h, m, s], setTime] = useState([hours, minutes, seconds]);
   const [over, setOver] = useState(false);
@@ -16,8 +18,12 @@ const Countdown: React.FC<ICountdown.IProps> = ({
     if (over) {
       // dispatch(hideBankDetails());
     }
-    if (h === 0 && m === 0 && s === 0) setOver(true);
-    else if (m === 0 && s === 0) {
+    if (h === 0 && m === 0 && s === 0) {
+      setOver(true);
+      if (expireCount === false && setExpireCount) {
+        setExpireCount(true);
+      }
+    } else if (m === 0 && s === 0) {
       setTime([h - 1, 59, 59]);
     } else if (s == 0) {
       setTime([h, m - 1, 59]);
@@ -45,7 +51,16 @@ const Countdown: React.FC<ICountdown.IProps> = ({
         </p>
       )}
       {Refresh && (
-        <div className="refresh-text" onClick={Refresh}>
+        <div
+          className="refresh-text"
+          onClick={() => {
+            if (setExpireCount) {
+              setExpireCount(true);
+            }
+
+            Refresh();
+          }}
+        >
           {over ? 'Refresh!' : ''}
         </div>
       )}

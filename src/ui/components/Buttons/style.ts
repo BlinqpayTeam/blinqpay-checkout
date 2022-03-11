@@ -5,15 +5,16 @@ export const ButtonContainer: any = styled.div`
   justify-content: center;
   & button {
     margin: 1.2rem auto;
-    background: #7765c4;
+    background: ${({ theme }) => theme.background};
     padding: 0.5rem 1.5rem;
     outline: none;
     border-style: none;
+    border: ${({ theme }) => theme.border};
     border-radius: 6px;
-    color: #fff;
+    color: ${({ theme }) => theme.color};
     cursor: pointer;
     font-size: 0.8rem;
-    width: 100%;
+    width: ${({ theme }) => theme.width};
     text-align: center;
     display: flex;
     justify-content: center;
@@ -31,5 +32,6 @@ export const ButtonContainer: any = styled.div`
   }
   & button:hover {
     background: #7765c4bd;
+    border: none;
   }
 `;

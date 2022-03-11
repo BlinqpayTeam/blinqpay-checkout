@@ -10,7 +10,7 @@ const Error: React.FC<IVerification.IProps> = ({
   page,
   setPage,
   logo,
-  paymentText,
+  paymentText = '',
   user,
   setActiveSlide,
   noHeader,
@@ -33,12 +33,14 @@ const Error: React.FC<IVerification.IProps> = ({
       if (error && setIsError) {
         setIsError(false);
       }
-      setActiveSlide(pageLabel);
+      if (setActiveSlide) {
+        setActiveSlide(pageLabel);
+      }
     }
   };
   return (
     <>
-      {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage} />}
+      {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage || null} />}
       <Container>
         <div className="success-container">
           <ErrorIcon />

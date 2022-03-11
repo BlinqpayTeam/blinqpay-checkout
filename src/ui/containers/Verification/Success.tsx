@@ -9,14 +9,14 @@ const Success: React.FC<IVerification.IProps> = ({
   page,
   setPage,
   logo,
-  paymentText,
+  paymentText = '',
   user,
   setActiveSlide,
   noHeader,
 }: IVerification.IProps) => {
   return (
     <>
-      {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage} />}
+      {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage || null} />}
       <Container>
         <div className="success-container">
           <Successful />
@@ -24,7 +24,7 @@ const Success: React.FC<IVerification.IProps> = ({
         <span className="transfer-successful">Transaction Successful!</span>
         <span className="check">Please check your mail. We sent your receipt to {user}</span>
 
-        <PrimaryButton onClick={() => setPage('main')} type="submit" text="Make another Payment" />
+        <PrimaryButton onClick={() => (setPage ? setPage('main') : null)} type="submit" text="Make another Payment" />
       </Container>
     </>
   );
