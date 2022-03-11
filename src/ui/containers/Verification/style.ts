@@ -19,6 +19,14 @@ export const Container: any = styled.div`
     font-size: 23.0559px;
     margin: 0 auto;
   }
+  & .account-expired {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    color: #0c0c0c;
+    font-size: 15.0063px;
+    font-weight: 900;
+  }
 
   & .check {
     display: block;

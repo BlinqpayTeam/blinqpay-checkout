@@ -9,20 +9,19 @@ const Pending: React.FC<IVerification.IProps> = ({
   page,
   setPage,
   logo,
-  paymentText,
+  paymentText = '',
   user,
   setActiveSlide,
   noHeader,
+  pendingText,
 }: IVerification.IProps) => {
   return (
     <>
       <GenericHeader
         paymentMethodIcon={logo}
         paymentText={paymentText}
-        setPage={setPage}
-        pendingText={
-          'Your bank currently receives slow payments. Slow payments are usually confirmed within 30 minutes. You will receive a receipt once your payment is confirmed by your bank'
-        }
+        setPage={setPage || null}
+        pendingText={pendingText}
       />
       <Container>
         <div className="success-container">
@@ -31,7 +30,7 @@ const Pending: React.FC<IVerification.IProps> = ({
         <span className="transfer-successful"> </span>
         <span className="check"> </span>
 
-        <PrimaryButton onClick={() => setPage('main')} type="submit" text="Make another Payment" />
+        <PrimaryButton onClick={() => (setPage ? setPage('main') : null)} type="submit" text="Make another Payment" />
       </Container>
     </>
   );
