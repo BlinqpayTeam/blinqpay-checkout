@@ -43,7 +43,7 @@ const Countdown: React.FC<ICountdown.IProps> = ({
   }, [over]);
 
   return (
-    <div>
+    <div className="time-text">
       {!over && (
         <p>
           <span className="font-medium mr-2">Time Left:</span>

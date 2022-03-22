@@ -164,6 +164,30 @@ color: var(--blinq-dark-grey)
   margin-top: -30px;
   margin-bottom: 30px;
 }
+.time-text{
+  display: flex;
+  justify-content: center;
+  margin-top: -10px;
+}
+.help{
+  display: flex;
+  justify-content: end;
+  margin-right: -10px;
+  
+}
+.help-container{
+  display: flex;
+  align-items: center;
+}
+.help-text{
+  align-items: center;
+  margin-left: 5px;
+}
+
+/* carousel */
+.rec-carousel{
+  width: 320px !important;
+}
 /* global */
 /* .ant-form-item {
     margin-bottom: 12px !important;
