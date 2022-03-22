@@ -50,3 +50,38 @@ export const Container: any = styled.div`
     margin-bottom: 88px !important;
   }
 `;
+
+export const HelpContainer: any = styled.div`
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 500px;
+  padding: 63px 0 33px;
+  & .need-help {
+    color: #0c0c0c;
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 28px;
+    text-align: center;
+    & .trouble {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      color: rgba(37, 45, 62, 0.9);
+    }
+  }
+  & .carousel {
+    margin: 20px 0;
+  }
+
+  & .back {
+    color: #443586;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+`;

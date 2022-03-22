@@ -17,6 +17,9 @@ declare namespace IVerification {
     pendingText?: string;
     callback?: () => void | null | Promise<void>;
   }
+  export interface IHelp {
+    setActiveSlide: Dispatch<SetStateAction<string>>;
+  }
 }
 
 export { IVerification };

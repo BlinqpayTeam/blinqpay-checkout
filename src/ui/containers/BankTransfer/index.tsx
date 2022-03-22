@@ -10,6 +10,7 @@ import BankForm from './BankForm';
 import { IBankTransfer } from './IBankTransfer';
 import { getBankDetails } from '../../../api/bankTransfer';
 import Pending from '../Verification/Pending';
+import Help from '../Verification/Help';
 
 const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   page,
@@ -162,6 +163,7 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
           )
         }
         secondSlide={<>{renderByResponse()}</>}
+        thirdSlide={<Help setActiveSlide={setActiveSlide} />}
       />
     </>
   );

@@ -10,6 +10,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Countdown from '../../components/Countdown';
 import { verifyTransaction } from '../../../api/transaction';
 import BankExpired from '../Verification/BankExpired';
+import HelpIcon from '../../assets/svgs/HelpIcon';
 
 const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   getAccDetails,
@@ -122,6 +123,12 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
                 Refresh={getAccDetails}
               />
             )}
+            <div className="help">
+              <span className="help-container" onClick={() => setActiveSlide('third')}>
+                <HelpIcon />
+                <span className="help-text">help</span>
+              </span>
+            </div>
           </CardFormContainer>
         </BankFormContainer>
       )}
