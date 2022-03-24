@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import BankTransfer from '../../../containers/BankTransfer';
 import CardPayment from '../../../containers/CardPayment';
 import DirectDebit from '../../../containers/DirectDebit';

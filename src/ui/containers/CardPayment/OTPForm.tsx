@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import OtpInput from 'react-otp-input';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { OTPFormContainer } from './style';
 import { ICardPayment } from './ICardPayment';
 import { authorizeWithOTP } from '../../../api/card';
 import { verifyTransaction } from '../../../api/transaction';
+import { PaymentMethodContext } from '../../../context';
+import { PaymentContextType, PaymentMethod } from '../../../types';
 
 const OTPForm: React.FC<ICardPayment.IOTPProps> = ({
   setActiveSlide,
@@ -19,11 +21,12 @@ const OTPForm: React.FC<ICardPayment.IOTPProps> = ({
   const handleChange = (val: any) => {
     setOtp(val);
   };
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const closeModal = (data: Record<string, unknown>, payload?: unknown): void => {
     setLoading(false);
     setErrorText(data?.message as string);
     setIsSuccess(false);
-    setIsCloseModal(true);
+    setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
     setActiveSlide('sixth');
   };
   const handleClick = async () => {

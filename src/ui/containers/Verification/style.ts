@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import styled from 'styled-components';
 
 export const Container: any = styled.div`
-  padding: 2rem;
+  padding: ${(props: Record<string, string>) => props?.padding || '2rem'};
   padding-bottom: 2.3rem;
   & .success-container {
     margin-top: 1.5rem;
@@ -48,6 +49,17 @@ export const Container: any = styled.div`
     margin: 0 auto;
     margin-top: 27px !important;
     margin-bottom: 88px !important;
+  }
+  & .check-error-2 {
+    display: block;
+    padding: 0;
+    text-align: center;
+    color: #000000;
+    font-weight: 500;
+    font-size: 14.5271px;
+    margin: 0 auto;
+    margin-top: 24px !important;
+    margin-bottom: 50px !important;
   }
 `;
 

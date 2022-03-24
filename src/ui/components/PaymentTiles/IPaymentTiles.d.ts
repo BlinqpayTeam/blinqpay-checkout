@@ -6,6 +6,7 @@ declare namespace IPaymentTiles {
     payText: string;
     description: string;
     onClick: () => any;
+    isUsed: boolean;
   }
 }
 

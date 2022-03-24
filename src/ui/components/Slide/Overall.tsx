@@ -12,6 +12,7 @@ const Overall: React.FC<ISlide.IOverall> = ({
   fourthSlide,
   fifthSlide,
   sixthSlide,
+  seventhSlide,
 }: ISlide.IOverall) => {
   const Slide = ({ children }: { children: ReactNode }) => {
     return <div className="slide">{children}</div>;
@@ -42,6 +43,11 @@ const Overall: React.FC<ISlide.IOverall> = ({
       {sixthSlide && (
         <CSSTransition in={activeSlide === 'sixth'} unmountOnExit timeout={450} classNames="slide-2">
           <Slide>{sixthSlide}</Slide>
+        </CSSTransition>
+      )}
+      {seventhSlide && (
+        <CSSTransition in={activeSlide === 'seventh'} unmountOnExit timeout={450} classNames="slide-2">
+          <Slide>{seventhSlide}</Slide>
         </CSSTransition>
       )}
     </div>

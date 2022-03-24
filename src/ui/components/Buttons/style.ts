@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ButtonContainer: any = styled.div`
   display: flex;
@@ -34,4 +34,21 @@ export const ButtonContainer: any = styled.div`
     background: #7765c4bd;
     border: none;
   }
+  & + & {
+    margin-top: 1rem;
+  }
+  ${(props: Record<string, boolean>) =>
+    props.altMethod &&
+    css`
+      & button {
+        background: #ffffff5e;
+        color: #212121;
+        border: 0.6px solid #0000004f;
+        margin: 0 auto;
+      }
+      & button:hover {
+        background: #f5f5f5;
+        border: 0.6px solid #0000004f;
+      }
+    `}
 `;

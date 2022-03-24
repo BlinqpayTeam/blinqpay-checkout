@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
 import { PhoneFormContainer } from './style';
 import { authorizeEnroll } from '../../../api/card';
+import { PaymentContextType, PaymentMethod } from '../../../types';
+import { PaymentMethodContext } from '../../../context';
 
 const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
   setActiveSlide,
@@ -15,13 +17,15 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
 }: ICardPayment.IPhoneProps) => {
   const [loading, setLoading] = useState(false);
   const failedMsg = 'An error occurred while enrolling your phone number';
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const closeModal = (data: Record<string, unknown>, payload?: unknown): void => {
     setLoading(false);
     setErrorText((data?.message as string) || failedMsg);
     setIsSuccess(false);
-    setIsCloseModal(true);
+    setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
     setActiveSlide('sixth');
   };
+
   const onFinish = async (value: Record<string, unknown>): Promise<void> => {
     console.log('finished', value);
     const payload = {

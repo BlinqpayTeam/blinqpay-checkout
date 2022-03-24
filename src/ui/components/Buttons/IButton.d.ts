@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
-
 declare namespace IButton {
   export interface IProps {
     text: string;
@@ -8,6 +6,7 @@ declare namespace IButton {
     disabled?: boolean;
     loading?: boolean;
     notFilled?: boolean;
+    altMethod?: boolean;
   }
 }
 

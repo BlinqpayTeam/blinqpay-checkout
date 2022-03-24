@@ -8,6 +8,7 @@ import { IModal } from './IModal';
 import SelectHeader from '../Headers/SelectHeader';
 import Overall from '../Slide/Overall';
 import CombinePayment from '../Layout/CombinePayment';
+import { PaymentMethodProvider } from '../../../context';
 
 const computeInitSlide = (
   loading: boolean | undefined,
@@ -65,11 +66,13 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage, payload, destroyCheckou
               <Xicon />
             </div>
           </div>
-          <Overall
-            activeSlide={activeSlide}
-            firstSlide={displayFirstSlide}
-            secondSlide={<CombinePayment page={page} setPage={setPage} payload={{ ...rest, destroyCheckout }} />}
-          />
+          <PaymentMethodProvider>
+            <Overall
+              activeSlide={activeSlide}
+              firstSlide={displayFirstSlide}
+              secondSlide={<CombinePayment page={page} setPage={setPage} payload={{ ...rest, destroyCheckout }} />}
+            />
+          </PaymentMethodProvider>
         </div>
       </Col>
     </Row>

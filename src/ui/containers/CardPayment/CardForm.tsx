@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CryptoJS from 'crypto-js';
 import { Form, Input, Row, Col, Checkbox } from 'antd';
 import CardSmall from '../../assets/svgs/CardSmall';
@@ -12,6 +12,8 @@ import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
 import { aesCardCipher } from '../../../lib/encryption';
 import { chargeCard } from '../../../api/card';
+import { PaymentMethodContext } from '../../../context';
+import { PaymentContextType, PaymentMethod } from '../../../types';
 
 const CardForm: React.FC<ICardPayment.ICardProps> = ({
   setActiveSlide,
@@ -22,10 +24,11 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
   setIsCloseModal,
   setPrevSlide,
 }: ICardPayment.ICardProps) => {
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const formRef = React.createRef<FormInstance>();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const failedMsg = 'We are unable to charge your card at the moment, ensure the details are correct and try again.';
+  const failedMsg = 'We are unable to charge your card at the moment.';
   const onFinish = async (values: any) => {
     const card = {
       number: values.card_number.replace(/ +/g, ''),
@@ -34,28 +37,21 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
       cvv: values.cvv,
     };
     const cardCipher = aesCardCipher(card);
-    console.log('finished', cardCipher);
     setLoading(true);
     const { data } = await chargeCard({
       transactionReference: txRef,
       card: cardCipher,
     });
-    console.log(data);
     setLoading(false);
     if (data?.error) {
-      if (data?.statusCode === 409) {
-        // Todo: Fetch the a new transaction reference at this point
-        setIsCloseModal(true);
-        setErrorText(data?.message as string);
-      } else {
-        setPrevSlide('first');
-        setErrorText(failedMsg);
-      }
+      setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
+      setErrorText(failedMsg);
       setIsSuccess(false);
       setActiveSlide('sixth');
     } else {
       const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
       if (res?.status === 'FAILED') {
+        setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
         console.log(res?.status);
         setErrorText(failedMsg);
         setIsSuccess(false);

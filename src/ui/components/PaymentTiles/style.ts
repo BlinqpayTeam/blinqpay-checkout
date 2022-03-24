@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container: any = styled.div`
   border: 0.922581px solid #7765c4;
@@ -46,4 +46,9 @@ export const Container: any = styled.div`
     display-flex;
     align-items: center;
   }
+  ${(props: Record<string, boolean>) =>
+    props.isUsed &&
+    css`
+      border: 0.922581px solid #0000003b;
+    `}
 `;

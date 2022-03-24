@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Input, Row, Col, Select } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { AddressFormContainer } from './style';
 import { ICardPayment } from './ICardPayment';
 import { authorizeAVS } from '../../../api/card';
+import { PaymentMethodContext } from '../../../context';
+import { PaymentContextType, PaymentMethod } from '../../../types';
 const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
   setActiveSlide,
   setErrorText,
@@ -14,11 +16,12 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
   const failedMsg = 'Unable to successfully verify the address.';
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const closeModal = (data: Record<string, unknown>, payload?: unknown): void => {
     setLoading(false);
     setErrorText((data?.message as string) || failedMsg);
     setIsSuccess(false);
-    setIsCloseModal(true);
+    setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
     setActiveSlide('sixth');
   };
   const onFinish = async (value: Record<string, unknown>): Promise<void> => {

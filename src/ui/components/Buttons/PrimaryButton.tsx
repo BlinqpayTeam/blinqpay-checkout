@@ -10,9 +10,11 @@ const PrimaryButton: React.FC<IButton.IProps> = ({
   disabled,
   loading,
   notFilled,
+  altMethod,
 }: IButton.IProps) => {
   return (
     <ButtonContainer
+      altMethod={altMethod}
       theme={{
         border: notFilled ? '1px solid #212121' : '',
         width: notFilled ? '60%' : '100%',

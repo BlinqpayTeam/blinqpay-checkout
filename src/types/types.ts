@@ -1,3 +1,6 @@
+import { Dispatch } from 'react';
+import { PaymentMethod } from './enums';
+
 export type Customer = {
   /**
    * Customer's email address.
@@ -18,4 +21,9 @@ export type ResponseType = {
   error: boolean;
   message?: string;
   statusCode: number;
+};
+
+export type PaymentContextType = {
+  selectedMethods: PaymentMethod[];
+  setSelectedMethods: Dispatch<React.SetStateAction<PaymentMethod[]>>;
 };

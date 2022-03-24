@@ -43,7 +43,7 @@ export const PaymentHeaderContainer: any = styled.div`
   }
   .bottom {
     padding: 1.06em 1em 2em 1.2em;
-    border-bottom: 0.140373px solid #212121;
+    border-bottom: 0.140373px solid #42424240;
     display: flex;
     justify-content: space-between;
     & .right-item {

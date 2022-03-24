@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import OtpInput from 'react-otp-input';
 import { authorizeWithPin } from '../../../api/card';
+import { PaymentMethodContext } from '../../../context';
+import { PaymentContextType, PaymentMethod } from '../../../types';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
 import { PinFormContainer } from './style';
@@ -15,6 +17,7 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const failedMsg = 'An error occurred while verifying your pin';
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const handleChange = (val: any) => {
     setOtp(val);
   };
@@ -29,7 +32,7 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
     if (data?.error || res?.status === 'FAILED') {
       setErrorText((data?.message as string) || failedMsg);
       setIsSuccess(false);
-      setIsCloseModal(true);
+      setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
       setActiveSlide('sixth');
     } else if (res?.authModel === 'CARD_ENROLL') {
       setActiveSlide('fifth');
