@@ -56,6 +56,7 @@ export const PaymentHeaderContainer: any = styled.div`
         font-weight: 800;
         font-size: 14.4767px;
         line-height: 22px;
+        text-align: right;
       }
     }
   }

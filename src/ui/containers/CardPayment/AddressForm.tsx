@@ -21,7 +21,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
     setLoading(false);
     setErrorText((data?.message as string) || failedMsg);
     setIsSuccess(false);
-    setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
+    setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
     setActiveSlide('sixth');
   };
   const onFinish = async (value: Record<string, unknown>): Promise<void> => {

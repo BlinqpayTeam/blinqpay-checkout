@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
 import Spinner from '../../assets/svgs/Spinner';
 import GenericHeader from '../../components/Headers/GenericHeader';
@@ -11,6 +11,10 @@ import { IBankTransfer } from './IBankTransfer';
 import { getBankDetails } from '../../../api/bankTransfer';
 import Pending from '../Verification/Pending';
 import Help from '../Verification/Help';
+import ErrorWithAlt from '../Verification/ErrorWithAlt';
+import Bank from '../../assets/svgs/Bank';
+import { PaymentMethodContext } from '../../../context';
+import { PaymentContextType, PaymentMethod } from '../../../types';
 
 const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   page,
@@ -26,9 +30,8 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   const [verifying, setVerifying] = useState(false);
   const [transferStatus, setTransferStatus] = useState('');
   const [isError, setIsError] = useState(false);
-
   const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
-
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const getAccDetails = async () => {
     setLoading(true);
     const res = await getBankDetails({
@@ -38,6 +41,7 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
     if (res?.data?.data) {
       setAcc(res?.data?.data as { bankName: string; accountNumber: string });
     } else {
+      setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
       setIsError(true);
     }
 
@@ -92,6 +96,19 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
             logo={<BankTransferIcon />}
           />
         );
+      default:
+        return (
+          <ErrorWithAlt
+            paymentText="Pay with Bank Transfer"
+            error="We are unable to process transfers at this time"
+            setPage={setPage}
+            logo={<Bank />}
+            user={payload?.customer?.name}
+            amount={amount}
+            setActiveSlide={setActiveSlide}
+            destroyCheckout={payload.destroyCheckout}
+          />
+        );
     }
   };
 
@@ -101,15 +118,15 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
         activeSlide={activeSlide}
         firstSlide={
           isError ? (
-            <Error
-              setPage={setPage}
+            <ErrorWithAlt
               paymentText="Pay with Bank Transfer"
+              error="An error occured while loading bank details"
+              setPage={setPage}
+              logo={<Bank />}
               user={payload?.customer?.name}
+              amount={amount}
               setActiveSlide={setActiveSlide}
-              logo={<BankTransferIcon />}
-              error={'An error occured while loading bank details'}
-              pageLabel={'first'}
-              setIsError={setIsError}
+              destroyCheckout={payload.destroyCheckout}
             />
           ) : (
             <>

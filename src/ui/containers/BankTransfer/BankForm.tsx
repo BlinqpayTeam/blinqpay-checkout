@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Row, Col } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { BankFormContainer, InputField, Label } from './style';
@@ -11,6 +11,8 @@ import Countdown from '../../components/Countdown';
 import { verifyTransaction } from '../../../api/transaction';
 import BankExpired from '../Verification/BankExpired';
 import HelpIcon from '../../assets/svgs/HelpIcon';
+import { PaymentMethodContext } from '../../../context';
+import { PaymentContextType, PaymentMethod } from '../../../types';
 
 const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   getAccDetails,
@@ -26,8 +28,11 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   setActiveSlide,
 }: IBankTransfer.IBankProps) => {
   const [expireCount, setExpireCount] = useState(false);
+  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const handleVerification = async () => {
     const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
+    if ((verifyRes?.data as Record<string, boolean>)?.error === true)
+      setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
     setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
   };
   const stopVerification = async () => {

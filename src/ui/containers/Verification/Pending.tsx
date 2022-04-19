@@ -17,12 +17,14 @@ const Pending: React.FC<IVerification.IProps> = ({
 }: IVerification.IProps) => {
   return (
     <>
+      (!noHeader && (
       <GenericHeader
         paymentMethodIcon={logo}
         paymentText={paymentText}
         setPage={setPage || null}
         pendingText={pendingText}
       />
+      ))
       <Container>
         <div className="success-container">
           <Alert />

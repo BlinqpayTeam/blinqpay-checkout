@@ -37,7 +37,7 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
           </div>
           <div className="right-item">
             <div className="email">{payingCustomer}</div>
-            <div className="amount">{amount}</div>
+            <div className="amount">{`N${amount}`}</div>
           </div>
         </div>
       )}

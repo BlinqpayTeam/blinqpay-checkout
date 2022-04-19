@@ -7,6 +7,7 @@ declare namespace IVerification {
     logo?: ReactNode;
     paymentText?: string;
     user?: string;
+    amount?: string;
     setActiveSlide?: Dispatch<SetStateAction<string>> | null;
     noHeader?: boolean;
     error?: string;

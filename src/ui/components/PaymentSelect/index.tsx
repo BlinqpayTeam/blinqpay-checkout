@@ -50,14 +50,14 @@ const PaymentSelect: React.FC<IPaymentSelect.IProps> = ({ setActiveSlide, setPag
       />
       <PaymentTiles
         onClick={() => handleProgress('bank')}
-        icon={<Bank />}
+        icon={isUsedVal[PaymentMethod.BANK_TRANSFER] === true ? <Bank fill="#00000080" /> : <Bank />}
         payText="Pay with Bank Transfer"
         description="Transfer to a Merchant Account"
         isUsed={isUsedVal[PaymentMethod.BANK_TRANSFER] === true}
       />
       <PaymentTiles
         onClick={() => handleProgress('qr')}
-        icon={<QrCode />}
+        icon={isUsedVal[PaymentMethod.QR] === true ? <QrCode fill="#00000080" /> : <QrCode />}
         payText="Pay with QR"
         description="Payment with QR scan"
         isUsed={isUsedVal[PaymentMethod.QR] === true}

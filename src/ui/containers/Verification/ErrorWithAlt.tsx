@@ -7,6 +7,7 @@ import ErrorIcon from '../../assets/svgs/ErrorIcon';
 import Spinner from '../../assets/svgs/Spinner';
 import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
+import { Body } from '../../components/Layout/style';
 
 const ErrorWithAlt: React.FC<IVerification.IProps> = ({
   setPage,
@@ -18,6 +19,8 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
   isClose,
   destroyCheckout,
   setIsError,
+  user,
+  amount,
 }: IVerification.IProps) => {
   const { selectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   useEffect(() => {
@@ -64,9 +67,28 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
     ));
   }, [selectedMethods?.length]);
 
-  return (
+  return !noHeader ? (
     <>
-      {!noHeader && <GenericHeader paymentMethodIcon={logo} paymentText={paymentText} setPage={setPage || null} />}
+      <GenericHeader
+        paymentMethodIcon={logo}
+        paymentText={paymentText}
+        setPage={setPage || null}
+        payingCustomer={user || 'John.Doe@blinqpay.io'}
+        amount={amount || '0.00'}
+      />
+      <Body>
+        <Container padding="0.5rem">
+          <div className="success-container">
+            <ErrorIcon />
+          </div>
+          <span className="transfer-successful"> </span>
+          <span className="check-error-2"> {error || 'Payment cannot not be confirmed at this moment'}</span>
+          {altMethods?.length ? altMethods : <Spinner xClasses={['close-spinner']} />}
+        </Container>
+      </Body>
+    </>
+  ) : (
+    <>
       <Container padding="0.5rem">
         <div className="success-container">
           <ErrorIcon />

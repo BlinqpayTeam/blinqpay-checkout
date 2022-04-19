@@ -156,12 +156,7 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
             </Form.Item>
           </Col>
         </Row>
-        <Row>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Save this card for next time </Checkbox>
-          </Form.Item>
-        </Row>
-        <PrimaryButton type="submit" text={amount} disabled={loading} loading={loading} />
+        <PrimaryButton type="submit" text={`Pay N${amount}`} disabled={loading} loading={loading} />
       </Form>
     </CardFormContainer>
   );

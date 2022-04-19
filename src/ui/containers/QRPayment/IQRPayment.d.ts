@@ -7,6 +7,9 @@ declare namespace IQRPayment {
     txRef: string;
     publicKey: string;
     destroyCheckout: () => void;
+    payingCustomer: string;
+    amount: string;
+    payingCustomerEmail: string;
   }
 }
 

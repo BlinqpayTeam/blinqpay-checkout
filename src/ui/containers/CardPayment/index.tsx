@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Card from '../../assets/svgs/Card';
 import ColoredCard from '../../assets/svgs/ColoredCard';
 import GenericHeader from '../../components/Headers/GenericHeader';
 import CombinePayment from '../../components/Layout/CombinePayment';
@@ -96,15 +97,18 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
             isSuccess ? (
               <Success
                 noHeader
-                paymentText=""
+                logo={<Card />}
+                paymentText="Pay with Card"
                 setPage={setPage}
                 setActiveSlide={setActiveSlide}
                 isClose={isCloseModal}
+                user={payload.customer?.email}
               />
             ) : (
               <ErrorWithAlt
                 noHeader
-                paymentText=""
+                logo={<Card />}
+                paymentText="Pay with Card"
                 error={errorText}
                 isClose={isCloseModal}
                 setPage={setPage}
@@ -114,7 +118,6 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
               />
             )
           }
-          seventhSlide={<CombinePayment page={page} setPage={setPage} payload={payload} />}
         />
       </Body>
     </>
