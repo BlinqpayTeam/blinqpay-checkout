@@ -10,6 +10,21 @@ export const Container: any = styled.div`
     display: flex;
     justify-content: center;
   }
+  & .alert-container {
+    display: block;
+    padding: 0;
+    text-align: center;
+    color: #7765c4;
+    font-weight: 500;
+    font-size: 23.0559px;
+    margin: 0 auto;
+  }
+  & .text {
+    color: #212121;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+  }
   & .qr-block {
     position: relative;
     height: 250px;

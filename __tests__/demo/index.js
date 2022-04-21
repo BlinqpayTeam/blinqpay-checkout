@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 function init() {
   checkout.init({
-    publicKey: 'BLTPUBK-f3157519b8e065fb93db098baef61ccf',
+    publicKey: 'BLTSECK-6555efdda2de3899db1d37ba24761d5f',
     //reference: 'iefiern893443n', // most be unique each time
     amount: 2000.0,
     customer: {

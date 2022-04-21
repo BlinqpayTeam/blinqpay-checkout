@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import GenericHeader from '../../components/Headers/GenericHeader';
 import { Container } from './style';
 import QrCode from '../../assets/svgs/QrCode';
@@ -17,8 +17,9 @@ import { PaymentContextType, PaymentMethod } from '../../../types';
 import Countdown from '../../components/Countdown';
 import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
 import Pending from '../Verification/Pending';
-import Success from '../Verification/success';
+import Success from '../Verification/Success';
 import LoadingBar from '../../assets/svgs/LoadingBar';
+import Alert from '../../assets/svgs/Alert';
 
 enum QRError {
   TIMEOUT = 'TIMEOUT',
@@ -46,14 +47,13 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
 }: IQRPayment.IProps) => {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isFetchingQR, setIsFetchingQR] = useState(true);
   const [url, setUrl] = useState('');
   const [isCountDownExpired, setIsCountDownExpired] = useState(false);
   const [errorType, setErrorType] = useState<QRError>(QRError.QR_FAILED);
   const [qrState, setQrState] = useState<QRSTATE>(QRSTATE.DEFAULT);
-  const [timerHandle, setTimerHandle] = useState<number>();
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
+  const [triggerVerificationCount, setTriggerVerificationCount] = useState(0);
   const [errorText, setErrorText] = useState('An error occurred, please try again');
 
   const handleClick = async (): Promise<void> => {
@@ -64,27 +64,36 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
     }
   };
 
+  const handleReVerification = async (isExpired: boolean): Promise<void> => {
+    if (!isExpired) {
+      const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
+      if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
+        setQrState(QRSTATE.ERROR);
+        setIsCountDownExpired(true);
+      } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
+        setQrState(QRSTATE.SUCCESS);
+        setIsCountDownExpired(true);
+      } else {
+        window.setTimeout(() => {
+          if (setTriggerVerificationCount) setTriggerVerificationCount((count) => count + 1);
+        }, 600);
+      }
+    }
+  };
+
   useEffect(() => {
     if (qrState === QRSTATE.VERIFYING) {
       setLoading(true);
       setIsError(false);
-      const interval = window.setInterval(async () => {
-        const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-        if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
-          setQrState(QRSTATE.ERROR);
-          setIsCountDownExpired(true);
-        } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
-          setQrState(QRSTATE.SUCCESS);
-          setIsCountDownExpired(true);
-        }
-      }, 600);
-      setTimerHandle(interval);
-      return () => clearInterval(interval);
-    } // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+      handleReVerification(isCountDownExpired);
+    }
   }, [qrState]);
 
+  useEffect(() => {
+    if (triggerVerificationCount !== 0) handleReVerification(isCountDownExpired);
+  }, [triggerVerificationCount]);
+
   const handleStopVerification = async () => {
-    window.clearInterval(timerHandle);
     if (qrState === QRSTATE.VERIFYING) {
       const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
       if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
@@ -98,17 +107,16 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
     }
     setLoading(false);
   };
+
   useEffect(() => {
-    if (timerHandle) {
-      handleStopVerification();
-    }
+    handleStopVerification();
   }, [isCountDownExpired]);
 
   const fetchQR = async () => {
     setLoading(true);
     setIsError(false);
     setIsFetchingQR(true);
-    const { data } = await getQrCode(txRef);
+    const { data } = await getQrCode(txRef, publicKey);
     setLoading(false);
     setIsFetchingQR(false);
     const res = data?.data as Record<string, string>;
@@ -137,7 +145,7 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
         return (
           <Container>
             <Body>
-              <span>Please hold on while we verify your transaction</span>
+              <div>Please hold on while we verify your transaction</div>
               <div>
                 <LoadingBar />
               </div>
@@ -151,15 +159,15 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
       }
       case QRSTATE.PROCESSING: {
         return (
-          <Pending
-            setPage={setPage}
-            paymentText="Pay with Bank Transfer"
-            logo={<BankTransferIcon />}
-            noHeader
-            pendingText={
-              'Your bank currently receives slow payments. Slow payments are usually confirmed within 30 minutes. You will receive a receipt once your payment is confirmed by your bank'
-            }
-          />
+          <Container>
+            <div className="alert-container">
+              <Alert />
+            </div>
+            <div className="text">
+              Your bank currently receives slow payments. Slow payments are usually confirmed within 30 minutes. You
+              will receive a receipt once your payment is confirmed by your bank
+            </div>
+          </Container>
         );
       }
       default:

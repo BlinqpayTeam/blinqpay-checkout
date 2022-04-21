@@ -4,7 +4,7 @@ import GenericHeader from '../../components/Headers/GenericHeader';
 import { Body } from '../../components/Layout/style';
 import Overall from '../../components/Slide/Overall';
 import Error from '../Verification/Error';
-import Success from '../Verification/success';
+import Success from '../Verification/Success';
 import DirectDebitForm from './DirectDebitForm';
 import { IDirectDebit } from './IDirectDebit';
 

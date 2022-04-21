@@ -7,7 +7,7 @@ import { Body } from '../../components/Layout/style';
 import Overall from '../../components/Slide/Overall';
 // import Error from '../Verification/Error';
 import ErrorWithAlt from '../Verification/ErrorWithAlt';
-import Success from '../Verification/success';
+import Success from '../Verification/Success';
 import AddressForm from './AddressForm';
 import CardForm from './CardForm';
 import { ICardPayment } from './ICardPayment';

@@ -25,4 +25,7 @@ export const Body: any = styled.div`
     left: 0;
     z-index-200;
   }
+  & .inner-container {
+    text-align: center;
+  }
 `;
