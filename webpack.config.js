@@ -2,10 +2,14 @@
 const path = require('path');
 const fs = require('fs');
 const Dotenv = require('dotenv-webpack');
+const plugins = [];
+const envPath = path.join(__dirname, './.env');
+const isPathExist = fs.existsSync(envPath);
+if (isPathExist) plugins.push(new Dotenv({ path: './.env' }));
 
 module.exports = {
   entry: './src/index.ts',
-  plugins: [new Dotenv({ path: './.env' })],
+  plugins,
   devtool: 'inline-source-map',
   module: {
     rules: [
