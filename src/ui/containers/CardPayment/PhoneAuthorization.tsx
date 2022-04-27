@@ -1,5 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { Form, Input, Row, Col, Checkbox } from 'antd';
+import Form from 'antd/es/form';
+import Input from 'antd/es/input';
+import Row from 'antd/es/row';
+import Col from 'antd/es/col';
+// import { Form, Input, Row, Col, Checkbox } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
 import { PhoneFormContainer } from './style';

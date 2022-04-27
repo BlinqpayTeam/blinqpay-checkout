@@ -1,5 +1,10 @@
 import React from 'react';
-import { Form, Input, Row, Col, Select } from 'antd';
+import Form from 'antd/es/form';
+import Input from 'antd/es/input';
+import Row from 'antd/es/row';
+import Col from 'antd/es/col';
+import Select from 'antd/es/select';
+// import { Form, Input, Row, Col, Select } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { BankFormContainer } from './style';
 import { IDirectDebit } from './IDirectDebit';

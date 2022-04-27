@@ -1,5 +1,4 @@
 import React, { useState, FC, useEffect } from 'react';
-import { Row, Col, Card } from 'antd';
 import { nanoid } from 'nanoid';
 // SVG icons
 import Powered from '../../assets/svgs/Powered';
