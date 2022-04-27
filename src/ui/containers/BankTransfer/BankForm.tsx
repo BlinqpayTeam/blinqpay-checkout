@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Row, Col } from 'antd';
+import Row from 'antd/es/row';
+import Col from 'antd/es/col';
+// import { Row, Col } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { BankFormContainer, InputField, Label } from './style';
 import { CheckCircleTwoTone } from '@ant-design/icons';

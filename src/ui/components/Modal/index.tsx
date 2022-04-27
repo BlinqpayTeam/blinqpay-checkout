@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Row, Col, Card } from 'antd';
+import Row from 'antd/es/row';
+import Col from 'antd/es/col';
+// import { Row, Col } from 'antd';
 import Xicon from '../../assets/svgs/Xicon';
 import Spinner from '../../assets/svgs/Spinner';
 import ErrorIcon from '../../assets/svgs/ErrorIcon';

@@ -1,5 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Form, Input, Row, Col, Select } from 'antd';
+import Row from 'antd/es/row';
+import Select from 'antd/es/select';
+import Form from 'antd/es/form';
+import Col from 'antd/es/col';
+import Input from 'antd/es/input';
+// import { Form, Input, Row, Col, Select } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { AddressFormContainer } from './style';
 import { ICardPayment } from './ICardPayment';

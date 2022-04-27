@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import CryptoJS from 'crypto-js';
-import { Form, Input, Row, Col, Checkbox } from 'antd';
+// import { Form, Input, Row, Col, Checkbox } from 'antd';
+import Form from 'antd/es/form';
+import Input from 'antd/es/input';
+import Row from 'antd/es/row';
+import Col from 'antd/es/col';
 import CardSmall from '../../assets/svgs/CardSmall';
 import { CardFormContainer } from './style';
 import Lock from '../../assets/svgs/Lock';
 import { FormInstance } from 'antd/es/form';
 import Calendar from '../../assets/svgs/Calendar';
 import { formatCreditCardNumber, formatDate } from '../../utils/formMethods';
-import Cleave from 'cleave.js/react';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
 import { aesCardCipher } from '../../../lib/encryption';
