@@ -9,7 +9,7 @@ const isPathExist = fs.existsSync(envPath);
 if (isPathExist) plugins.push(new Dotenv({ path: './.env' }));
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: () => './src/index.ts',
   plugins,
   mode: 'production',
   devtool: 'inline-source-map',
@@ -39,10 +39,15 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
     library: {
       name: 'checkout',
       type: 'umd',
+    },
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
     },
   },
 };
