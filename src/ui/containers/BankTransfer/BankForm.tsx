@@ -4,19 +4,21 @@ import Col from 'antd/es/col';
 import 'antd/es/row/style/css';
 import 'antd/es/col/style/css';
 // import { Row, Col } from 'antd';
-import PrimaryButton from '../../components/Buttons/PrimaryButton';
+
 import { BankFormContainer, InputField, Label } from './style';
 import CheckCircleTwoTone from '@ant-design/icons/CheckCircleTwoTone';
 import { IBankTransfer } from './IBankTransfer';
 import { CardFormContainer } from '../CardPayment/style';
-import Copy from '../../assets/svgs/Copy';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Countdown from '../../components/Countdown';
 import { verifyTransaction } from '../../../api/transaction';
-import BankExpired from '../Verification/BankExpired';
-import HelpIcon from '../../assets/svgs/HelpIcon';
 import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
+
+const PrimaryButton = React.lazy(() => import('../../components/Buttons/PrimaryButton'));
+const Copy = React.lazy(() => import('../../assets/svgs/Copy'));
+const Countdown = React.lazy(() => import('../../components/Countdown'));
+const BankExpired = React.lazy(() => import('../Verification/BankExpired'));
+const HelpIcon = React.lazy(() => import('../../assets/svgs/HelpIcon'));
 
 const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   getAccDetails,

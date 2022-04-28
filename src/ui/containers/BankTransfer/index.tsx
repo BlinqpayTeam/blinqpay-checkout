@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
-import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
-import Spinner from '../../assets/svgs/Spinner';
-import GenericHeader from '../../components/Headers/GenericHeader';
 import { Body } from '../../components/Layout/style';
-import Overall from '../../components/Slide/Overall';
-import Error from '../Verification/Error';
-import Success from '../Verification/Success';
-import BankForm from './BankForm';
 import { IBankTransfer } from './IBankTransfer';
 import { getBankDetails } from '../../../api/bankTransfer';
-import Pending from '../Verification/Pending';
-import Help from '../Verification/Help';
-import ErrorWithAlt from '../Verification/ErrorWithAlt';
-import Bank from '../../assets/svgs/Bank';
 import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
+
+const BankTransferIcon = React.lazy(() => import('../../assets/svgs/BankTransferIcon'));
+const Spinner = React.lazy(() => import('../../assets/svgs/Spinner'));
+const GenericHeader = React.lazy(() => import('../../components/Headers/GenericHeader'));
+const Overall = React.lazy(() => import('../../components/Slide/Overall'));
+const Error = React.lazy(() => import('../Verification/Error'));
+const Success = React.lazy(() => import('../Verification/Success'));
+const BankForm = React.lazy(() => import('./BankForm'));
+const Pending = React.lazy(() => import('../Verification/Pending'));
+const Help = React.lazy(() => import('../Verification/Help'));
+const ErrorWithAlt = React.lazy(() => import('../Verification/ErrorWithAlt'));
+const Bank = React.lazy(() => import('../../assets/svgs/Bank'));
 
 const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   page,

@@ -6,13 +6,11 @@ import Row from 'antd/es/row';
 import Col from 'antd/es/col';
 import CardSmall from '../../assets/svgs/CardSmall';
 import { CardFormContainer } from './style';
-import Lock from '../../assets/svgs/Lock';
 import { FormInstance } from 'antd/es/form';
 import 'antd/es/form/style/css';
 import 'antd/es/input/style/css';
 import 'antd/es/col/style/css';
 import 'antd/es/row/style/css';
-import Calendar from '../../assets/svgs/Calendar';
 import { formatCreditCardNumber, formatDate } from '../../utils/formMethods';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { ICardPayment } from './ICardPayment';
@@ -20,6 +18,9 @@ import { aesCardCipher } from '../../../lib/encryption';
 import { chargeCard } from '../../../api/card';
 import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
+
+const Lock = React.lazy(() => import('../../assets/svgs/Lock'));
+const Calendar = React.lazy(() => import('../../assets/svgs/Calendar'));
 
 const CardForm: React.FC<ICardPayment.ICardProps> = ({
   setActiveSlide,
