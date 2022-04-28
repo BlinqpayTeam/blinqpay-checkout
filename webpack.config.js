@@ -2,7 +2,9 @@
 const path = require('path');
 const fs = require('fs');
 const Dotenv = require('dotenv-webpack');
-const plugins = [];
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+const plugins = [new BundleAnalyzerPlugin()];
 const envPath = path.join(__dirname, './.env');
 const isPathExist = fs.existsSync(envPath);
 if (isPathExist) plugins.push(new Dotenv({ path: './.env' }));
