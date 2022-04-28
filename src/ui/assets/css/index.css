@@ -31,8 +31,8 @@
 }
 
 html, body{
-    font-family: 'Avenir';
-    height: 100vh;
+    font-family: 'Avenir' !important;
+    height: 100vh !important;
   }
   p{
       margin: 0 !important;

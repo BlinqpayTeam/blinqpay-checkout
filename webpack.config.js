@@ -9,7 +9,7 @@ const isPathExist = fs.existsSync(envPath);
 if (isPathExist) plugins.push(new Dotenv({ path: './.env' }), new BundleAnalyzerPlugin());
 
 module.exports = {
-  entry: () => './src/index.ts',
+  entry: './src/index.ts',
   plugins,
   mode: 'production',
   devtool: 'inline-source-map',
@@ -17,8 +17,12 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
+        // use: 'ts-loader',
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-react', '@babel/preset-typescript']
+        },
+        include: path.resolve(__dirname, 'src'),
       },
       {
         test: /\.css$/i,
@@ -39,15 +43,10 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    filename: 'bundle.js',
     library: {
       name: 'checkout',
       type: 'umd',
-    },
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
     },
   },
 };
