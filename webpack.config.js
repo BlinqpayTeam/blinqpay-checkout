@@ -3,10 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const Dotenv = require('dotenv-webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const plugins = [new BundleAnalyzerPlugin()];
+const plugins = [];
 const envPath = path.join(__dirname, './.env');
 const isPathExist = fs.existsSync(envPath);
-if (isPathExist) plugins.push(new Dotenv({ path: './.env' }));
+if (isPathExist) plugins.push(new Dotenv({ path: './.env' }), new BundleAnalyzerPlugin());
 
 module.exports = {
   entry: () => './src/index.ts',
