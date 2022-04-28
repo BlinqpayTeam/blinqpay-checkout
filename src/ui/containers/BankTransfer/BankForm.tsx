@@ -4,7 +4,7 @@ import Col from 'antd/es/col';
 // import { Row, Col } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { BankFormContainer, InputField, Label } from './style';
-import { CheckCircleTwoTone } from '@ant-design/icons';
+import CheckCircleTwoTone from '@ant-design/icons/CheckCircleTwoTone';
 import { IBankTransfer } from './IBankTransfer';
 import { CardFormContainer } from '../CardPayment/style';
 import Copy from '../../assets/svgs/Copy';
