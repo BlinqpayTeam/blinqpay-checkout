@@ -1,5 +1,5 @@
 import React, { Suspense, FC, useState, useEffect } from 'react';
-import 'antd/dist/antd.min.css';
+// import 'antd/dist/antd.min.css';
 import { IApp } from '../types';
 
 // lazy load for performance improvement

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Row from 'antd/es/row';
 import Col from 'antd/es/col';
+import 'antd/es/row/style/css';
+import 'antd/es/col/style/css';
 // import { Row, Col } from 'antd';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { BankFormContainer, InputField, Label } from './style';

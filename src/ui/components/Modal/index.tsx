@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import Row from 'antd/es/row';
+import 'antd/es/row/style/css';
 import Col from 'antd/es/col';
+import 'antd/es/col/style/css';
 // import { Row, Col } from 'antd';
 import Xicon from '../../assets/svgs/Xicon';
 import Spinner from '../../assets/svgs/Spinner';

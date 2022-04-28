@@ -1,5 +1,6 @@
 import React from 'react';
 import Tooltip from 'antd/es/tooltip';
+import 'antd/es/tooltip/style/css';
 import ArrowLeft from '../../assets/svgs/ArrowLeft';
 import { IPaymentTiles } from './IPaymentTiles';
 import { Container } from './style';
