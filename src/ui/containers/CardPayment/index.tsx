@@ -142,7 +142,14 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
           }
           eighthSlide={
             <>
-              <TestCards setActiveSlide={setActiveSlide} />
+              <TestCards
+                setActiveSlide={setActiveSlide}
+                txRef={payload.transactionReference as string}
+                setIsSuccess={setIsSuccess}
+                setErrorText={setErrorText}
+                amount={amount}
+                setRedirectUrl={setRedirectUrl}
+              />
             </>
           }
         />

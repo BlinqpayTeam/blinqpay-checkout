@@ -10,7 +10,7 @@ export const testCards = [
   },
   {
     id: 2,
-    title: 'MASCRD W/ PIN',
+    title: 'MASCRD W/ PIN - 1234',
     number: '5188513618552975',
     expiryDate: '09/22',
     pin: '1234',
@@ -18,7 +18,7 @@ export const testCards = [
   },
   {
     id: 3,
-    title: 'MASCRD W/ OTP',
+    title: 'MASCRD W/ OTP | PIN - 1234 | OTP - 123456',
     number: '5442056106072595',
     expiryDate: '09/22',
     pin: '1234',
@@ -35,7 +35,7 @@ export const testCards = [
   },
   {
     id: 5,
-    title: 'AVS',
+    title: 'AVS | PIN - 1234',
     number: '5384063928932071',
     expiryDate: '09/22',
     cvv: '123',
@@ -43,7 +43,7 @@ export const testCards = [
   },
   {
     id: 6,
-    title: 'ENROLL',
+    title: 'ENROLL | PIN - 1234 | OTP - 123456',
     number: '5061460410120223210',
     expiryDate: '09/22',
     cvv: '123',

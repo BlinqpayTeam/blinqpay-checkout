@@ -30,6 +30,11 @@ declare namespace ICardPayment {
   }
   export interface ITestCardsProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
+    txRef: string;
+    setErrorText: Dispatch<SetStateAction<string>>;
+    setRedirectUrl: Dispatch<SetStateAction<string>>;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    amount: string;
   }
   export interface IPinProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
