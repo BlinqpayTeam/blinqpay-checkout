@@ -22,6 +22,7 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
   txRef,
   setErrorText,
   setIsCloseModal,
+  setRedirectUrl,
 }: ICardPayment.IPhoneProps) => {
   const [loading, setLoading] = useState(false);
   const failedMsg = 'An error occurred while enrolling your phone number';
@@ -44,11 +45,14 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
     const { data } = await authorizeEnroll(payload);
     setLoading(false);
     const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
+    if (res?.redirect_url) setRedirectUrl(res.redirect_url);
     if (data?.error || res?.status === 'FAILED') closeModal(res as Record<string, string>);
     else if (res?.authModel === 'OTP') {
       setActiveSlide('third');
     } else if (res?.authModel === 'AVS') {
       setActiveSlide('fifth');
+    } else if (res?.authModel === '3DS') {
+      setActiveSlide('seventh');
     } else {
       setIsSuccess(true);
       setIsCloseModal(true);

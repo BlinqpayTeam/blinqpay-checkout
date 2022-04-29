@@ -28,4 +28,5 @@ export const Body: any = styled.div`
   & .inner-container {
     text-align: center;
   }
+
 `;

@@ -29,6 +29,7 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
   setErrorText,
   txRef,
   setIsCloseModal,
+  setRedirectUrl,
   setPrevSlide,
 }: ICardPayment.ICardProps) => {
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
@@ -68,6 +69,7 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
         setIsSuccess(true);
         setActiveSlide('sixth');
       } else {
+        if (res?.redirect_url) setRedirectUrl(res.redirect_url);
         // check type of AUTHMODEL
         switch (res?.authModel) {
           case 'PIN':
@@ -78,6 +80,8 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
             break;
           case 'AVS':
             setActiveSlide('fourth');
+          case '3DS':
+            setActiveSlide('seventh');
             break;
           default:
             break;

@@ -8,18 +8,22 @@ import Overall from '../../components/Slide/Overall';
 // import Error from '../Verification/Error';
 import ErrorWithAlt from '../Verification/ErrorWithAlt';
 import Success from '../Verification/Success';
+import ThreeDSCard from './3DSCard';
 import AddressForm from './AddressForm';
 import CardForm from './CardForm';
 import { ICardPayment } from './ICardPayment';
 import OTPForm from './OTPForm';
 import PhoneAuthorization from './PhoneAuthorization';
 import PinForm from './PinForm';
+import { ModeFlag } from './style';
+import TestCards from './TestCards';
 
 const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: ICardPayment.IProps) => {
-  const [activeSlide, setActiveSlide] = useState('first');
+  const [activeSlide, setActiveSlide] = useState('eighth');
   const [isSuccess, setIsSuccess] = useState(true);
   const [isCloseModal, setIsCloseModal] = useState(false);
   const [errorText, setErrorText] = useState('');
+  const [redirectUrl, setRedirectUrl] = useState('');
   const [prevSlide, setPrevSlide] = useState<string | undefined>(undefined);
   const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
   return (
@@ -31,6 +35,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
         amount={amount}
         setPage={setPage}
       />
+      <ModeFlag>TEST</ModeFlag>
       <Body>
         <Overall
           activeSlide={activeSlide}
@@ -44,6 +49,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setErrorText={setErrorText}
                 amount={amount}
                 setPrevSlide={setPrevSlide}
+                setRedirectUrl={setRedirectUrl}
               />
             </>
           }
@@ -55,6 +61,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 txRef={payload.transactionReference as string}
                 setIsSuccess={setIsSuccess}
                 setActiveSlide={setActiveSlide}
+                setRedirectUrl={setRedirectUrl}
               />{' '}
             </>
           }
@@ -67,6 +74,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setIsCloseModal={setIsCloseModal}
                 setErrorText={setErrorText}
                 publicKey={payload.publicKey}
+                setRedirectUrl={setRedirectUrl}
               />{' '}
             </>
           }
@@ -78,6 +86,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setIsCloseModal={setIsCloseModal}
                 setErrorText={setErrorText}
                 setActiveSlide={setActiveSlide}
+                setRedirectUrl={setRedirectUrl}
               />
             </>
           }
@@ -90,6 +99,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setIsCloseModal={setIsCloseModal}
                 setErrorText={setErrorText}
                 setActiveSlide={setActiveSlide}
+                setRedirectUrl={setRedirectUrl}
               />
             </>
           }
@@ -117,6 +127,23 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 destroyCheckout={payload.destroyCheckout}
               />
             )
+          }
+          seventhSlide={
+            <>
+              <ThreeDSCard
+                txRef={payload.transactionReference as string}
+                setIsSuccess={setIsSuccess}
+                setIsCloseModal={setIsCloseModal}
+                setActiveSlide={setActiveSlide}
+                url={redirectUrl}
+                publicKey={payload.publicKey}
+              />
+            </>
+          }
+          eighthSlide={
+            <>
+              <TestCards setActiveSlide={setActiveSlide} />
+            </>
           }
         />
       </Body>

@@ -13,6 +13,7 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
   setErrorText,
   setIsSuccess,
   setIsCloseModal,
+  setRedirectUrl,
 }: ICardPayment.IPinProps) => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
     });
     setLoading(false);
     const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
+    if (res?.redirect_url) setRedirectUrl(res.redirect_url);
     if (data?.error || res?.status === 'FAILED') {
       setErrorText((data?.message as string) || failedMsg);
       setIsSuccess(false);
@@ -38,6 +40,8 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
       setActiveSlide('fifth');
     } else if (res?.authModel === 'OTP') {
       setActiveSlide('third');
+    } else if (res?.authModel === '3DS') {
+      setActiveSlide('seventh');
     } else {
       setIsSuccess(true);
       setIsCloseModal(true);

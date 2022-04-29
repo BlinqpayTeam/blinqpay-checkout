@@ -18,6 +18,18 @@ declare namespace ICardPayment {
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setErrorText: Dispatch<SetStateAction<string>>;
     setPrevSlide: Dispatch<SetStateAction<string>>;
+    setRedirectUrl: Dispatch<SetStateAction<string>>;
+  }
+  export interface I3DSProps {
+    setActiveSlide: Dispatch<SetStateAction<string>>;
+    setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    txRef: string;
+    url?: string;
+    publicKey: string;
+    setIsCloseModal: Dispatch<SetStateAction<boolean>>;
+  }
+  export interface ITestCardsProps {
+    setActiveSlide: Dispatch<SetStateAction<string>>;
   }
   export interface IPinProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -25,6 +37,7 @@ declare namespace ICardPayment {
     setErrorText: Dispatch<SetStateAction<string>>;
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    setRedirectUrl: Dispatch<SetStateAction<string>>;
   }
   export interface IOTPProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -33,6 +46,7 @@ declare namespace ICardPayment {
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
     publicKey: string;
+    setRedirectUrl: Dispatch<SetStateAction<string>>;
   }
   export interface IAddressProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -40,6 +54,7 @@ declare namespace ICardPayment {
     setErrorText: Dispatch<SetStateAction<string>>;
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    setRedirectUrl: Dispatch<SetStateAction<string>>;
   }
   export interface IPhoneProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -48,6 +63,7 @@ declare namespace ICardPayment {
     setErrorText: Dispatch<SetStateAction<string>>;
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    setRedirectUrl: Dispatch<SetStateAction<string>>;
   }
 }
 

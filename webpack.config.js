@@ -20,7 +20,7 @@ module.exports = {
         // use: 'ts-loader',
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-react', '@babel/preset-typescript']
+          presets: ['@babel/preset-react', '@babel/preset-typescript'],
         },
         include: path.resolve(__dirname, 'src'),
       },

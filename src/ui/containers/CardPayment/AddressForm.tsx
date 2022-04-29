@@ -22,6 +22,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
   setIsCloseModal,
   setIsSuccess,
   txRef,
+  setRedirectUrl,
 }: ICardPayment.IAddressProps) => {
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
@@ -31,7 +32,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
     setLoading(false);
     setErrorText((data?.message as string) || failedMsg);
     setIsSuccess(false);
-    setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
+    setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
     setActiveSlide('sixth');
   };
   const onFinish = async (value: Record<string, unknown>): Promise<void> => {
@@ -48,11 +49,14 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
     const { data } = await authorizeAVS(payload);
     setLoading(false);
     const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
+    if (res?.redirect_url) setRedirectUrl(res.redirect_url);
     if (data?.error || res?.status === 'FAILED') closeModal(res as Record<string, string>);
     else if (res?.authModel === 'OTP') {
       setActiveSlide('third');
     } else if (res?.authModel === 'CARD_ENROLL') {
       setActiveSlide('fifth');
+    } else if (res?.authModel === '3DS') {
+      setActiveSlide('seventh');
     } else {
       setIsSuccess(true);
       setIsCloseModal(true);
