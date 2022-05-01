@@ -17,6 +17,8 @@ const TestCards: React.FC<ICardPayment.ITestCardsProps> = ({
   setErrorText,
   setIsSuccess,
   setRedirectUrl,
+  setPaymentStatus,
+  setEnableChangeMethod,
 }) => {
   const [cardState, setCardState] = useState([...testCards].map((v) => ({ selected: false, ...v })));
   const [cardData, setData] = useState<Record<string, unknown> | undefined>();
@@ -53,6 +55,7 @@ const TestCards: React.FC<ICardPayment.ITestCardsProps> = ({
       setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
       setErrorText(failedMsg);
       setIsSuccess(false);
+      setPaymentStatus('failed');
       setActiveSlide('sixth');
     } else {
       const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
@@ -61,12 +64,14 @@ const TestCards: React.FC<ICardPayment.ITestCardsProps> = ({
         console.log(res?.status);
         setErrorText(failedMsg);
         setIsSuccess(false);
+        setPaymentStatus(res?.status);
         setActiveSlide('sixth');
       } else if (res?.status === 'SUCCESS' && res?.responseMessage === 'Card charged successfully') {
+        setEnableChangeMethod(false);
         setIsSuccess(true);
         setActiveSlide('sixth');
       } else {
-        if (res?.redirect_url) setRedirectUrl('https://api-gateway-staging.blinqpay.io/cards/3ds-test');
+        if (res?.redirect_url) setRedirectUrl('https://test-checkout.blinqpay.io/cards/3ds-test');
         // check type of AUTHMODEL
         switch (res?.authModel) {
           case 'PIN':

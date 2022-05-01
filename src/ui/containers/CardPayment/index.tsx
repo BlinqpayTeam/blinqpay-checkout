@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '../../assets/svgs/Card';
 import ColoredCard from '../../assets/svgs/ColoredCard';
 import GenericHeader from '../../components/Headers/GenericHeader';
@@ -19,12 +19,14 @@ import { ModeFlag } from './style';
 import TestCards from './TestCards';
 
 const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: ICardPayment.IProps) => {
-  const [activeSlide, setActiveSlide] = useState('eighth');
+  const [activeSlide, setActiveSlide] = useState(payload?.testMode ? 'eighth' : 'first');
   const [isSuccess, setIsSuccess] = useState(true);
   const [isCloseModal, setIsCloseModal] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [redirectUrl, setRedirectUrl] = useState('');
+  const [status, setStatus] = useState<string | undefined>(undefined);
   const [prevSlide, setPrevSlide] = useState<string | undefined>(undefined);
+  const [enableChangeMethod, setEnableChangeMethod] = useState(true);
   const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
   return (
     <>
@@ -33,9 +35,10 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
         paymentText="Pay with Card"
         payingCustomer={payload?.customer?.name || 'John.Doe@blinqpay.io'}
         amount={amount}
+        showChangeMethod={enableChangeMethod}
         setPage={setPage}
       />
-      <ModeFlag>TEST</ModeFlag>
+      {payload?.testMode ? <ModeFlag>TEST</ModeFlag> : ''}
       <Body>
         <Overall
           activeSlide={activeSlide}
@@ -50,6 +53,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 amount={amount}
                 setPrevSlide={setPrevSlide}
                 setRedirectUrl={setRedirectUrl}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />
             </>
           }
@@ -62,6 +67,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setIsSuccess={setIsSuccess}
                 setActiveSlide={setActiveSlide}
                 setRedirectUrl={setRedirectUrl}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />{' '}
             </>
           }
@@ -75,6 +82,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setErrorText={setErrorText}
                 publicKey={payload.publicKey}
                 setRedirectUrl={setRedirectUrl}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />{' '}
             </>
           }
@@ -87,6 +96,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setErrorText={setErrorText}
                 setActiveSlide={setActiveSlide}
                 setRedirectUrl={setRedirectUrl}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />
             </>
           }
@@ -100,6 +111,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setErrorText={setErrorText}
                 setActiveSlide={setActiveSlide}
                 setRedirectUrl={setRedirectUrl}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />
             </>
           }
@@ -113,6 +126,10 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setActiveSlide={setActiveSlide}
                 isClose={isCloseModal}
                 user={payload.customer?.email}
+                paymentStatus={status}
+                checkoutDetails={payload}
+                destroyCheckout={payload.destroyCheckout}
+                txRef={payload.transactionReference as string}
               />
             ) : (
               <ErrorWithAlt
@@ -125,6 +142,9 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 pageLabel={prevSlide || activeSlide}
                 setActiveSlide={setActiveSlide}
                 destroyCheckout={payload.destroyCheckout}
+                paymentStatus={status}
+                checkoutDetails={payload}
+                txRef={payload.transactionReference as string}
               />
             )
           }
@@ -137,6 +157,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setActiveSlide={setActiveSlide}
                 url={redirectUrl}
                 publicKey={payload.publicKey}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />
             </>
           }
@@ -149,6 +171,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 setErrorText={setErrorText}
                 amount={amount}
                 setRedirectUrl={setRedirectUrl}
+                setPaymentStatus={setStatus}
+                setEnableChangeMethod={setEnableChangeMethod}
               />
             </>
           }

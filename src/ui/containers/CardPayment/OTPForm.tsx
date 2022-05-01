@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import OtpInput from 'react-otp-input';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { OTPFormContainer } from './style';
@@ -12,9 +12,10 @@ const OTPForm: React.FC<ICardPayment.IOTPProps> = ({
   setActiveSlide,
   txRef,
   setErrorText,
-  setIsCloseModal,
   setIsSuccess,
   publicKey,
+  setPaymentStatus,
+  setEnableChangeMethod,
 }: ICardPayment.IOTPProps) => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,11 +23,17 @@ const OTPForm: React.FC<ICardPayment.IOTPProps> = ({
     setOtp(val);
   };
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
-  const closeModal = (data: Record<string, unknown>, payload?: unknown): void => {
+
+  useEffect(() => {
+    setEnableChangeMethod(false);
+  }, []);
+
+  const closeModal = (data: Record<string, unknown>): void => {
     setLoading(false);
     setErrorText(data?.message as string);
     setIsSuccess(false);
     setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
+    setEnableChangeMethod(true);
     setActiveSlide('sixth');
   };
   const handleClick = async () => {
@@ -38,15 +45,17 @@ const OTPForm: React.FC<ICardPayment.IOTPProps> = ({
     if (data?.error) closeModal(data);
     else {
       const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-      if (verifyRes?.error) closeModal(verifyRes);
-      else {
+      if (verifyRes?.error) {
+        setPaymentStatus('failed');
+        closeModal(verifyRes);
+      } else {
         setLoading(false);
         const res = verifyRes?.data as Record<string, string>;
-        if (res?.paymentStatus === 'FAILED') closeModal(verifyRes as Record<string, unknown>);
-        else {
-          //Todo: pass success payload for redirect or call hooks
+        setPaymentStatus(res?.paymentStatus);
+        if (res?.paymentStatus === 'FAILED') {
+          closeModal(verifyRes as Record<string, unknown>);
+        } else {
           setIsSuccess(true);
-          setIsCloseModal(true);
           setActiveSlide('sixth');
         }
       }
@@ -55,7 +64,7 @@ const OTPForm: React.FC<ICardPayment.IOTPProps> = ({
   return (
     <OTPFormContainer>
       <div className="wrapper">
-        <p>Please enter the OTP sent to your ********999</p>
+        <p>Please enter the OTP sent to your mobile number</p>
         <div className="otp-wrapper">
           <OtpInput
             value={otp}

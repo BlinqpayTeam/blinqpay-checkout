@@ -28,15 +28,25 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
   setIsSuccess,
   setErrorText,
   txRef,
-  setIsCloseModal,
   setRedirectUrl,
+  setPaymentStatus,
   setPrevSlide,
+  setEnableChangeMethod,
 }: ICardPayment.ICardProps) => {
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const formRef = React.createRef<FormInstance>();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const failedMsg = 'We are unable to charge your card at the moment.';
+  const errorHandle = () => {
+    setEnableChangeMethod(true);
+    setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
+    setPaymentStatus('failed');
+    setErrorText(failedMsg);
+    setIsSuccess(false);
+    setPrevSlide('first');
+    setActiveSlide('sixth');
+  };
   const onFinish = async (values: any) => {
     const card = {
       number: values.card_number.replace(/ +/g, ''),
@@ -46,27 +56,22 @@ const CardForm: React.FC<ICardPayment.ICardProps> = ({
     };
     const cardCipher = aesCardCipher(card);
     setLoading(true);
+    setEnableChangeMethod(false);
     const { data } = await chargeCard({
       transactionReference: txRef,
       card: cardCipher,
     });
     setLoading(false);
     if (data?.error) {
-      setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
-      setErrorText(failedMsg);
-      setIsSuccess(false);
-      setActiveSlide('sixth');
+      errorHandle();
     } else {
       const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
       if (res?.status === 'FAILED') {
-        setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
-        console.log(res?.status);
-        setErrorText(failedMsg);
-        setIsSuccess(false);
-        setPrevSlide('first');
-        setActiveSlide('sixth');
+        errorHandle();
       } else if (res?.status === 'SUCCESS' && res?.responseMessage === 'Card charged successfully') {
         setIsSuccess(true);
+        setPaymentStatus('success');
+        setEnableChangeMethod(false);
         setActiveSlide('sixth');
       } else {
         if (res?.redirect_url) setRedirectUrl(res.redirect_url);

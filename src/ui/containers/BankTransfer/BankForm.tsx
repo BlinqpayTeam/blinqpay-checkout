@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Row from 'antd/es/row';
 import Col from 'antd/es/col';
 import 'antd/es/row/style/css';
@@ -34,16 +34,38 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
   setActiveSlide,
 }: IBankTransfer.IBankProps) => {
   const [expireCount, setExpireCount] = useState(false);
-  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
-  const handleVerification = async () => {
-    const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-    if ((verifyRes?.data as Record<string, boolean>)?.error === true)
-      setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
-    setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
+  const [over, setOver] = useState(false);
+  const { setSelectedMethods, selectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
+  const [triggerVerificationCount, setTriggerVerificationCount] = useState(0);
+  const handleVerification = async (isVerifying: boolean) => {
+    if (isVerifying) {
+      const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
+      const response = verifyRes?.data as Record<string, string>;
+      const status = response?.paymentStatus?.toLowerCase();
+      setTransferStatus(response?.paymentStatus);
+      if (!(status === 'pending' || status === 'processing')) {
+        if (!selectedMethods.includes(PaymentMethod.BANK_TRANSFER))
+          setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
+        setOver(true);
+        setVerifying(false);
+        setActiveSlide('second');
+      } else {
+        setTimeout(() => {
+          if (setTriggerVerificationCount) setTriggerVerificationCount((count) => count + 1);
+        }, 400);
+      }
+    }
   };
+  useEffect(() => {
+    if (triggerVerificationCount !== 0) handleVerification(verifying);
+  }, [triggerVerificationCount]);
+
   const stopVerification = async () => {
     const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-    setTransferStatus((verifyRes?.data as Record<string, string>)?.paymentStatus);
+    const response = verifyRes?.data as Record<string, string>;
+    if (!selectedMethods.includes(PaymentMethod.BANK_TRANSFER))
+      setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
+    setTransferStatus(response?.paymentStatus);
     setVerifying(false);
     setActiveSlide('second');
   };
@@ -51,23 +73,18 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
     setVerifying(true);
   };
   const [copy, setCopy] = useState(false);
-  const MINUTE_MS = 60000;
 
   useEffect(() => {
     if (verifying) {
-      const interval = setInterval(() => {
-        handleVerification();
-      }, MINUTE_MS);
-
-      return () => clearInterval(interval);
-    } // This represents the unmount function, in which you need to clear your interval to prevent memory leaks.
+      handleVerification(verifying);
+    }
   }, [verifying]);
 
-  useEffect(() => {
-    if (!acc?.bankName && !acc?.accountNumber) {
-      getAccDetails();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!acc?.bankName && !acc?.accountNumber) {
+  //     getAccDetails();
+  //   }
+  // }, []);
   const handleBankExpired = () => {
     setExpireCount(false);
     getAccDetails();
@@ -86,7 +103,7 @@ const BankForm: React.FC<IBankTransfer.IBankProps> = ({
                 <Row style={{ zIndex: 100 }} className="stretch">
                   <Col span={24}>
                     <div className="verification-text">Please wait while we verify your transaction</div>
-                    <Countdown seconds={5} callback={stopVerification} />
+                    <Countdown minutes={1} isOver={over} callback={stopVerification} />
                   </Col>
                 </Row>
               ) : (

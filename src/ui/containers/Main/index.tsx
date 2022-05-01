@@ -11,6 +11,7 @@ const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ 
   const [loading, setLoading] = useState(false);
   const [isTxError, setIsTxError] = useState(false);
   const [txRef, setTxRef] = useState<string | undefined>(undefined);
+  const [testMode, setTestMode] = useState(false);
   // Todo handle when transaction reference is taken
   // Integrate Fingerprint.js to generate device fingerprint
   const fetchTxRef = async (): Promise<void> => {
@@ -28,7 +29,10 @@ const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ 
     });
     setLoading(false);
     if (response?.data?.error) setIsTxError(true);
-    else setTxRef((response?.data?.data as Record<string, unknown>)?.transactionReference as string);
+    else {
+      setTxRef((response?.data?.data as Record<string, unknown>)?.transactionReference as string);
+      setTestMode(((response?.data?.data as Record<string, unknown>)?.mode as string) === 'TEST_MODE');
+    }
   };
   useEffect(() => {
     fetchTxRef();
@@ -43,6 +47,7 @@ const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ 
           loading,
           isError: isTxError,
           transactionReference: txRef,
+          testMode: testMode,
         }}
         destroyCheckout={destroyCheckout}
       />

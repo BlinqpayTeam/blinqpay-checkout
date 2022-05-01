@@ -17,8 +17,13 @@ const findCheckout = (): Element | null => {
   return element;
 };
 
-export const destroyCheckout = (): void => {
+export const destroyCheckout = (cb?: () => void | Promise<void>): void => {
   const checkout = findCheckout();
+  try {
+    if (cb) cb();
+  } catch (error) {
+    console.log(error);
+  }
   if (checkout) checkout.remove();
 };
 
@@ -26,7 +31,7 @@ export const triggerCheckout = (data: ICheckoutPayload): void => {
   const el = findCheckout();
   if (!el) throw new Error('Checkout cannot be initialised, please try again.');
   ReactDOM.render(
-    React.createElement(App, { ...data, destroyCheckout }),
+    React.createElement(App, { ...data, destroyCheckout: () => destroyCheckout(data.onClose) }),
     document.getElementById('blinqpay_checkout_root'),
   );
 };

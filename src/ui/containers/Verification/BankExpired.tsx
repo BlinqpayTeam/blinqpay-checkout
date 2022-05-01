@@ -5,7 +5,7 @@ import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import Alert from '../../assets/svgs/Alert';
 import { IVerification } from './IVerification';
 
-const BankExpired: React.FC<IVerification.IProps> = ({ callback }: IVerification.IProps) => {
+const BankExpired: React.FC<IVerification.IBankProps> = ({ callback }: IVerification.IBankProps) => {
   return (
     <>
       <Container>

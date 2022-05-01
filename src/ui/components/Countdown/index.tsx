@@ -10,6 +10,7 @@ const Countdown: React.FC<ICountdown.IProps> = ({
   callback,
   expireCount,
   setExpireCount,
+  isOver,
 }: ICountdown.IProps) => {
   const [[h, m, s], setTime] = useState([hours, minutes, seconds]);
   const [over, setOver] = useState(false);
@@ -31,11 +32,20 @@ const Countdown: React.FC<ICountdown.IProps> = ({
       setTime([h, m, s - 1]);
     }
   };
-
+  useEffect(() => {
+    if (isOver) {
+      setOver(true);
+      setTime([0, 0, 0]);
+      if (expireCount === false && setExpireCount) {
+        setExpireCount(true);
+      }
+    }
+  }, [isOver]);
   useEffect(() => {
     const timerID = setInterval(() => tick(), 1000);
     return () => clearInterval(timerID);
   });
+
   useEffect(() => {
     if (over && callback) {
       callback();

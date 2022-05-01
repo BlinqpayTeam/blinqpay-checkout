@@ -9,6 +9,7 @@ declare namespace IModal {
       transactionReference?: string;
       loading: boolean;
       isError: boolean;
+      testMode: boolean;
     };
     destroyCheckout: () => void;
   }

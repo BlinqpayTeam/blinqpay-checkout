@@ -9,6 +9,7 @@ declare namespace IBankTransfer {
     publicKey: string;
     payload: ICheckoutPayload & {
       transactionReference?: string;
+      testMode: boolean;
       destroyCheckout: () => void;
     };
   }

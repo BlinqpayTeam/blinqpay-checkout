@@ -7,6 +7,7 @@ declare namespace ICombinepayment {
     setPage: Dispatch<SetStateAction<string>>;
     payload: ICheckoutPayload & {
       transactionReference?: string;
+      testMode: boolean;
       destroyCheckout: () => void;
     };
   }

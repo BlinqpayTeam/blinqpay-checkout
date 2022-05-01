@@ -32,7 +32,7 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
   const [transferStatus, setTransferStatus] = useState('');
   const [isError, setIsError] = useState(false);
   const amount = Number(payload?.amount || 'N1000.5').toFixed(2);
-  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
+  const { setSelectedMethods, selectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const getAccDetails = async () => {
     setLoading(true);
     const res = await getBankDetails({
@@ -42,12 +42,13 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
     if (res?.data?.data) {
       setAcc(res?.data?.data as { bankName: string; accountNumber: string });
     } else {
-      setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
+      if (!selectedMethods.includes(PaymentMethod.BANK_TRANSFER))
+        setSelectedMethods((curr) => [...curr, PaymentMethod.BANK_TRANSFER]);
       setIsError(true);
     }
-
     setLoading(false);
   };
+
   useEffect(() => {
     getAccDetails();
   }, []);
@@ -57,7 +58,13 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
       case 'PENDING':
         return (
           <Pending
+            amount={amount}
+            paymentStatus="pending"
             setPage={setPage}
+            checkoutDetails={payload}
+            txRef={txRef}
+            isClose={true}
+            destroyCheckout={payload.destroyCheckout}
             paymentText="Pay with Bank Transfer"
             user={payload?.customer?.name}
             setActiveSlide={setActiveSlide}
@@ -70,7 +77,11 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
       case 'PAID':
         return (
           <Success
+            amount={amount}
             setPage={setPage}
+            checkoutDetails={payload}
+            txRef={txRef}
+            destroyCheckout={payload.destroyCheckout}
             paymentText="Pay with Bank Transfer"
             user={payload?.customer?.name}
             setActiveSlide={setActiveSlide}
@@ -79,22 +90,35 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
         );
       case 'PARTIALLY_PAID':
         return (
-          <Error
+          <ErrorWithAlt
             setPage={setPage}
+            isClose={true}
+            checkoutDetails={payload}
+            txRef={txRef}
+            destroyCheckout={payload.destroyCheckout}
+            paymentStatus="failed"
             paymentText="Pay with Bank Transfer"
             user={payload?.customer?.name}
             setActiveSlide={setActiveSlide}
             logo={<BankTransferIcon />}
+            error="You have paid less than the expected amount"
           />
         );
       case 'OVERPAID':
         return (
-          <Error
-            setPage={setPage}
+          <ErrorWithAlt
             paymentText="Pay with Bank Transfer"
+            error="You have paid in excess of the expected amount"
+            isClose={true}
+            checkoutDetails={payload}
+            txRef={txRef}
+            paymentStatus="failed"
+            setPage={setPage}
+            logo={<Bank />}
             user={payload?.customer?.name}
+            amount={amount}
             setActiveSlide={setActiveSlide}
-            logo={<BankTransferIcon />}
+            destroyCheckout={payload.destroyCheckout}
           />
         );
       default:
@@ -106,6 +130,9 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
             logo={<Bank />}
             user={payload?.customer?.name}
             amount={amount}
+            checkoutDetails={payload}
+            txRef={txRef}
+            paymentStatus="failed"
             setActiveSlide={setActiveSlide}
             destroyCheckout={payload.destroyCheckout}
           />
@@ -121,7 +148,10 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
           isError ? (
             <ErrorWithAlt
               paymentText="Pay with Bank Transfer"
-              error="An error occured while loading bank details"
+              error="An error occurred while loading bank details"
+              checkoutDetails={payload}
+              txRef={txRef}
+              paymentStatus="failed"
               setPage={setPage}
               logo={<Bank />}
               user={payload?.customer?.name}
@@ -136,6 +166,7 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
                 paymentText="Pay with Bank Transfer"
                 payingCustomer={payload?.customer?.name}
                 amount={amount}
+                showChangeMethod={!loading && !verifying}
                 setPage={setPage}
               />
               <Body>

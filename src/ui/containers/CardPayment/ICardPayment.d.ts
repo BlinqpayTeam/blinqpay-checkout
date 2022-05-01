@@ -7,6 +7,7 @@ declare namespace ICardPayment {
     setPage: Dispatch<SetStateAction<string>>;
     payload: ICheckoutPayload & {
       transactionReference?: string;
+      testMode: boolean;
       destroyCheckout: () => void;
     };
   }
@@ -19,6 +20,8 @@ declare namespace ICardPayment {
     setErrorText: Dispatch<SetStateAction<string>>;
     setPrevSlide: Dispatch<SetStateAction<string>>;
     setRedirectUrl: Dispatch<SetStateAction<string>>;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
   export interface I3DSProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -27,6 +30,8 @@ declare namespace ICardPayment {
     url?: string;
     publicKey: string;
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
   export interface ITestCardsProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -35,6 +40,8 @@ declare namespace ICardPayment {
     setRedirectUrl: Dispatch<SetStateAction<string>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
     amount: string;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
   export interface IPinProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -43,6 +50,8 @@ declare namespace ICardPayment {
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
     setRedirectUrl: Dispatch<SetStateAction<string>>;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
   export interface IOTPProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -52,6 +61,8 @@ declare namespace ICardPayment {
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
     publicKey: string;
     setRedirectUrl: Dispatch<SetStateAction<string>>;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
   export interface IAddressProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -60,6 +71,8 @@ declare namespace ICardPayment {
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
     setRedirectUrl: Dispatch<SetStateAction<string>>;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
   export interface IPhoneProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
@@ -69,6 +82,8 @@ declare namespace ICardPayment {
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
     setRedirectUrl: Dispatch<SetStateAction<string>>;
+    setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
+    setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
   }
 }
 

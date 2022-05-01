@@ -6,6 +6,7 @@ declare namespace ICountdown {
     minutes?: number;
     seconds?: number;
     expireCount?: boolean;
+    isOver?: boolean;
     setExpireCount?: Dispatch<SetStateAction<boolean>>;
     Refresh?: () => void | null;
     callback?: () => void | null | Promise<void>;

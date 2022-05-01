@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext, useEffect, useMemo } from 'react';
+import React, { Dispatch, SetStateAction, useContext, useEffect, useMemo, useState } from 'react';
 import GenericHeader from '../../components/Headers/GenericHeader';
 import { Container } from './style';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
@@ -13,7 +13,6 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
   setPage,
   logo,
   paymentText = '',
-  setActiveSlide,
   noHeader,
   error,
   isClose,
@@ -21,13 +20,54 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
   setIsError,
   user,
   amount,
+  paymentStatus,
+  txRef,
+  checkoutDetails,
 }: IVerification.IProps) => {
   const { selectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
+  const [enableChangeMethod, setEnableChangeMethod] = useState(true);
+  const handleCloseModal = (): void => {
+    const payload = {
+      transactionReference: txRef,
+      amount,
+      paymentReference: checkoutDetails.reference,
+      status: paymentStatus?.toLowerCase(),
+    };
+    setTimeout(async () => {
+      if (checkoutDetails.redirectUrl)
+        window.open(
+          `${checkoutDetails.redirectUrl}?transactionReference=${payload.transactionReference}&amount=${payload.amount}&status=${payload.status}&paymentReference=${payload.paymentReference}`,
+          '_self',
+        );
+      else {
+        let cb: ((data: Record<string, unknown>) => void) | undefined;
+        switch (paymentStatus?.toLowerCase()) {
+          case 'processing':
+          case 'pending':
+            cb = checkoutDetails?.onPending;
+            break;
+          case 'failed':
+          case 'expired':
+          case 'fail':
+            cb = checkoutDetails?.onFailure;
+            break;
+          default:
+            break;
+        }
+        if (cb)
+          try {
+            cb(payload);
+          } catch (error) {
+            console.log(error);
+          }
+      }
+      if (destroyCheckout) destroyCheckout();
+    }, 4000);
+  };
+
   useEffect(() => {
     if (isClose) {
-      if (destroyCheckout) {
-        setTimeout(destroyCheckout, 4000);
-      }
+      handleCloseModal();
     }
   }, [isClose, destroyCheckout]);
   const handleClick = (type: PaymentMethod) => {
@@ -67,6 +107,13 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
     ));
   }, [selectedMethods?.length]);
 
+  useEffect(() => {
+    if (selectedMethods?.length >= 3) {
+      setEnableChangeMethod(false);
+      handleCloseModal();
+    }
+  }, [selectedMethods]);
+
   return !noHeader ? (
     <>
       <GenericHeader
@@ -75,6 +122,7 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
         setPage={setPage || null}
         payingCustomer={user || 'John.Doe@blinqpay.io'}
         amount={amount || '0.00'}
+        showChangeMethod={enableChangeMethod}
       />
       <Body>
         <Container padding="0.5rem">
@@ -95,7 +143,7 @@ const ErrorWithAlt: React.FC<IVerification.IProps> = ({
         </div>
         <span className="transfer-successful"> </span>
         <span className="check-error-2"> {error || 'Payment cannot not be confirmed at this moment'}</span>
-        {altMethods?.length ? altMethods : <Spinner xClasses={['close-spinner']} />}
+        {altMethods?.length && !isClose ? altMethods : <Spinner xClasses={['close-spinner']} />}
       </Container>
     </>
   );

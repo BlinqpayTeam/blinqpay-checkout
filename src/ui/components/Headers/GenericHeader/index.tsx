@@ -3,10 +3,6 @@ import LogoSmallDark from '../../../assets/svgs/LogoSmallDark';
 import { PaymentHeaderContainer } from '../style';
 import { IGenericHeader } from './IGenericHeader';
 
-// Todo:
-// Add payment method change button
-// Add and style logo
-// style paymentText
 const GenericHeader: React.FC<IGenericHeader.IProps> = ({
   showChangeMethod = true,
   paymentMethodIcon,
@@ -23,12 +19,10 @@ const GenericHeader: React.FC<IGenericHeader.IProps> = ({
           <span className="icon">{paymentMethodIcon}</span>
           <span className="text"> {paymentText}</span>
         </div>
-        {showChangeMethod && (
-          <div onClick={() => (setPage ? setPage('main') : null)} className="change">
-            {' '}
-            Change Method{' '}
-          </div>
-        )}
+        <div onClick={() => (setPage && showChangeMethod ? setPage('main') : null)} className="change">
+          {' '}
+          Change Method{' '}
+        </div>
       </div>
       {!!payingCustomer && !!amount && (
         <div className="bottom">

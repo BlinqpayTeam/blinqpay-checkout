@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Row from 'antd/es/row';
 import Select from 'antd/es/select';
 import Form from 'antd/es/form';
@@ -19,16 +19,22 @@ import { PaymentContextType, PaymentMethod } from '../../../types';
 const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
   setActiveSlide,
   setErrorText,
-  setIsCloseModal,
   setIsSuccess,
   txRef,
   setRedirectUrl,
+  setPaymentStatus,
+  setEnableChangeMethod,
 }: ICardPayment.IAddressProps) => {
   const { Option } = Select;
   const [loading, setLoading] = useState(false);
   const failedMsg = 'Unable to successfully verify the address.';
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
-  const closeModal = (data: Record<string, unknown>, payload?: unknown): void => {
+
+  useEffect(() => {
+    setEnableChangeMethod(false);
+  }, []);
+
+  const closeModal = (data: Record<string, unknown>): void => {
     setLoading(false);
     setErrorText((data?.message as string) || failedMsg);
     setIsSuccess(false);
@@ -36,7 +42,6 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
     setActiveSlide('sixth');
   };
   const onFinish = async (value: Record<string, unknown>): Promise<void> => {
-    console.log('finished', value);
     const payload = {
       city: value.city,
       state: value.state,
@@ -48,10 +53,13 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
     setLoading(true);
     const { data } = await authorizeAVS(payload);
     setLoading(false);
+    setEnableChangeMethod(true);
     const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
     if (res?.redirect_url) setRedirectUrl(res.redirect_url);
-    if (data?.error || res?.status === 'FAILED') closeModal(res as Record<string, string>);
-    else if (res?.authModel === 'OTP') {
+    if (data?.error || res?.status === 'FAILED') {
+      setPaymentStatus(res?.status || 'failed');
+      closeModal(res as Record<string, string>);
+    } else if (res?.authModel === 'OTP') {
       setActiveSlide('third');
     } else if (res?.authModel === 'CARD_ENROLL') {
       setActiveSlide('fifth');
@@ -59,7 +67,7 @@ const AddressForm: React.FC<ICardPayment.IAddressProps> = ({
       setActiveSlide('seventh');
     } else {
       setIsSuccess(true);
-      setIsCloseModal(true);
+      setPaymentStatus(res?.status || 'success');
       setActiveSlide('sixth');
     }
     // formRef.current!.resetFields();

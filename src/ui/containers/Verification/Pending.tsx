@@ -10,15 +10,42 @@ const Pending: React.FC<IVerification.IProps> = ({
   setPage,
   logo,
   paymentText = '',
-  user,
-  setActiveSlide,
   noHeader,
   pendingText,
+  checkoutDetails,
+  destroyCheckout,
+  amount,
+  txRef,
 }: IVerification.IProps) => {
+  useEffect(() => {
+    const payload = {
+      transactionReference: txRef,
+      amount,
+      paymentReference: checkoutDetails.reference,
+      status: 'pending',
+    };
+    setTimeout(async () => {
+      if (checkoutDetails.redirectUrl)
+        window.open(
+          `${checkoutDetails.redirectUrl}?transactionReference=${payload.transactionReference}&amount=${payload.amount}&status=${payload.status}&paymentReference=${payload.paymentReference}`,
+          '_self',
+        );
+      else {
+        try {
+          (checkoutDetails?.onPending as (data: Record<string, unknown>) => void)(payload);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      if (destroyCheckout) destroyCheckout();
+    }, 4000);
+  }, []);
+
   return (
     <>
       {!noHeader && (
         <GenericHeader
+          showChangeMethod={false}
           paymentMethodIcon={logo}
           paymentText={paymentText}
           setPage={setPage || null}
@@ -32,7 +59,7 @@ const Pending: React.FC<IVerification.IProps> = ({
         <span className="transfer-successful"> </span>
         <span className="check"> </span>
 
-        <PrimaryButton onClick={() => (setPage ? setPage('main') : null)} type="submit" text="Make another Payment" />
+        {/* <PrimaryButton onClick={() => (setPage ? setPage('main') : null)} type="submit" text="Make another Payment" /> */}
       </Container>
     </>
   );

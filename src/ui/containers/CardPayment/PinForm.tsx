@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import OtpInput from 'react-otp-input';
 import { authorizeWithPin } from '../../../api/card';
 import { PaymentMethodContext } from '../../../context';
@@ -14,6 +14,8 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
   setIsSuccess,
   setIsCloseModal,
   setRedirectUrl,
+  setPaymentStatus,
+  setEnableChangeMethod,
 }: ICardPayment.IPinProps) => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,6 +24,9 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
   const handleChange = (val: any) => {
     setOtp(val);
   };
+  useEffect(() => {
+    setEnableChangeMethod(false);
+  }, []);
   const handleClick = async () => {
     setLoading(true);
     const { data } = await authorizeWithPin({
@@ -29,9 +34,11 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
       transactionReference: txRef,
     });
     setLoading(false);
+    setEnableChangeMethod(true);
     const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
     if (res?.redirect_url) setRedirectUrl(res.redirect_url);
     if (data?.error || res?.status === 'FAILED') {
+      setPaymentStatus(res?.status || 'failed');
       setErrorText((data?.message as string) || failedMsg);
       setIsSuccess(false);
       setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
@@ -43,8 +50,9 @@ const PinForm: React.FC<ICardPayment.IPinProps> = ({
     } else if (res?.authModel === '3DS') {
       setActiveSlide('seventh');
     } else {
+      setEnableChangeMethod(false);
+      setPaymentStatus('success');
       setIsSuccess(true);
-      setIsCloseModal(true);
       setActiveSlide('sixth');
     }
   };

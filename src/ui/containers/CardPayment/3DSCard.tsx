@@ -19,9 +19,11 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
   setActiveSlide,
   setIsSuccess,
   txRef,
-  setIsCloseModal,
   publicKey,
   url,
+  setPaymentStatus,
+  setEnableChangeMethod,
+  setIsCloseModal,
 }: ICardPayment.I3DSProps) => {
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const [loading, setLoading] = useState(false);
@@ -44,6 +46,7 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
     if (timerHandle) clearTimeout(timerHandle);
   };
   useEffect(() => {
+    setEnableChangeMethod(false);
     return () => {
       clearTimerHandle();
     };
@@ -53,6 +56,11 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
     if (status !== VerifyStatus.pending) {
       setIsSuccess(false);
       setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
+      setEnableChangeMethod(true);
+      if (status === VerifyStatus.expired) {
+        setIsCloseModal(true);
+        setEnableChangeMethod(false);
+      }
       setActiveSlide('sixth');
       setLoading(false);
     }
@@ -69,12 +77,17 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
       ['failed', 'expired'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus?.toLowerCase())
     ) {
       clearTimerHandle();
+      const status =
+        ((verifyRes?.data as Record<string, string>)?.paymentStatus?.toLowerCase() as VerifyStatus) ||
+        VerifyStatus.failed;
+      setPaymentStatus(status);
       setStatus(
         ((verifyRes?.data as Record<string, string>)?.paymentStatus?.toLowerCase() as VerifyStatus) ||
           VerifyStatus.failed,
       );
     } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
       clearTimerHandle();
+      setPaymentStatus(VerifyStatus.success);
       setStatus(VerifyStatus.success);
     } else {
       window.setTimeout(() => {
@@ -85,7 +98,7 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
 
   useEffect(() => {
     if (countDownStarted && status === VerifyStatus.pending) {
-      setTimerHandle(window.setTimeout(() => setStatus(VerifyStatus.expired), 18000));
+      setTimerHandle(window.setTimeout(() => setStatus(VerifyStatus.expired), 300000));
       handleVerification();
     }
   }, [countDownStarted]);

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Form from 'antd/es/form';
 import Input from 'antd/es/input';
 import Row from 'antd/es/row';
@@ -23,6 +23,8 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
   setErrorText,
   setIsCloseModal,
   setRedirectUrl,
+  setPaymentStatus,
+  setEnableChangeMethod,
 }: ICardPayment.IPhoneProps) => {
   const [loading, setLoading] = useState(false);
   const failedMsg = 'An error occurred while enrolling your phone number';
@@ -34,7 +36,9 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
     setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
     setActiveSlide('sixth');
   };
-
+  useEffect(() => {
+    setEnableChangeMethod(false);
+  }, []);
   const onFinish = async (value: Record<string, unknown>): Promise<void> => {
     console.log('finished', value);
     const payload = {
@@ -44,18 +48,21 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
     setLoading(true);
     const { data } = await authorizeEnroll(payload);
     setLoading(false);
+    setEnableChangeMethod(true);
     const { data: res } = data as unknown as Record<string, Record<string, string> | undefined>;
     if (res?.redirect_url) setRedirectUrl(res.redirect_url);
-    if (data?.error || res?.status === 'FAILED') closeModal(res as Record<string, string>);
-    else if (res?.authModel === 'OTP') {
+    if (data?.error || res?.status === 'FAILED') {
+      setPaymentStatus(res?.status || 'failed');
+      closeModal(res as Record<string, string>);
+    } else if (res?.authModel === 'OTP') {
       setActiveSlide('third');
     } else if (res?.authModel === 'AVS') {
       setActiveSlide('fifth');
     } else if (res?.authModel === '3DS') {
       setActiveSlide('seventh');
     } else {
+      setPaymentStatus('success');
       setIsSuccess(true);
-      setIsCloseModal(true);
       setActiveSlide('sixth');
     }
     // formRef.current!.resetFields();
@@ -72,7 +79,9 @@ const PhoneAuthorization: React.FC<ICardPayment.IPhoneProps> = ({
       >
         <Row className="padded-x-5">
           <Col style={{ display: 'flex', alignItems: 'center' }} span={12}>
-            <Input className="normal-input" type="phone" name="phone" placeholder=" " />
+            <Form.Item className="margin-bottom--none" name="phone" rules={[]}>
+              <Input className="normal-input" type="phone" name="phone" placeholder=" " />
+            </Form.Item>
           </Col>
           <Col span={10} offset={2}>
             <PrimaryButton type="submit" text="Confirm" loading={loading} disabled={loading} />

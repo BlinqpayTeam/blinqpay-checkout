@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { ICheckoutPayload } from '../../../types';
 
 declare namespace IQRPayment {
   export interface IProps {
@@ -10,6 +11,7 @@ declare namespace IQRPayment {
     payingCustomer: string;
     amount: string;
     payingCustomerEmail: string;
+    checkoutDetails: ICheckoutPayload;
   }
 }
 

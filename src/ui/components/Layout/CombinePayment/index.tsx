@@ -27,6 +27,7 @@ const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage, paylo
           txRef={payload.transactionReference as string}
           destroyCheckout={payload.destroyCheckout}
           amount={String(payload.amount)}
+          checkoutDetails={payload}
           payingCustomer={payload.customer?.name || ''}
           payingCustomerEmail={payload.customer?.email || ''}
         />

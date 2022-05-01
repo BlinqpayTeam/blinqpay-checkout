@@ -397,3 +397,10 @@ input.otp-field {
     text-align: center;
     width: 100%;
   }
+
+  .custom-phone-input {
+    height: 38px !important;
+  }
+  .margin-bottom--none {
+    margin-bottom: 0 !important;
+  }

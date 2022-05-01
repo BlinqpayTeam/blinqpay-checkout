@@ -9,14 +9,11 @@ import QrIcon from '../../assets/svgs/QrIcon';
 import { getQrCode } from '../../../api/qrpayment';
 import ErrorIcon from '../../assets/svgs/ErrorIcon';
 import { verifyTransaction } from '../../../api/transaction';
-import Successful from '../../assets/svgs/Successful';
 import ErrorWithAlt from '../Verification/ErrorWithAlt';
 import { Body } from '../../components/Layout/style';
 import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
 import Countdown from '../../components/Countdown';
-import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
-import Pending from '../Verification/Pending';
 import Success from '../Verification/Success';
 import LoadingBar from '../../assets/svgs/LoadingBar';
 import Alert from '../../assets/svgs/Alert';
@@ -44,6 +41,7 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
   payingCustomer,
   amount,
   payingCustomerEmail,
+  checkoutDetails,
 }: IQRPayment.IProps) => {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -52,9 +50,10 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
   const [isCountDownExpired, setIsCountDownExpired] = useState(false);
   const [errorType, setErrorType] = useState<QRError>(QRError.QR_FAILED);
   const [qrState, setQrState] = useState<QRSTATE>(QRSTATE.DEFAULT);
-  const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
+  const { setSelectedMethods, selectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const [triggerVerificationCount, setTriggerVerificationCount] = useState(0);
   const [errorText, setErrorText] = useState('An error occurred, please try again');
+  const [amountPaid, setAmountPaid] = useState<string | undefined>();
 
   const handleClick = async (): Promise<void> => {
     if (isError && errorType === QRError.QR_FAILED) {
@@ -67,10 +66,12 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
   const handleReVerification = async (isExpired: boolean): Promise<void> => {
     if (!isExpired) {
       const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-      if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
+      const response = verifyRes?.data as Record<string, string>;
+      if (verifyRes?.error || response?.paymentStatus === 'FAILED') {
         setQrState(QRSTATE.ERROR);
         setIsCountDownExpired(true);
-      } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
+      } else if (['SUCCESSFUL', 'SUCCESS'].includes(response?.paymentStatus)) {
+        setAmountPaid(response?.amount || amount);
         setQrState(QRSTATE.SUCCESS);
         setIsCountDownExpired(true);
       } else {
@@ -96,13 +97,32 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
   const handleStopVerification = async () => {
     if (qrState === QRSTATE.VERIFYING) {
       const { data: verifyRes } = await verifyTransaction(publicKey, txRef);
-      if (verifyRes?.error || (verifyRes?.data as Record<string, string>)?.paymentStatus === 'FAILED') {
+      const response = verifyRes?.data as Record<string, string>;
+      const paid = response?.amount || amount;
+      if (verifyRes?.error || response?.paymentStatus === 'FAILED') {
         setQrState(QRSTATE.ERROR);
-      } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
+      } else if (['SUCCESSFUL', 'SUCCESS'].includes(response?.paymentStatus)) {
+        setAmountPaid(paid);
         setQrState(QRSTATE.SUCCESS);
       } else {
         setQrState(QRSTATE.PROCESSING);
-        setTimeout(destroyCheckout, 2000);
+        const payload = {
+          transactionReference: txRef,
+          amount: paid,
+          paymentReference: checkoutDetails.reference,
+          status: 'pending',
+        };
+        setTimeout(() => {
+          if (checkoutDetails.redirectUrl)
+            window.open(
+              `${checkoutDetails.redirectUrl}?transactionReference=${payload.transactionReference}&amount=${payload.amount}&status=${payload.status}&paymentReference=${payload.paymentReference}`,
+              '_self',
+            );
+          else {
+            (checkoutDetails?.onPending as (data: Record<string, unknown>) => void)(payload);
+          }
+          if (destroyCheckout) destroyCheckout();
+        }, 2000);
       }
     }
     setLoading(false);
@@ -137,7 +157,15 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
         setSelectedMethods((curr) => [...curr, PaymentMethod.QR]);
         return (
           <Body>
-            <ErrorWithAlt noHeader error={errorText} setPage={setPage} destroyCheckout={destroyCheckout} />
+            <ErrorWithAlt
+              noHeader
+              error={errorText}
+              txRef={txRef}
+              checkoutDetails={checkoutDetails}
+              setPage={setPage}
+              destroyCheckout={destroyCheckout}
+              amount={amountPaid}
+            />
           </Body>
         );
       }
@@ -155,7 +183,19 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
         );
       }
       case QRSTATE.SUCCESS: {
-        return <Success setPage={setPage} paymentText="Pay with Bank Transfer" noHeader user={payingCustomerEmail} />;
+        return (
+          <Success
+            paymentStatus="success"
+            txRef={txRef}
+            checkoutDetails={checkoutDetails}
+            setPage={setPage}
+            paymentText="Pay with Bank Transfer"
+            noHeader
+            user={payingCustomerEmail}
+            destroyCheckout={destroyCheckout}
+            amount={amountPaid}
+          />
+        );
       }
       case QRSTATE.PROCESSING: {
         return (
@@ -233,6 +273,7 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
         payingCustomer={payingCustomer}
         amount={amount || '0.00'}
         setPage={setPage}
+        showChangeMethod={qrState === QRSTATE.DEFAULT || (qrState === QRSTATE.ERROR && selectedMethods.length < 3)}
       />
       {renderUI(qrState)}
     </>
