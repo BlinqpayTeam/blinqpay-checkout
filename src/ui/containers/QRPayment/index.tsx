@@ -5,18 +5,20 @@ import QrCode from '../../assets/svgs/QrCode';
 import Spinner from '../../assets/svgs/Spinner';
 import PrimaryButton from '../../components/Buttons/PrimaryButton';
 import { IQRPayment } from './IQRPayment';
-import QrIcon from '../../assets/svgs/QrIcon';
 import { getQrCode } from '../../../api/qrpayment';
-import ErrorIcon from '../../assets/svgs/ErrorIcon';
 import { verifyTransaction } from '../../../api/transaction';
-import ErrorWithAlt from '../Verification/ErrorWithAlt';
 import { Body } from '../../components/Layout/style';
 import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
 import Countdown from '../../components/Countdown';
-import Success from '../Verification/Success';
-import LoadingBar from '../../assets/svgs/LoadingBar';
-import Alert from '../../assets/svgs/Alert';
+
+
+const LoadingBar = React.lazy(() => import('../../assets/svgs/LoadingBar'));
+const ErrorIcon = React.lazy(() => import('../../assets/svgs/ErrorIcon'));
+const QrIcon = React.lazy(() => import('../../assets/svgs/QrIcon'));
+const Alert = React.lazy(() => import('../../assets/svgs/Alert'));
+const Success = React.lazy(() => import('../Verification/Success'));
+const ErrorWithAlt = React.lazy(() => import('../Verification/ErrorWithAlt'));
 
 enum QRError {
   TIMEOUT = 'TIMEOUT',
