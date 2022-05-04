@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run:  npm install
       - name: Build
-        run: npm run build
+        run: BASE_URL=$BASE_URL AESKEY=$AESKEY IVKEY=$IVKEY webpack
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           AESKEY: ${{ secrets.AESKEY }}
