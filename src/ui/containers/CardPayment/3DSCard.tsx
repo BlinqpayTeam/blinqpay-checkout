@@ -125,7 +125,7 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
           ? 'we are waiting for a response from your card issuer'
           : 'By clicking the button below, you will be able to authenticate with your bank'}
       </p>
-      <div>
+      <div className="width-70 x-centered">
         {loading ? (
           <div className="loading-bar-container">
             <LoadingBar />

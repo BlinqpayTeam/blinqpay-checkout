@@ -126,6 +126,10 @@ align-content: center !important;
     margin-top: 60px;
 }
 
+.width-70 {
+  width: 70%;
+}
+
 /* color */
 .text-white{
 color: var(--blinq-white);

@@ -8,9 +8,6 @@ export const CardFormContainer: any = styled.div`
 `;
 
 export const ThreeDSContainer: any = styled.div`
-  background: #f0f1f2;
-  box-shadow: 0px 4.343px 14.4767px rgba(0, 0, 0, 0.1);
-  border-radius: 7.23834px;
   padding: 0.1rem 1.5rem;
   text-align: center;
   & .icon-wrapper {
