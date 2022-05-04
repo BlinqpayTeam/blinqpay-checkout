@@ -4,15 +4,19 @@ import 'antd/es/row/style/css';
 import Col from 'antd/es/col';
 import 'antd/es/col/style/css';
 // import { Row, Col } from 'antd';
-import Xicon from '../../assets/svgs/Xicon';
-import Spinner from '../../assets/svgs/Spinner';
-import ErrorIcon from '../../assets/svgs/ErrorIcon';
-import PaymentSelect from '../PaymentSelect';
+
+// import PaymentSelect from '../PaymentSelect';
 import { IModal } from './IModal';
-import SelectHeader from '../Headers/SelectHeader';
-import Overall from '../Slide/Overall';
-import CombinePayment from '../Layout/CombinePayment';
+
 import { PaymentMethodProvider } from '../../../context';
+
+const Xicon = React.lazy(() => import('../../assets/svgs/Xicon'));
+const Spinner = React.lazy(() => import('../../assets/svgs/Spinner'));
+const ErrorIcon = React.lazy(() => import('../../assets/svgs/ErrorIcon'));
+const PaymentSelect = React.lazy(() => import('../PaymentSelect'));
+const SelectHeader = React.lazy(() => import('../Headers/SelectHeader'));
+const Overall = React.lazy(() => import('../Slide/Overall'));
+const CombinePayment = React.lazy(() => import('../Layout/CombinePayment'));
 
 const computeInitSlide = (
   loading: boolean | undefined,
@@ -55,6 +59,8 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage, payload, destroyCheckou
   useEffect(() => {
     if (page === 'main') {
       setActiveSlide('first');
+    } else {
+      setActiveSlide('second');
     }
   }, [page]);
   const displayFirstSlide = useMemo(
@@ -62,7 +68,7 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage, payload, destroyCheckou
     [loading, isError, setPage, setActiveSlide],
   );
   return (
-    <Row className="full-width " justify="center">
+    <Row className="full-width" justify="center">
       <Col xs={20} sm={18} md={11} lg={9}>
         <div className="modal-card ">
           <div className="close-button">

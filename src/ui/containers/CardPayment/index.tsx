@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import Card from '../../assets/svgs/Card';
-import ColoredCard from '../../assets/svgs/ColoredCard';
-import GenericHeader from '../../components/Headers/GenericHeader';
-import CombinePayment from '../../components/Layout/CombinePayment';
 import { Body } from '../../components/Layout/style';
-import Overall from '../../components/Slide/Overall';
-// import Error from '../Verification/Error';
-import ErrorWithAlt from '../Verification/ErrorWithAlt';
-import Success from '../Verification/Success';
-import ThreeDSCard from './3DSCard';
-import AddressForm from './AddressForm';
-import CardForm from './CardForm';
 import { ICardPayment } from './ICardPayment';
-import OTPForm from './OTPForm';
-import PhoneAuthorization from './PhoneAuthorization';
-import PinForm from './PinForm';
 import { ModeFlag } from './style';
-import TestCards from './TestCards';
+
+const Card = React.lazy(() => import('../../assets/svgs/Card'));
+const ColoredCard = React.lazy(() => import('../../assets/svgs/ColoredCard'));
+const GenericHeader = React.lazy(() => import('../../components/Headers/GenericHeader'));
+const Overall = React.lazy(() => import('../../components/Slide/Overall'));
+const ErrorWithAlt = React.lazy(() => import('../Verification/ErrorWithAlt'));
+const Success = React.lazy(() => import('../Verification/Success'));
+const ThreeDSCard = React.lazy(() => import('./3DSCard'));
+const AddressForm = React.lazy(() => import('./AddressForm'));
+const CardForm = React.lazy(() => import('./CardForm'));
+const OTPForm = React.lazy(() => import('./OTPForm'));
+const PhoneAuthorization = React.lazy(() => import('./PhoneAuthorization'));
+const PinForm = React.lazy(() => import('./PinForm'));
+const TestCards = React.lazy(() => import('./TestCards'));
 
 const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: ICardPayment.IProps) => {
   const [activeSlide, setActiveSlide] = useState(payload?.testMode ? 'eighth' : 'first');

@@ -1,10 +1,10 @@
 import React, { useState, FC, useEffect } from 'react';
 import { nanoid } from 'nanoid';
-// SVG icons
-import Powered from '../../assets/svgs/Powered';
-import Modal from '../../components/Modal';
 import { ICheckoutPayload, Currency } from '../../../types';
 import { initializeTransaction } from '../../../api/transaction';
+// SVG icons
+const Powered = React.lazy(() => import('../../assets/svgs/Powered'));
+const Modal = React.lazy(() => import('../../components/Modal'));
 
 const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ payload, destroyCheckout }) => {
   const [page, setPage] = useState('main');

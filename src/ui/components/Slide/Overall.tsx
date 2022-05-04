@@ -20,34 +20,34 @@ const Overall: React.FC<ISlide.IOverall> = ({
   };
   return (
     <div className="slider">
-      <CSSTransition in={activeSlide === 'first'} unmountOnExit timeout={450} classNames="slide-1">
+      <CSSTransition in={activeSlide === 'first'} unmountOnExit timeout={20} classNames="slide-1">
         <Slide>{firstSlide}</Slide>
       </CSSTransition>
-      <CSSTransition in={activeSlide === 'second'} unmountOnExit timeout={450} classNames="slide-2">
+      <CSSTransition in={activeSlide === 'second'} unmountOnExit timeout={200} classNames="slide-2">
         <Slide>{secondSlide}</Slide>
       </CSSTransition>
       {thirdSlide && (
-        <CSSTransition in={activeSlide === 'third'} unmountOnExit timeout={450} classNames="slide-2">
+        <CSSTransition in={activeSlide === 'third'} unmountOnExit timeout={200} classNames="slide-2">
           <Slide>{thirdSlide}</Slide>
         </CSSTransition>
       )}
       {fourthSlide && (
-        <CSSTransition in={activeSlide === 'fourth'} unmountOnExit timeout={450} classNames="slide-2">
+        <CSSTransition in={activeSlide === 'fourth'} unmountOnExit timeout={200} classNames="slide-2">
           <Slide>{fourthSlide}</Slide>
         </CSSTransition>
       )}
       {fifthSlide && (
-        <CSSTransition in={activeSlide === 'fifth'} unmountOnExit timeout={450} classNames="slide-2">
+        <CSSTransition in={activeSlide === 'fifth'} unmountOnExit timeout={200} classNames="slide-2">
           <Slide>{fifthSlide}</Slide>
         </CSSTransition>
       )}
       {sixthSlide && (
-        <CSSTransition in={activeSlide === 'sixth'} unmountOnExit timeout={450} classNames="slide-2">
+        <CSSTransition in={activeSlide === 'sixth'} unmountOnExit timeout={150} classNames="slide-2">
           <Slide>{sixthSlide}</Slide>
         </CSSTransition>
       )}
       {seventhSlide && (
-        <CSSTransition in={activeSlide === 'seventh'} unmountOnExit timeout={450} classNames="slide-2">
+        <CSSTransition in={activeSlide === 'seventh'} unmountOnExit timeout={150} classNames="slide-2">
           <Slide>{seventhSlide}</Slide>
         </CSSTransition>
       )}

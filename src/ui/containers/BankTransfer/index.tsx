@@ -172,7 +172,8 @@ const BankTransfer: React.FC<IBankTransfer.IProps> = ({
                 {loading || verifying ? (
                   <>
                     {' '}
-                    <Spinner /> <div className="backdrop"></div>
+                    {loading && <Spinner />}
+                    <div className="backdrop"></div>
                     <BankForm
                       getAccDetails={getAccDetails}
                       setActiveSlide={setActiveSlide}
