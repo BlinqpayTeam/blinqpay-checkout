@@ -17,7 +17,6 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        // use: 'ts-loader',
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-react', '@babel/preset-typescript'],
@@ -45,7 +44,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
     library: {
-      name: 'checkout',
+      name: 'blinqpaySDK',
       type: 'umd',
     },
   },

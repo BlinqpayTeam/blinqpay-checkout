@@ -17,6 +17,10 @@ jobs:
         run:  npm install
       - name: Build
         run: npm run build
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          AESKEY: ${{ secrets.AESKEY }}
+          IVKEY: ${{ secrets.IVKEY }}
       - name: Set AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:

@@ -13,5 +13,10 @@ function init() {
     onClose: () => console.log('closed'),
     onSuccess: (data) => console.log(data),
     onFailure: (data) => console.log(data),
+    onPending: (data) => console.log(data),
   });
 }
+
+const el = document.getElementById('tnmt');
+
+el.onclick = init;

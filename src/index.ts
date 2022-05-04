@@ -4,12 +4,21 @@ import { App } from './ui/app';
 import { ICheckoutPayload } from './types';
 import './ui/assets/css/index.css';
 
-export const init = (data: ICheckoutPayload): void => {
+export const init = (data: Record<string, unknown>): void => {
   destroyCheckout();
+  const customer = {
+    name: data.customerName,
+    email: data.customerEmail,
+    phoneNumber: data.phoneNumber,
+  };
+  delete data.customerName;
+  delete data.customerEmail;
+  delete data.phoneNumber;
+  data.customer = customer;
   const element = document.createElement('div');
   element.id = 'blinqpay_checkout_root';
   document.body.appendChild(element);
-  triggerCheckout(data);
+  triggerCheckout(data as unknown as ICheckoutPayload);
 };
 
 const findCheckout = (): Element | null => {
