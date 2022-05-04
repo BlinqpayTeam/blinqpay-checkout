@@ -12,7 +12,6 @@ import { PaymentMethodContext } from '../../../context';
 import { PaymentContextType, PaymentMethod } from '../../../types';
 import Countdown from '../../components/Countdown';
 
-
 const LoadingBar = React.lazy(() => import('../../assets/svgs/LoadingBar'));
 const ErrorIcon = React.lazy(() => import('../../assets/svgs/ErrorIcon'));
 const QrIcon = React.lazy(() => import('../../assets/svgs/QrIcon'));

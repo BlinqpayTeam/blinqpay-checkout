@@ -9,7 +9,6 @@ const BankTransferIcon = React.lazy(() => import('../../assets/svgs/BankTransfer
 const Spinner = React.lazy(() => import('../../assets/svgs/Spinner'));
 const GenericHeader = React.lazy(() => import('../../components/Headers/GenericHeader'));
 const Overall = React.lazy(() => import('../../components/Slide/Overall'));
-const Error = React.lazy(() => import('../Verification/Error'));
 const Success = React.lazy(() => import('../Verification/Success'));
 const BankForm = React.lazy(() => import('./BankForm'));
 const Pending = React.lazy(() => import('../Verification/Pending'));
