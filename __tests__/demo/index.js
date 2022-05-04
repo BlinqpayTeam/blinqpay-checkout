@@ -4,8 +4,8 @@ function init() {
     publicKey: 'BLTSECK-6555efdda2de3899db1d37ba24761d5f',
     //reference: 'iefiern893443n', // most be unique each time
     amount: 2000.0,
-    phoneNumber: 'daylay92@yahoo.com',
-    customerEmail: '08063805598',
+    phoneNumber: '08063805598',
+    customerEmail: 'daylay92@yahoo.com',
     customerName: 'Ayodele Akinbohun',
     currency: 'NGN',
     onClose: () => console.log('closed'),
