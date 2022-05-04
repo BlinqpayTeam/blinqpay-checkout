@@ -10,6 +10,7 @@ declare namespace ICountdown {
     setExpireCount?: Dispatch<SetStateAction<boolean>>;
     Refresh?: () => void | null;
     callback?: () => void | null | Promise<void>;
+    centerTimer?: boolean;
   }
 }
 

@@ -7,7 +7,7 @@ import { PaymentContextType, PaymentMethod } from '../../../types';
 import { verifyTransaction } from '../../../api/transaction';
 
 const DoubleCardLogo = React.lazy(() => import('../../assets/svgs/3DSCard'));
-const Spinner = React.lazy(() => import('../../assets/svgs/Spinner'));
+const LoadingBar = React.lazy(() => import('../../assets/svgs/LoadingBar'));
 
 enum VerifyStatus {
   success = 'success',
@@ -127,7 +127,9 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
       </p>
       <div>
         {loading ? (
-          <Spinner />
+          <div className="loading-bar-container">
+            <LoadingBar />
+          </div>
         ) : (
           <PrimaryButton type="submit" text="Authenticate" disabled={loading} loading={loading} onClick={handleClick} />
         )}

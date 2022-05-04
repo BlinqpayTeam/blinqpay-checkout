@@ -11,6 +11,7 @@ const Countdown: React.FC<ICountdown.IProps> = ({
   expireCount,
   setExpireCount,
   isOver,
+  centerTimer,
 }: ICountdown.IProps) => {
   const [[h, m, s], setTime] = useState([hours, minutes, seconds]);
   const [over, setOver] = useState(false);
@@ -55,7 +56,7 @@ const Countdown: React.FC<ICountdown.IProps> = ({
   return (
     <div className="time-text">
       {!over && (
-        <p>
+        <p className={centerTimer ? 'text-center' : ''}>
           <span className="font-medium mr-2">Time Left:</span>
           {`${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`}
         </p>

@@ -412,3 +412,8 @@ input.otp-field {
     justify-content: center;
     align-items: center;
   }
+  .loading-bar-container {
+    margin: 0.8rem 0;
+    display: flex;
+    justify-content: center;
+  }

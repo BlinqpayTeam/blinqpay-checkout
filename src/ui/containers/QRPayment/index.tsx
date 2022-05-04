@@ -174,11 +174,16 @@ const QRPayment: React.FC<IQRPayment.IProps> = ({
         return (
           <Container>
             <Body>
-              <div>Please hold on while we verify your transaction</div>
-              <div>
+              <div className="text-center">Please hold on while we verify your transaction</div>
+              <div className="loading-bar-container">
                 <LoadingBar />
               </div>
-              <Countdown expireCount={isCountDownExpired} setExpireCount={setIsCountDownExpired} minutes={2} />
+              <Countdown
+                centerTimer
+                expireCount={isCountDownExpired}
+                setExpireCount={setIsCountDownExpired}
+                minutes={2}
+              />
             </Body>
           </Container>
         );
