@@ -59,6 +59,8 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage, payload, destroyCheckou
   useEffect(() => {
     if (page === 'main') {
       setActiveSlide('first');
+    } else {
+      setActiveSlide('second');
     }
   }, [page]);
   const displayFirstSlide = useMemo(
@@ -66,7 +68,7 @@ const Modal: React.FC<IModal.IProps> = ({ page, setPage, payload, destroyCheckou
     [loading, isError, setPage, setActiveSlide],
   );
   return (
-    <Row className="full-width " justify="center">
+    <Row className="full-width" justify="center">
       <Col xs={20} sm={18} md={11} lg={9}>
         <div className="modal-card ">
           <div className="close-button">

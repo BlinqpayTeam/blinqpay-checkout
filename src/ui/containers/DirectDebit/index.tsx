@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import BankTransferIcon from '../../assets/svgs/BankTransferIcon';
-import GenericHeader from '../../components/Headers/GenericHeader';
 import { Body } from '../../components/Layout/style';
-import Overall from '../../components/Slide/Overall';
-import Error from '../Verification/Error';
-import Success from '../Verification/Success';
-import DirectDebitForm from './DirectDebitForm';
 import { IDirectDebit } from './IDirectDebit';
+
+const BankTransferIcon = React.lazy(() => import('../../assets/svgs/BankTransferIcon'));
+const GenericHeader = React.lazy(() => import('../../components/Headers/GenericHeader'));
+const Overall = React.lazy(() => import('../../components/Slide/Overall'));
+const Error = React.lazy(() => import('../Verification/Error'));
+const Success = React.lazy(() => import('../Verification/Success'));
+const DirectDebitForm = React.lazy(() => import('./DirectDebitForm'));
 
 const DirectDebit: React.FC<IDirectDebit.IProps> = ({ page, setPage }: IDirectDebit.IProps) => {
   const [activeSlide, setActiveSlide] = useState('first');

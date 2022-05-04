@@ -7,7 +7,7 @@ import { ICombinepayment } from './ICombinePayment';
 
 const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage, payload }: ICombinepayment.IProps) => {
   return (
-    <div>
+    <>
       {page === 'card' && <CardPayment page={page} setPage={setPage} payload={payload} />}
       {page === 'bank' && (
         <BankTransfer
@@ -32,7 +32,7 @@ const CombinePayment: React.FC<ICombinepayment.IProps> = ({ page, setPage, paylo
           payingCustomerEmail={payload.customer?.email || ''}
         />
       )}
-    </div>
+    </>
   );
 };
 
