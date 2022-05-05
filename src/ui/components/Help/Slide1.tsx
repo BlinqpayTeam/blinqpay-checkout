@@ -9,8 +9,8 @@ const Slide1 = () => {
         <img src={Icon} />
       </div>
       <div>
-        Totam asperiores ipsa. Quas sequi rerum aut enim consequatur. Labore quasi adipisci neque eos ex neque. Dicta
-        numquam eveniet unde.
+        Take a minute to make sure you got the receiver's name and account number right. This can help you completely
+        transfers easily.
       </div>
     </Container>
   );

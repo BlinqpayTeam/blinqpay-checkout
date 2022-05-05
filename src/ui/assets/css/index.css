@@ -177,6 +177,8 @@ color: var(--blinq-dark-grey)
   display: flex;
   justify-content: end;
   margin-right: -10px;
+  cursor: pointer;
+  text-align: center;
   
 }
 .help-container{
