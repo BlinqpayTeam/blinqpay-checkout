@@ -9,8 +9,8 @@ const Slide3 = () => {
         <img src={Icon} />
       </div>
       <div>
-        Totam asperiores ipsa. Quas sequi rerum aut enim consequatur. Labore quasi adipisci neque eos ex neque. Dicta
-        numquam eveniet unde.
+        While we are not sure why you might be experiencing trouble with this transfer, you can try changing your debit
+        card, or checking your network connection.
       </div>
     </Container>
   );

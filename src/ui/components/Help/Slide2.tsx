@@ -9,8 +9,8 @@ const Slide2 = () => {
         <img src={Icon} />
       </div>
       <div>
-        Totam asperiores ipsa. Quas sequi rerum aut enim consequatur. Labore quasi adipisci neque eos ex neque. Dicta
-        numquam eveniet unde.
+        Having insufficient balance can makes it impossible to complete a transfer. Fund your wallet first to increase
+        your chances of transfer success.
       </div>
     </Container>
   );
