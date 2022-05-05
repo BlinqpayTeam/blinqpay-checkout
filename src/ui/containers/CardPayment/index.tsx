@@ -150,6 +150,8 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
           seventhSlide={
             <>
               <ThreeDSCard
+                amount={amount}
+                email={payload.customer?.email as string}
                 txRef={payload.transactionReference as string}
                 setIsSuccess={setIsSuccess}
                 setIsCloseModal={setIsCloseModal}

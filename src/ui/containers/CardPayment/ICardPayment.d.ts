@@ -26,6 +26,8 @@ declare namespace ICardPayment {
   export interface I3DSProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;
     setIsSuccess: Dispatch<SetStateAction<boolean>>;
+    amount: string;
+    email: string;
     txRef: string;
     url?: string;
     publicKey: string;

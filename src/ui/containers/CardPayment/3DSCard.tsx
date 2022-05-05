@@ -21,6 +21,8 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
   txRef,
   publicKey,
   url,
+  amount,
+  email,
   setPaymentStatus,
   setEnableChangeMethod,
   setIsCloseModal,
@@ -33,7 +35,8 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
   const [toggleVisibilityCount, setToggleVisibilityCount] = useState(0);
   const [countDownStarted, setCountDownStarted] = useState(false);
   const handleClick = async (): Promise<void> => {
-    window.open(url, '_blank');
+    const pathUrl = url + `?isThirdParty=true&transactionReference=${txRef}&email=${email}&amount=${amount}`;
+    window.open(pathUrl, '_blank');
     setLoading(true);
   };
 
