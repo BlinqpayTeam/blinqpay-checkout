@@ -25,7 +25,7 @@ const Main: FC<{ payload: ICheckoutPayload; destroyCheckout: () => void }> = ({ 
       paymentReference: payload?.reference,
       currency: payload.currency || Currency.NGN,
       deviceFingerPrint: '79e6b7f0b72037aa8428b70fbe03986c',
-      callbackUrl: payload.redirectUrl,
+      callbackUrl: payload.redirectUrl || 'https://blinqpay.io/transaction/confirm',
     });
     setLoading(false);
     if (response?.data?.error) setIsTxError(true);
