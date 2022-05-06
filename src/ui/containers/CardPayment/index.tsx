@@ -160,6 +160,7 @@ const CardPayment: React.FC<ICardPayment.IProps> = ({ page, setPage, payload }: 
                 publicKey={payload.publicKey}
                 setPaymentStatus={setStatus}
                 setEnableChangeMethod={setEnableChangeMethod}
+                callbackUrl={payload.redirectUrl}
               />
             </>
           }

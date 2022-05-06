@@ -34,6 +34,7 @@ declare namespace ICardPayment {
     setIsCloseModal: Dispatch<SetStateAction<boolean>>;
     setPaymentStatus: Dispatch<SetStateAction<string | undefined>>;
     setEnableChangeMethod: Dispatch<SetStateAction<boolean>>;
+    callbackUrl?: string;
   }
   export interface ITestCardsProps {
     setActiveSlide: Dispatch<SetStateAction<string>>;

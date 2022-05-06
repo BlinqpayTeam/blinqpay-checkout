@@ -26,6 +26,7 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
   setPaymentStatus,
   setEnableChangeMethod,
   setIsCloseModal,
+  callbackUrl,
 }: ICardPayment.I3DSProps) => {
   const { setSelectedMethods } = useContext(PaymentMethodContext) as PaymentContextType;
   const [loading, setLoading] = useState(false);
@@ -35,7 +36,9 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
   const [toggleVisibilityCount, setToggleVisibilityCount] = useState(0);
   const [countDownStarted, setCountDownStarted] = useState(false);
   const handleClick = async (): Promise<void> => {
-    const pathUrl = url + `?isThirdParty=true&transactionReference=${txRef}&email=${email}&amount=${amount}`;
+    const pathUrl =
+      url +
+      `?isThirdParty=true&transactionReference=${txRef}&email=${email}&amount=${amount}&callbackUrl=${callbackUrl}`;
     window.open(pathUrl, '_blank');
     setLoading(true);
   };
@@ -57,9 +60,13 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
 
   useEffect(() => {
     if (status !== VerifyStatus.pending) {
-      setIsSuccess(false);
-      setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
-      setEnableChangeMethod(true);
+      if (status === VerifyStatus.success) {
+        setIsSuccess(true);
+      } else {
+        setIsSuccess(false);
+        setEnableChangeMethod(true);
+        setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
+      }
       if (status === VerifyStatus.expired) {
         setIsCloseModal(true);
         setEnableChangeMethod(false);
