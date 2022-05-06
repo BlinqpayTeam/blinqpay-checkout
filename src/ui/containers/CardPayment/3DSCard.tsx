@@ -100,6 +100,7 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
       );
     } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
       clearTimerHandle();
+      console.log(VerifyStatus.success);
       setPaymentStatus(VerifyStatus.success);
       setStatus(VerifyStatus.success);
     } else {
