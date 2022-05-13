@@ -62,9 +62,7 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
     if (status !== VerifyStatus.pending) {
       if (status === VerifyStatus.success) {
         setIsSuccess(true);
-        console.log('there')
       } else {
-        console.log('here');
         setIsSuccess(false);
         setEnableChangeMethod(true);
         setSelectedMethods((curr) => [...curr, PaymentMethod.CARD_PAYMENT]);
@@ -73,7 +71,6 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
         setIsCloseModal(true);
         setEnableChangeMethod(false);
       }
-      console.log('near')
       setActiveSlide('sixth');
       setLoading(false);
     }
@@ -100,9 +97,8 @@ const ThreeDSCard: React.FC<ICardPayment.I3DSProps> = ({
       );
     } else if (['SUCCESSFUL', 'SUCCESS'].includes((verifyRes?.data as Record<string, string>)?.paymentStatus)) {
       clearTimerHandle();
-      console.log(VerifyStatus.success);
-      setPaymentStatus(VerifyStatus.success);
       setStatus(VerifyStatus.success);
+      setPaymentStatus(VerifyStatus.success);
     } else {
       window.setTimeout(() => {
         setContinueValidationCount((count) => count + 1);
