@@ -6,6 +6,9 @@ pipeline {
     }
 
    stages {
+       when {
+               branch 'main-sdk-build'
+        }
       stage('Build') {
          steps {
             echo 'Notify GitLab'
@@ -15,6 +18,9 @@ pipeline {
           }
        }
       stage('Test') {
+        when {
+               branch 'main-sdk-build'
+        }
          steps {
             echo 'Notify GitLab for Test'
             updateGitlabCommitStatus name: 'test', state: 'pending'
@@ -24,6 +30,9 @@ pipeline {
            }
        }
       stage('Build Docker Image') {
+        when {
+               branch 'main-sdk-build'
+        }
          steps {
             script {
                app = docker.build('registry.gitlab.com/blinqpayapis/blinqcheckoutreact')
@@ -31,6 +40,9 @@ pipeline {
          }
       }
       stage('Push docker image') {
+        when {
+               branch 'main-sdk-build'
+        }
          steps {
             script {
                docker.withRegistry('https://registry.gitlab.com/blinqpayapis/blinqcheckoutreact', 'gitlab-container-registry-token') {
@@ -41,6 +53,9 @@ pipeline {
          }
       }
       stage('DeployToProduction') {
+        when {
+               branch 'main-sdk-build'
+        }
          steps {
              echo 'Deploying...'
              updateGitlabCommitStatus name: 'deploy', state: 'pending'
