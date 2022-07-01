@@ -9,5 +9,5 @@ FROM nginx:1.15.2-alpine
 COPY --from=0 /app/frontend/dist/ /usr/share/nginx/html
 COPY --from=0 /app/frontend/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
+EXPOSE 5400
 CMD ["nginx","-g","daemon off;"]
