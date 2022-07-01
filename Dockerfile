@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:16.3.0-alpine
 WORKDIR /app/frontend
 COPY  ./package*.json /app/frontend/
 RUN npm install
