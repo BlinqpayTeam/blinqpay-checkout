@@ -16,7 +16,13 @@ const closeButton = () => `
           </svg>
             </div>
 `;
-
+const toQueryString = (payload: Record<string, string>): string =>
+  '?' +
+  Object.keys(payload)
+    .map((key) => {
+      return `${key}=${encodeURIComponent(payload[key])}`;
+    })
+    .join('&');
 const addListener = (el: HTMLElement, eventName: string, fn: () => void): void => {
   el.addEventListener(eventName, fn);
 };
@@ -49,19 +55,37 @@ const closeModalBtn = (data: Record<string, unknown>) => {
 };
 
 export const init = async (data: Record<string, unknown>): Promise<void> => {
+  // Create message Handler
   const subscribeToMessage = (message: MessageEvent) => {
     if (!message.data) return;
     const payload = JSON.parse(message.data || null);
-    if (payload.status === 'success' && payload.blinqID === 'SDK') {
-      if (data?.redirectUrl) {
-        window.open(data?.redirectUrl as string);
-      } else if (data.onSuccess) {
-        (data as Record<string, (data: unknown) => void>).onSuccess(payload?.payload);
-        destroyCheckout();
+    if (payload.blinqID === 'SDK') {
+      if (payload.status === 'success') {
+        if (data?.redirectUrl) {
+          window.open((data?.redirectUrl + toQueryString(payload?.payload)) as string);
+        } else if (data.onSuccess) {
+          (data as Record<string, (data: unknown) => void>).onSuccess(payload?.payload);
+          destroyCheckout();
+        }
+      } else if (payload.status === 'pending') {
+        if (data?.redirectUrl) {
+          window.open((data?.redirectUrl + toQueryString(payload?.payload)) as string);
+        } else if (data.onPending) {
+          (data as Record<string, (data: unknown) => void>).onPending(payload?.payload);
+          destroyCheckout();
+        }
+      } else {
+        if (data?.redirectUrl) {
+          window.open((data?.redirectUrl + toQueryString(payload?.payload)) as string);
+        } else if (data.onPending) {
+          (data as Record<string, (data: unknown) => void>).onPending(payload?.payload);
+          destroyCheckout();
+        }
       }
     }
+    // Remove message event
+    window.removeEventListener('message', subscribeToMessage, false);
   };
-  window.removeEventListener('message', subscribeToMessage, false);
   destroyCheckout();
   window.addEventListener('message', subscribeToMessage, false);
   // Add close Button
@@ -70,7 +94,11 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
   closeBtn.id = 'blinqpay_checkout_destroy_root';
   closeBtn.innerHTML = closeButton();
   // Add close event
-  addListener(closeBtn, 'click', () => closeModalBtn(data));
+  addListener(closeBtn, 'click', () => {
+    // Remove message event
+    window.removeEventListener('message', subscribeToMessage, false);
+    closeModalBtn(data);
+  });
   // Add iframe
   const element = document.createElement('iframe');
   element.id = 'blinqpay_checkout_root';
@@ -91,7 +119,11 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
     callbackUrl: data.redirectUrl || 'https://blinqpay.io/transaction/confirm',
   });
   // Todo: Show proper error
-  if (response?.data?.error) throw new Error('Checkout cannot be initialised, please try again.');
+  if (response?.data?.error) {
+    // Remove message event
+    window.removeEventListener('message', subscribeToMessage, false);
+    throw new Error('Checkout cannot be initialised, please try again.');
+  }
   const transRef = (response?.data?.data as Record<string, unknown>)?.transactionReference as string;
   element.setAttribute('src', 'https://test-checkout.blinqpay.io/' + transRef + `?sdk-app=${window.location.href}`);
   element.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-popups');
