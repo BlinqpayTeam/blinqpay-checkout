@@ -61,9 +61,6 @@ pipeline {
          }
       }
       stage('Push docker image') {
-            when {
-                branch 'main-sdk-build'
-            }
          steps {
             script {
                docker.withRegistry('https://registry.gitlab.com/blinqpayapis/javascript-sdk', 'gitlab-container-registry-token') {
@@ -139,7 +136,7 @@ pipeline {
                      sh(
                         "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} ${PROD_USERNAME}@${PROD_IP} \"docker run --net blinqnetwork --restart always --name blinqsdk -p 5400:5400 -d registry.gitlab.com/blinqpayapis/javascript-sdk:${env.BUILD_NUMBER}\""
                      )
-                     sh 'echo $(curl localhost:8001)'
+                     sh 'echo $(curl localhost:5400)'
 
                }
 
