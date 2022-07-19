@@ -143,7 +143,7 @@ pipeline {
                }
              echo 'Deployment to production complete'
              updateGitlabCommitStatus name: 'deployproduction', state: 'success'
-            //  sh './deploy-script.sh'j /////
+            //  sh './deploy-script.sh'j //////
          }
       }
 
