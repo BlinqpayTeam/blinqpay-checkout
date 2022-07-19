@@ -66,7 +66,7 @@ pipeline {
             }
          steps {
             script {
-               docker.withRegistry('https://registry.gitlab.com/blinqpayapis/blinqcheckoutreact', 'gitlab-container-registry-token') {
+               docker.withRegistry('registry.gitlab.com/blinqpayapis/javascript-sdk', 'gitlab-container-registry-token') {
                   app.push("${env.BUILD_NUMBER}")
                   app.push("latest")
                }
