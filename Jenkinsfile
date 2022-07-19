@@ -8,7 +8,7 @@ pipeline {
    stages {
       stage('StagingBuild') {
             when {
-                branch 'main-sdk-build'
+                branch 'sdk-build-staging'
             }
                environment {
                   WEB_CHECKOUT_BASE_URL     = credentials("WEB_CHECKOUT_BASE_URL_STAGING")
@@ -72,7 +72,7 @@ pipeline {
       }
       stage('DeployToStaging') {
             when {
-                branch 'main-sdk-build'
+                branch 'sdk-build-staging'
             }
          steps {
              echo 'Deploying...'
