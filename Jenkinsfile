@@ -56,7 +56,7 @@ pipeline {
       stage('Build Docker Image') {
          steps {
             script {
-               app = docker.build('registry.gitlab.com/blinqpayapis/blinqcheckoutreact')
+               app = docker.build('registry.gitlab.com/blinqpayapis/javascript-sdk')
             }
          }
       }
@@ -66,7 +66,7 @@ pipeline {
             }
          steps {
             script {
-               docker.withRegistry('registry.gitlab.com/blinqpayapis/javascript-sdk', 'gitlab-container-registry-token') {
+               docker.withRegistry('https://registry.gitlab.com/blinqpayapis/javascript-sdk', 'gitlab-container-registry-token') {
                   app.push("${env.BUILD_NUMBER}")
                   app.push("latest")
                }
@@ -84,7 +84,7 @@ pipeline {
                keyFileVariable: 'BLINQ_KEY', passphraseVariable: '', usernameVariable: 'jenkins')]) {
                script {
                   sh(
-                     "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} root@165.22.47.120 \"docker pull registry.gitlab.com/blinqpayapis/blinqcheckoutreact:${env.BUILD_NUMBER}\""
+                     "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} root@165.22.47.120 \"docker pull registry.gitlab.com/blinqpayapis/javascript-sdk:${env.BUILD_NUMBER}\""
                   )
                   try {
                      sh(
@@ -97,7 +97,7 @@ pipeline {
                      echo: 'caught error: $err'
                   }
                      sh(
-                        "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} root@165.22.47.120 \"docker run --restart always --name blinqsdk -p 5400:5400 -d registry.gitlab.com/blinqpayapis/blinqcheckoutreact:${env.BUILD_NUMBER}\""
+                        "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} root@165.22.47.120 \"docker run --restart always --name blinqsdk -p 5400:5400 -d registry.gitlab.com/blinqpayapis/javascript-sdk:${env.BUILD_NUMBER}\""
                      )
                      sh 'echo $(curl localhost:5400)'
 
@@ -124,7 +124,7 @@ pipeline {
                keyFileVariable: 'BLINQ_KEY', passphraseVariable: '', usernameVariable: 'jenkins')]) {
                script {
                   sh(
-                     "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} ${PROD_USERNAME}@${PROD_IP} \"docker pull registry.gitlab.com/blinqpayapis/blinqcheckoutreact:${env.BUILD_NUMBER}\""
+                     "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} ${PROD_USERNAME}@${PROD_IP} \"docker pull registry.gitlab.com/blinqpayapis/javascript-sdk:${env.BUILD_NUMBER}\""
                   )
                   try {
                      sh(
@@ -137,7 +137,7 @@ pipeline {
                      echo: 'caught error: $err'
                   }
                      sh(
-                        "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} ${PROD_USERNAME}@${PROD_IP} \"docker run --net blinqnetwork --restart always --name blinqsdk -p 5400:5400 -d registry.gitlab.com/blinqpayapis/blinqcheckoutreact:${env.BUILD_NUMBER}\""
+                        "ssh -o StrictHostKeyChecking=no -i ${BLINQ_KEY} ${PROD_USERNAME}@${PROD_IP} \"docker run --net blinqnetwork --restart always --name blinqsdk -p 5400:5400 -d registry.gitlab.com/blinqpayapis/javascript-sdk:${env.BUILD_NUMBER}\""
                      )
                      sh 'echo $(curl localhost:8001)'
 
