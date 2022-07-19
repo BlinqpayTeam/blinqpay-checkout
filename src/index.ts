@@ -116,7 +116,7 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
     paymentReference: reference,
     currency: data.currency || Currency.NGN,
     deviceFingerPrint: '79e6b7f0b72037aa8428b70fbe03986c',
-    callbackUrl: data.redirectUrl,
+    callbackUrl: data.redirectUrl || 'https://blinqpay.io/transaction/confirm',
   });
   // Todo: Show proper error
   if (response?.data?.error) {
