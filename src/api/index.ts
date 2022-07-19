@@ -2,7 +2,7 @@ import { create } from 'apisauce';
 import { ResponseType } from '../types';
 
 export const Http = create({
-  baseURL: 'https://api-gateway-staging.blinqpay.io',
+  baseURL: process.env.CHECKOUT_PAYMENT_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
     mode: 'no-cors',

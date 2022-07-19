@@ -116,7 +116,7 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
     paymentReference: reference,
     currency: data.currency || Currency.NGN,
     deviceFingerPrint: '79e6b7f0b72037aa8428b70fbe03986c',
-    callbackUrl: data.redirectUrl || 'https://blinqpay.io/transaction/confirm',
+    callbackUrl: data.redirectUrl,
   });
   // Todo: Show proper error
   if (response?.data?.error) {
@@ -125,7 +125,7 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
     throw new Error('Checkout cannot be initialised, please try again.');
   }
   const transRef = (response?.data?.data as Record<string, unknown>)?.transactionReference as string;
-  element.setAttribute('src', 'https://test-checkout.blinqpay.io/' + transRef + `?sdk-app=${window.location.href}`);
+  element.setAttribute('src', process.env.CHECKOUT_BASE_URL + transRef + `?sdk-app=${window.location.href}`);
   element.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-popups');
   document.body.appendChild(element);
   document.body.appendChild(closeBtn);
