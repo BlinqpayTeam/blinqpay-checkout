@@ -125,7 +125,7 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
     throw new Error('Checkout cannot be initialised, please try again.');
   }
   const transRef = (response?.data?.data as Record<string, unknown>)?.transactionReference as string;
-  element.setAttribute('src', process.env.CHECKOUT_BASE_URL + transRef + `?sdk-app=${window.location.href}`);
+  element.setAttribute('src', process.env.WEB_CHECKOUT_BASE_URL + transRef + `?sdk-app=${window.location.href}`);
   element.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-popups');
   document.body.appendChild(element);
   document.body.appendChild(closeBtn);
