@@ -16,6 +16,21 @@ const closeButton = () => `
           </svg>
             </div>
 `;
+
+const Spinner = () => `<div>
+<svg class='spinner' viewBox="0 0 50 50">
+<circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+</svg>
+</div>`;
+
+const addSpinner = () => {
+  const backDropEl = document.createElement('div');
+  backDropEl.className = 'backdrop';
+  backDropEl.innerHTML = Spinner();
+  document.body.appendChild(backDropEl);
+  return backDropEl;
+};
+
 const toQueryString = (payload: Record<string, string>): string =>
   '?' +
   Object.keys(payload)
@@ -55,6 +70,8 @@ const closeModalBtn = (data: Record<string, unknown>) => {
 };
 
 export const init = async (data: Record<string, unknown>): Promise<void> => {
+  // Add spinner
+  const SpinnerEl = addSpinner();
   // Create message Handler
   const subscribeToMessage = (message: MessageEvent) => {
     if (!message.data) return;
@@ -127,6 +144,7 @@ export const init = async (data: Record<string, unknown>): Promise<void> => {
   const transRef = (response?.data?.data as Record<string, unknown>)?.transactionReference as string;
   element.setAttribute('src', process.env.WEB_CHECKOUT_BASE_URL + transRef + `?sdk-app=${window.location.href}`);
   element.setAttribute('sandbox', 'allow-same-origin allow-forms allow-scripts allow-popups');
+  SpinnerEl.remove();
   document.body.appendChild(element);
   document.body.appendChild(closeBtn);
 };
