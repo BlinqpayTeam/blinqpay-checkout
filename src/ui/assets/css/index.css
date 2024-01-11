@@ -30,13 +30,13 @@
     /* Animations */
 }
 
-html, body{
+/* html, body{
     font-family: 'Avenir' !important;
     height: 100vh !important;
   }
   p{
       margin: 0 !important;
-  }
+  } */
 
 .modal-logo{
 margin-top: 3px;
@@ -45,14 +45,15 @@ width: auto;
 margin-left: 1vmin;
 }
 .close-button{
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     transition: background-color 300ms ease;
-    position: absolute;
-    right: -40px;
-    top: -3px;
+    position: fixed;
+    right: 10px;
+    top: 10px;
     cursor: pointer;
+    z-index: 99888888888;
     background-color:  var(--blinq-white);
 }
 .close-button:hover{
@@ -423,3 +424,17 @@ input.otp-field {
     display: flex;
     justify-content: center;
   }
+
+  .backdrop{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* z-index: 99888888888; */
+    background-color:  #ffffffbd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
